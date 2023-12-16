@@ -14,6 +14,7 @@ namespace HotelBooking.Db.DataAccess
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Discount> Discounts { get; set; }
         public DbSet<Visit> Visits { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
 
         public HotelsBookingDbContext(IConfiguration config)
         {
