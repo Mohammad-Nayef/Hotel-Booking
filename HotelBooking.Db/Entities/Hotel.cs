@@ -21,7 +21,7 @@ namespace HotelBooking.Db.Entities
         [Length(1, 50)]
         public string OwnerName { get; set; }
         public List<Review> Reviews { get; } = new List<Review>();
-        public Location Location { get; set; }
+        public Location? Location { get; set; }
         public List<Image> Images { get; } = new List<Image>();
         public List<Room> Rooms { get; } = new List<Room>();
         public List<Discount> Discounts { get; } = new List<Discount>();

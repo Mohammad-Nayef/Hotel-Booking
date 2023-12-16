@@ -9,6 +9,7 @@ namespace HotelBooking.Db.DataAccess
         private readonly IConfiguration _config;
 
         public DbSet<Hotel> Hotels { get; set; }
+        public DbSet<Location> Locations { get; set; }
 
         public HotelsBookingDbContext(IConfiguration config)
         {
