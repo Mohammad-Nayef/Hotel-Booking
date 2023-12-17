@@ -1,11 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace HotelBooking.Db.Entities
+﻿namespace HotelBooking.Db.Entities
 {
     public class Image
     {
-        public Guid Id { get; } = Guid.NewGuid();
-        [Required]
+        public Guid Id { get; set; } = Guid.NewGuid();
         public byte[] FullImage { get; set; }
         public byte[] Thumbnail { get; set; }
         public Guid? HotelId { get; set; }
