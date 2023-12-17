@@ -26,7 +26,7 @@ namespace HotelBooking.Db.Entities
         [Length(8, 50)]
         public string Password { get; set; }
 
-        public List<UserRole> UserRoles { get; set; }
+        public List<Role> Roles { get; } = new();
 
         public List<HotelReview> Reviews { get; } = new();
 

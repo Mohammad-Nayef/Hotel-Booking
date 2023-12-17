@@ -18,6 +18,7 @@ namespace HotelBooking.Db.DataAccess
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<HotelReview> HotelReviews { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
         public HotelsBookingDbContext(IConfiguration config)
         {
