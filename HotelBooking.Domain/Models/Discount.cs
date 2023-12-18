@@ -1,8 +1,9 @@
-﻿namespace HotelBooking.Db.Entities
+﻿using HotelBooking.Domain.Abstractions;
+
+namespace HotelBooking.Domain.Models
 {
-    internal class Discount
+    public class Discount : Entity
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
         public string? Reason { get; set; }
         public DateTime StartingDate { get; set; }
         public DateTime? EndingDate { get; set; }

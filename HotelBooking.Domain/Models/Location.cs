@@ -1,8 +1,9 @@
-﻿namespace HotelBooking.Db.Entities
+﻿using HotelBooking.Domain.Abstractions;
+
+namespace HotelBooking.Domain.Models
 {
-    internal class Location
+    public class Location : Entity
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
         public string CityName { get; set; }
         public string CountryName { get; set; }
         public string StreetName { get; set; }

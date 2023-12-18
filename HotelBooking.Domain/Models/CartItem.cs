@@ -1,8 +1,9 @@
-﻿namespace HotelBooking.Db.Entities
+﻿using HotelBooking.Domain.Abstractions;
+
+namespace HotelBooking.Domain.Models
 {
-    internal class CartItem
+    public class CartItem : Entity
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
         public DateTime AddingDate { get; set; }
         public Guid RoomId { get; set; }
         public Room Room { get; set; }

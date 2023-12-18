@@ -1,8 +1,9 @@
-﻿namespace HotelBooking.Db.Entities
+﻿using HotelBooking.Domain.Abstractions;
+
+namespace HotelBooking.Domain.Models
 {
-    internal class Image
+    public class Image : Entity
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
         public string Path { get; set; }
         public string ThumbnailPath { get; set; }
         public Guid? HotelId { get; set; }
