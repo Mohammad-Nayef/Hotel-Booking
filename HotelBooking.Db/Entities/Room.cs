@@ -1,6 +1,6 @@
 ﻿namespace HotelBooking.Db.Entities
 {
-    public class Room
+    internal class Room
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public double RoomNumber { get; set; }

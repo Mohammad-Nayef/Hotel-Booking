@@ -1,6 +1,6 @@
 ﻿namespace HotelBooking.Db.Entities
 {
-    public class CartItem
+    internal class CartItem
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public DateTime AddingDate { get; set; }

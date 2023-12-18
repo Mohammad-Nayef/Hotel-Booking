@@ -1,6 +1,6 @@
 ﻿namespace HotelBooking.Db.Entities
 {
-    public class Discount
+    internal class Discount
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public string? Reason { get; set; }
