@@ -19,14 +19,11 @@ namespace HotelBooking.Application.Services
         {
             ArgumentNullException.ThrowIfNull(entity, nameof(entity));
 
-            if (await ExistsAsync(entity.Id))
+            if (await _repository.ExistsAsync(entity.Id))
                 throw new IdDuplicationException(entity.Id);
 
             await _repository.AddAsync(entity);
         }
-
-        public async Task<bool> ExistsAsync(Guid id) => 
-            await _repository.GetByIdAsync(id) != null;
 
         public async Task DeleteAsync(Guid id)
         {
@@ -64,7 +61,7 @@ namespace HotelBooking.Application.Services
         {
             ArgumentNullException.ThrowIfNull(entity, nameof(entity));
 
-            if (!await ExistsAsync(entity.Id))
+            if (!await _repository.ExistsAsync(entity.Id))
                 throw new KeyNotFoundException($"Entity with Id '{entity.Id}' does not exist.");
 
             await _repository.UpdateAsync(entity);

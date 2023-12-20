@@ -9,5 +9,6 @@
         Task UpdateAsync(TEntity entity);
         Task DeleteAsync(TEntity entity);
         Task<int> GetCountAsync();
+        Task<bool> ExistsAsync(Guid id);
     }
 }

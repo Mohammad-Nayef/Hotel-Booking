@@ -50,5 +50,8 @@ namespace HotelBooking.Db.Repositories
 
             return await _dbContext.Set<TEntity>().CountAsync();
         }
+
+        public async Task<bool> ExistsAsync(Guid id) => 
+            await _dbContext.Set<TEntity>().AnyAsync(x => x.Id == id);
     }
 }
