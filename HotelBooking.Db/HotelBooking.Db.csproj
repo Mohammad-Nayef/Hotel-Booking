@@ -17,9 +17,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HotelBooking.Application\HotelBooking.Application.csproj" />
     <ProjectReference Include="..\HotelBooking.Domain\HotelBooking.Domain.csproj" />
   </ItemGroup>
 

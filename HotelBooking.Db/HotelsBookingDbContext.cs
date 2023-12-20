@@ -1,24 +1,24 @@
-﻿using HotelBooking.Domain.Models;
+﻿using HotelBooking.Db.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace HotelBooking.Db
 {
-    public class HotelsBookingDbContext : DbContext
+    internal class HotelsBookingDbContext : DbContext
     {
         private readonly IConfiguration _config;
 
-        internal DbSet<Hotel> Hotels { get; set; }
-        internal DbSet<Location> Locations { get; set; }
-        internal DbSet<Image> Images { get; set; }
-        internal DbSet<Room> Rooms { get; set; }
-        internal DbSet<Discount> Discounts { get; set; }
-        internal DbSet<Visit> Visits { get; set; }
-        internal DbSet<Booking> Bookings { get; set; }
-        internal DbSet<CartItem> CartItems { get; set; }
-        internal DbSet<HotelReview> HotelReviews { get; set; }
-        internal DbSet<User> Users { get; set; }
-        internal DbSet<Role> Roles { get; set; }
+        internal DbSet<HotelDTO> Hotels { get; set; }
+        internal DbSet<LocationDTO> Locations { get; set; }
+        internal DbSet<ImageDTO> Images { get; set; }
+        internal DbSet<RoomDTO> Rooms { get; set; }
+        internal DbSet<DiscountDTO> Discounts { get; set; }
+        internal DbSet<VisitDTO> Visits { get; set; }
+        internal DbSet<BookingDTO> Bookings { get; set; }
+        internal DbSet<CartItemDTO> CartItems { get; set; }
+        internal DbSet<HotelReviewDTO> HotelReviews { get; set; }
+        internal DbSet<UserDTO> Users { get; set; }
+        internal DbSet<RoleDTO> Roles { get; set; }
 
         public HotelsBookingDbContext(IConfiguration config)
         {

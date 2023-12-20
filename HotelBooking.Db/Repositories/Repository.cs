@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HotelBooking.Db.Repositories
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : Entity
+    internal class Repository<TEntity> : IRepository<TEntity> where TEntity : Entity
     {
         private readonly HotelsBookingDbContext _dbContext;
 

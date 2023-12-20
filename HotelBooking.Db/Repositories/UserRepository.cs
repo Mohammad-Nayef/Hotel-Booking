@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HotelBooking.Db.Repositories
 {
-    public class UserRepository : Repository<User>, IUserRepository
+    internal class UserRepository : Repository<User>, IUserRepository
     {
         private readonly HotelsBookingDbContext _dbContext;
 
