@@ -6,7 +6,7 @@ using HotelBooking.Domain.Exceptions;
 
 namespace HotelBooking.Application.Services
 {
-    public class EntityService<TEntity> : IEntityService<TEntity> where TEntity : Entity
+    internal class EntityService<TEntity> : IEntityService<TEntity> where TEntity : Entity
     {
         private readonly IRepository<TEntity> _repository;
 
@@ -53,7 +53,7 @@ namespace HotelBooking.Application.Services
 
         public async Task<List<TEntity>> GetByPageAsync(int pageNumber, int pageSize)
         {
-            PaginationValidation.Validate(pageNumber, pageSize);
+            PaginationValidator.Validate(pageNumber, pageSize);
 
             return await _repository.GetAllAsync((pageNumber - 1) * pageSize, pageSize);
         }

@@ -5,7 +5,7 @@ using Microsoft.AspNet.Identity;
 
 namespace HotelBooking.Application.Services
 {
-    public class UserService : EntityService<User>, IUserService
+    internal class UserService : EntityService<User>, IUserService
     {
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher _passwordHasher;
