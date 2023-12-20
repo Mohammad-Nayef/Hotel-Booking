@@ -9,8 +9,7 @@ namespace HotelBooking.Domain.Models
         public string StreetName { get; set; }
         public string LocationOnMap { get; set; }
         public string PostOffice { get; set; }
-        public Guid HotelId { get; set; }
         public Hotel Hotel { get; set; }
-        public List<Image> CityImages { get; } = new();
+        public List<Image> CityImages { get; set; }
     }
 }

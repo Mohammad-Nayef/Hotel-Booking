@@ -9,11 +9,11 @@ namespace HotelBooking.Domain.Models
         public string FullDescription { get; set; }
         public float StarRating { get; set; }
         public string OwnerName { get; set; }
-        public List<HotelReview> Reviews { get; } = new();
+        public List<HotelReview> Reviews { get; set; }
         public Location Location { get; set; }
-        public List<Image> Images { get; } = new();
-        public List<Room> Rooms { get; } = new();
-        public List<Discount> Discounts { get; } = new();
-        public List<Visit> Visits { get; } = new();
+        public List<Image> Images { get; set; }
+        public List<Room> Rooms { get; set; }
+        public List<Discount> Discounts { get; set; }
+        public List<Visit> Visits { get; set; }
     }
 }

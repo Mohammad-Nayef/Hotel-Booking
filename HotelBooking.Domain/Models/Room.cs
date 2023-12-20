@@ -10,10 +10,9 @@ namespace HotelBooking.Domain.Models
         public int ChildrenCapacity { get; set; }
         public string BriefDescription { get; set; }
         public decimal PricePerNight { get; set; }
-        public Guid HotelId { get; set; }
         public Hotel Hotel { get; set; }
-        public List<Image> Images { get; } = new();
-        public List<CartItem> CartItems { get; } = new();
-        public List<Booking> Bookings { get; } = new();
+        public List<Image> Images { get; set; }
+        public List<CartItem> CartItems { get; set; }
+        public List<Booking> Bookings { get; set; }
     }
 }

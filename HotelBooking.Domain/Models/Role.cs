@@ -5,6 +5,6 @@ namespace HotelBooking.Domain.Models
     public class Role : Entity
     {
         public string Name { get; set; }
-        public List<User> Users { get; } = new();
+        public List<User> Users { get; set; }
     }
 }
