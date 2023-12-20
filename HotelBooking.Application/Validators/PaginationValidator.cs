@@ -1,6 +1,6 @@
 ﻿namespace HotelBooking.Application.Validations
 {
-    public class PaginationValidation
+    internal class PaginationValidator
     {
         public static bool Validate(int pageNumber, int pageSize)
         {
