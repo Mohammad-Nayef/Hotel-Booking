@@ -5,20 +5,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HotelBooking.Db.Repositories
 {
-    internal class UserRepository : Repository<User>, IUserRepository
+    internal class UserRepository : IUserRepository
     {
         private readonly HotelsBookingDbContext _dbContext;
 
         public UserRepository(HotelsBookingDbContext dbContext)
-            : base(dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public void ThrowExceptionIfIdOrUsernameExists(User userToFind)
+        public void ThrowExceptionIfIdOrUsernameExists(UserDTO userToFind)
         {
             bool usernameExists = false;
-            
+
             _dbContext.Users.ForEachAsync(user =>
             {
                 if (user.Id == userToFind.Id)
@@ -27,7 +26,7 @@ namespace HotelBooking.Db.Repositories
                 usernameExists = user.Username == userToFind.Username;
             });
 
-            if (usernameExists) 
+            if (usernameExists)
                 throw new UsernameDuplicationException(userToFind.Username);
         }
     }

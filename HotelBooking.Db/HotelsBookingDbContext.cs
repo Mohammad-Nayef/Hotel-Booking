@@ -1,4 +1,6 @@
-﻿using HotelBooking.Db.Models;
+﻿using HotelBooking.Db.Entities;
+using HotelBooking.Db.Tables;
+using HotelBooking.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -8,17 +10,19 @@ namespace HotelBooking.Db
     {
         private readonly IConfiguration _config;
 
-        internal DbSet<HotelDTO> Hotels { get; set; }
-        internal DbSet<LocationDTO> Locations { get; set; }
-        internal DbSet<ImageDTO> Images { get; set; }
-        internal DbSet<RoomDTO> Rooms { get; set; }
-        internal DbSet<DiscountDTO> Discounts { get; set; }
-        internal DbSet<VisitDTO> Visits { get; set; }
-        internal DbSet<BookingDTO> Bookings { get; set; }
-        internal DbSet<CartItemDTO> CartItems { get; set; }
-        internal DbSet<HotelReviewDTO> HotelReviews { get; set; }
-        internal DbSet<UserDTO> Users { get; set; }
-        internal DbSet<RoleDTO> Roles { get; set; }
+        public DbSet<HotelTable> Hotels { get; set; }
+        public DbSet<CityTable> Cities { get; set; }
+        public DbSet<ImageTable> Images { get; set; }
+        public DbSet<RoomTable> Rooms { get; set; }
+        public DbSet<DiscountTable> Discounts { get; set; }
+        public DbSet<VisitTable> Visits { get; set; }
+        public DbSet<BookingTable> Bookings { get; set; }
+        public DbSet<CartItemTable> CartItems { get; set; }
+        public DbSet<HotelReviewTable> HotelReviews { get; set; }
+        public DbSet<UserTable> Users { get; set; }
+        public DbSet<RoleTable> Roles { get; set; }
+        public DbSet<HotelForAdminDTO> HotelsForAdmin { get; set; }
+        public DbSet<RoomForAdminDTO> RoomsForAdmin { get; set; }
 
         public HotelsBookingDbContext(IConfiguration config)
         {
@@ -28,6 +32,21 @@ namespace HotelBooking.Db
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(_config.GetConnectionString("SqlServer"));
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<HotelForAdminDTO>(entity =>
+            {
+                entity.HasNoKey()
+                    .ToView("vw_HotelsForAdmin");
+            });
+
+            modelBuilder.Entity<RoomForAdminDTO>(entity =>
+            {
+                entity.HasNoKey()
+                    .ToView("vw_RoomsForAdmin");
+            });
         }
     }
 }

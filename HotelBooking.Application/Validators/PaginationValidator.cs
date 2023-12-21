@@ -1,22 +1,21 @@
-﻿namespace HotelBooking.Application.Validations
+﻿using FluentValidation;
+using HotelBooking.Domain.Constants;
+using HotelBooking.Domain.Models;
+
+namespace HotelBooking.Application.Validators
 {
-    internal class PaginationValidator
+    internal class PaginationValidator : AbstractValidator<PaginationDTO>
     {
-        public static bool Validate(int pageNumber, int pageSize)
+        public PaginationValidator()
         {
-            var negativePageNumber = pageNumber <= 0;
-            var negativePageSize = pageSize <= 0;
+            RuleFor(pagination => pagination.PageNumber)
+                .NotNull()
+                .GreaterThanOrEqualTo(PaginationConstants.MinPageNumber);
 
-            if (negativePageNumber && negativePageSize)
-                throw new Exception($"'{pageNumber}' and '{pageSize}' must be greater than 0.");
-
-            if (negativePageNumber)
-                throw new Exception($"'{pageNumber}' must be greater than 0.");
-
-            if (negativePageSize)
-                throw new Exception($"'{pageSize}' must be greater than 0.");
-
-            return true;
+            RuleFor(pagination => pagination.PageSize)
+                .NotNull()
+                .InclusiveBetween(
+                    PaginationConstants.MinPageSize, PaginationConstants.MaxPageSize);
         }
     }
 }

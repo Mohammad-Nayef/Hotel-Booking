@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking.Db", "HotelBooking.Db\HotelBooking.Db.csproj", "{68EB88E0-D192-42A8-9729-E6B59775070D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelBooking.Db", "HotelBooking.Db\HotelBooking.Db.csproj", "{68EB88E0-D192-42A8-9729-E6B59775070D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelBooking.API", "HotelBooking.API\HotelBooking.API.csproj", "{24082415-CD9E-4E22-8BB5-D3E2390475FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelBooking.Api", "HotelBooking.API\HotelBooking.Api.csproj", "{24082415-CD9E-4E22-8BB5-D3E2390475FE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelBooking.Application", "HotelBooking.Application\HotelBooking.Application.csproj", "{F8BA8ED2-3ED4-40E3-9A97-42FFF8E7C44D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelBooking.Domain", "HotelBooking.Domain\HotelBooking.Domain.csproj", "{C5B91D7D-560F-4C98-A60A-8689F2C3066D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{24082415-CD9E-4E22-8BB5-D3E2390475FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24082415-CD9E-4E22-8BB5-D3E2390475FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24082415-CD9E-4E22-8BB5-D3E2390475FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8BA8ED2-3ED4-40E3-9A97-42FFF8E7C44D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8BA8ED2-3ED4-40E3-9A97-42FFF8E7C44D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8BA8ED2-3ED4-40E3-9A97-42FFF8E7C44D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8BA8ED2-3ED4-40E3-9A97-42FFF8E7C44D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5B91D7D-560F-4C98-A60A-8689F2C3066D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5B91D7D-560F-4C98-A60A-8689F2C3066D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5B91D7D-560F-4C98-A60A-8689F2C3066D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5B91D7D-560F-4C98-A60A-8689F2C3066D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
