@@ -4,6 +4,7 @@ using HotelBooking.Api.Extensions;
 using HotelBooking.Api.Models;
 using HotelBooking.Domain.Abstractions.Services;
 using HotelBooking.Domain.Models;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelBooking.Api.Controllers
@@ -97,6 +98,60 @@ namespace HotelBooking.Api.Controllers
             }
 
             return NoContent();
+        }
+
+        /// <summary>
+        /// Partially update a specific room.
+        /// </summary>
+        /// <param name="roomId">The Id of the room to update.</param>
+        /// <param name="roomPatchDocument">Patch operations for (Number, AdultsCapacity, ChildrenCapacity).</param>
+        /// <response code="404">The room with the given Id doesn't exist.</response>
+        /// <response code="204">The room is updated successfully.</response>
+        [HttpPatch("rooms/{roomId}")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> PatchRoomAsync(
+            Guid roomId, JsonPatchDocument<RoomUpdateDTO> roomPatchDocument)
+        {
+            RoomDTO roomToUpdate;
+
+            try
+            {
+                roomToUpdate = await _roomService.GetByIdAsync(roomId);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+
+            var roomToPartiallyUpdate = GetRoomToPartiallyUpdate(
+                roomPatchDocument, roomToUpdate);
+
+            if (!ModelState.IsValid || !TryValidateModel(roomToPartiallyUpdate))
+                return BadRequest(ModelState);
+
+            _mapper.Map(roomToPartiallyUpdate, roomToUpdate);
+
+            try
+            {
+                await _roomService.UpdateAsync(roomToUpdate);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.GetErrorsForClient());
+            }
+
+            return NoContent();
+        }
+
+        private RoomUpdateDTO GetRoomToPartiallyUpdate(
+            JsonPatchDocument<RoomUpdateDTO> roomPatchDocument, RoomDTO roomToUpdate)
+        {
+            var roomToPartiallyUpdate = _mapper.Map<RoomUpdateDTO>(roomToUpdate);
+            roomPatchDocument.ApplyTo(roomToPartiallyUpdate, ModelState);
+
+            return roomToPartiallyUpdate;
         }
     }
 }

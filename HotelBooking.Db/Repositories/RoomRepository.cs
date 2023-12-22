@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HotelBooking.Db.Tables;
 using HotelBooking.Domain.Abstractions.Repositories;
+using HotelBooking.Domain.Entities;
 using HotelBooking.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,6 +35,9 @@ namespace HotelBooking.Db.Repositories
         public Task<bool> ExistsAsync(Guid id) =>
             _dbContext.Rooms.AnyAsync(room => room.Id == id);
 
+        public async Task<RoomDTO> GetByIdAsync(Guid id) =>
+            _mapper.Map<RoomDTO>(await _dbContext.Rooms.AsNoTracking().FirstOrDefaultAsync());
+
         public async Task<int> GetCountAsync()
         {
             if (_dbContext.Rooms.TryGetNonEnumeratedCount(out var count))
@@ -49,6 +53,12 @@ namespace HotelBooking.Db.Repositories
                 .Skip(itemsToSkip)
                 .Take(itemsToTake)
                 .AsEnumerable();
+        }
+
+        public async Task UpdateAsync(RoomDTO room)
+        {
+            _dbContext.Rooms.Update(_mapper.Map<RoomTable>(room));
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

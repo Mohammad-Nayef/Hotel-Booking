@@ -25,6 +25,15 @@
             <response code="404">The city with the given Id doesn't exist.</response>
             <response code="204">The city is deleted successfully.</response>
         </member>
+        <member name="M:HotelBooking.Api.Controllers.CityController.PatchCityAsync(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{HotelBooking.Api.Models.CityUpdateDTO})">
+            <summary>
+            Partially update a specific city.
+            </summary>
+            <param name="cityId">The Id of the city to update.</param>
+            <param name="cityPatchDocument">Patch operations for (Name, CountryName, PostOffice).</param>
+            <response code="404">The city with the given Id doesn't exist.</response>
+            <response code="204">The city is updated successfully.</response>
+        </member>
         <member name="M:HotelBooking.Api.Controllers.HotelController.GetHotelsForAdminAsync(HotelBooking.Domain.Models.PaginationDTO)">
             <summary>
             Get a paginated list of hotels for an admin.
@@ -75,6 +84,15 @@
             <param name="roomId">The Id of the room to delete.</param>
             <response code="404">The room with the given Id doesn't exist.</response>
             <response code="204">The room is deleted successfully.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.RoomController.PatchRoomAsync(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{HotelBooking.Api.Models.RoomUpdateDTO})">
+            <summary>
+            Partially update a specific room.
+            </summary>
+            <param name="roomId">The Id of the room to update.</param>
+            <param name="roomPatchDocument">Patch operations for (Number, AdultsCapacity, ChildrenCapacity).</param>
+            <response code="404">The room with the given Id doesn't exist.</response>
+            <response code="204">The room is updated successfully.</response>
         </member>
     </members>
 </doc>

@@ -10,6 +10,8 @@ namespace HotelBooking.Api.Profiles
         {
             CreateMap<RoomCreationDTO, RoomDTO>();
             CreateMap<RoomCreationDTO, RoomForCreationResponseDTO>();
+            CreateMap<RoomDTO, RoomUpdateDTO>();
+            CreateMap<RoomUpdateDTO, RoomDTO>();
         }
     }
 }
