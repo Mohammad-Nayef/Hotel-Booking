@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using HotelBooking.Api.Models;
-using HotelBooking.Domain.Entities;
 using HotelBooking.Domain.Models;
 
 namespace HotelBooking.Api.Profiles
@@ -10,7 +9,9 @@ namespace HotelBooking.Api.Profiles
         public HotelProfile()
         {
             CreateMap<HotelCreationDTO, HotelDTO>();
-            CreateMap<HotelCreationDTO, HotelForCreationResponseDTO>();
+            CreateMap<HotelCreationDTO, HotelCreationResponseDTO>();
+            CreateMap<HotelDTO, HotelUpdateDTO>();
+            CreateMap<HotelUpdateDTO, HotelDTO>();
         }
     }
 }

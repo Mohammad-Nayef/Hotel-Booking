@@ -42,9 +42,18 @@
             <summary>
             Delete a hotel with a specific Id.
             </summary>
-            <param name="hoteId">The Id of the hotel to delete.</param>
+            <param name="hotelId">The Id of the hotel to delete.</param>
             <response code="404">The hotel with the given Id doesn't exist.</response>
             <response code="204">The hotel is deleted successfully.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.HotelController.PatchAsync(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{HotelBooking.Api.Models.HotelUpdateDTO})">
+            <summary>
+            Partially update a specific hotel.
+            </summary>
+            <param name="hotelId">The Id of the hotel to update.</param>
+            <param name="hotelPatchDocument">Patch operations for (Name, OwnerName, Geolocation, CityId)</param>
+            <response code="404">The hotel with the given Id doesn't exist.</response>
+            <response code="204">The hotel is updated successfully.</response>
         </member>
         <member name="M:HotelBooking.Api.Controllers.RoomController.GetRoomsForAdminAsync(HotelBooking.Domain.Models.PaginationDTO)">
             <summary>

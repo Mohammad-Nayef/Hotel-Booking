@@ -1,6 +1,6 @@
 ﻿namespace HotelBooking.Api.Models
 {
-    public class HotelForCreationResponseDTO
+    public class HotelCreationResponseDTO
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

@@ -33,13 +33,25 @@ namespace HotelBooking.Application.Services
 
         public async Task DeleteAsync(Guid id)
         {
-            if (!await _hotelRepository.ExistsAsync(id))
-                throw new KeyNotFoundException($"The Id '{id}' does not exist.");
+            await ValidateIdAsync(id);
 
             await _hotelRepository.DeleteAsync(id);
         }
 
         public Task<bool> ExistsAsync(Guid id) => _hotelRepository.ExistsAsync(id);
+
+        public async Task<HotelDTO> GetByIdAsync(Guid id)
+        {
+            await ValidateIdAsync(id);
+
+            return await _hotelRepository.GetByIdAsync(id);
+        }
+
+        private async Task ValidateIdAsync(Guid id)
+        {
+            if (!await ExistsAsync(id))
+                throw new KeyNotFoundException($"The Id '{id}' does not exist.");
+        }
 
         public Task<int> GetCountAsync() => _hotelRepository.GetCountAsync();
 
@@ -51,6 +63,15 @@ namespace HotelBooking.Application.Services
             return _hotelRepository.GetForAdminByPage(
                 (pagination.PageNumber - 1) * pagination.PageSize,
                 pagination.PageSize);
+        }
+
+        public async Task UpdateAsync(HotelDTO hotel)
+        {
+            await _hotelValidator.ValidateAndThrowAsync(hotel);
+
+            hotel.ModificationDate = DateTime.UtcNow;
+
+            await _hotelRepository.UpdateAsync(hotel);
         }
     }
 }

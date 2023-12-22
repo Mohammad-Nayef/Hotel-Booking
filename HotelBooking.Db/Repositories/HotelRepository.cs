@@ -35,6 +35,9 @@ namespace HotelBooking.Db.Repositories
         public Task<bool> ExistsAsync(Guid id) =>
             _dbContext.Hotels.AnyAsync(hotel => hotel.Id == id);
 
+        public async Task<HotelDTO> GetByIdAsync(Guid id) => 
+            _mapper.Map<HotelDTO>(await _dbContext.Hotels.AsNoTracking().FirstOrDefaultAsync());
+
         public async Task<int> GetCountAsync()
         {
             if (_dbContext.Hotels.TryGetNonEnumeratedCount(out var count))
@@ -50,7 +53,14 @@ namespace HotelBooking.Db.Repositories
                 .Skip(itemsToSkip)
                 .Take(itemsToTake)
                 .OrderBy(hotel => hotel.Name)
+                .AsNoTracking()
                 .AsEnumerable();
+        }
+
+        public async Task UpdateAsync(HotelDTO hotel)
+        {
+            _dbContext.Hotels.Update(_mapper.Map<HotelTable>(hotel));
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

@@ -33,7 +33,7 @@ namespace HotelBooking.Application.Services
 
         public async Task DeleteAsync(Guid id)
         {
-            if (!await _cityRepository.ExistsAsync(id))
+            if (!await ExistsAsync(id))
                 throw new KeyNotFoundException($"The Id '{id}' does not exist.");
 
             await _cityRepository.DeleteAsync(id);
