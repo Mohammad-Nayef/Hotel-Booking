@@ -19,7 +19,8 @@ namespace HotelBooking.Db.Repositories
 
         public async Task<Guid> AddAsync(HotelDTO newHotel)
         {
-            var entityEntry = await _dbContext.Hotels.AddAsync(_mapper.Map<HotelTable>(newHotel));
+            var entityEntry = await _dbContext.Hotels.AddAsync(
+                _mapper.Map<HotelTable>(newHotel));
             await _dbContext.SaveChangesAsync();
 
             return entityEntry.Entity.Id;
@@ -43,11 +44,11 @@ namespace HotelBooking.Db.Repositories
         }
 
         public IEnumerable<HotelForAdminDTO> GetForAdminByPage(
-            int itemsToTake, int itemsToSkip)
+            int itemsToSkip, int itemsToTake)
         {
             return _dbContext.HotelsForAdmin
-                .Take(itemsToTake)
                 .Skip(itemsToSkip)
+                .Take(itemsToTake)
                 .OrderBy(hotel => hotel.Name)
                 .AsEnumerable();
         }

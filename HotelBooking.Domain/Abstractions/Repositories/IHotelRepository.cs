@@ -8,7 +8,7 @@ namespace HotelBooking.Domain.Abstractions.Repositories
         Task<bool> ExistsAsync(Guid id);
         Task<int> GetCountAsync();
         IEnumerable<HotelForAdminDTO> GetForAdminByPage(
-            int itemsToTake, int itemsToSkip);
+            int itemsToSkip, int itemsToTake);
         Task DeleteAsync(Guid id);
     }
 }

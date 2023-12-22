@@ -38,7 +38,8 @@ namespace HotelBooking.Application.Services
 
         public Task<int> GetCountAsync() => _cityRepository.GetCountAsync();
 
-        public Task<IEnumerable<CityForAdminDTO>> GetForAdminByPageAsync(PaginationDTO pagination)
+        public Task<IEnumerable<CityForAdminDTO>> GetForAdminByPageAsync(
+            PaginationDTO pagination)
         {
             throw new NotImplementedException();
         }

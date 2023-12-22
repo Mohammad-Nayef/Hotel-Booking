@@ -21,9 +21,15 @@ namespace HotelBooking.Api.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Get a paginated list of hotels for an admin.
+        /// </summary>
+        /// <response code="200">The list of hotels is retrieved successfully.</response>
         [HttpGet("admin-view")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(IEnumerable<HotelForAdminDTO>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetHotelsForAdminAsync(
-            [FromQuery] PaginationDTO? pagination)
+            [FromQuery] PaginationDTO pagination)
         {
             IEnumerable<HotelForAdminDTO> hotels;
 

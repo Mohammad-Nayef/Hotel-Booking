@@ -4,6 +4,12 @@
         <name>HotelBooking.Api</name>
     </assembly>
     <members>
+        <member name="M:HotelBooking.Api.Controllers.CityController.GetCitiesForAdminAsync(HotelBooking.Domain.Models.PaginationDTO)">
+            <summary>
+            Get a paginated list of cities for an admin.
+            </summary>
+            <response code="200">The list of cities is retrieved successfully.</response>
+        </member>
         <member name="M:HotelBooking.Api.Controllers.CityController.PostCityAsync(HotelBooking.Api.Models.CityCreationDTO)">
             <summary>
             Create and store a new city.
@@ -19,6 +25,12 @@
             <response code="404">The city with the given Id doesn't exist.</response>
             <response code="204">The city is deleted successfully.</response>
         </member>
+        <member name="M:HotelBooking.Api.Controllers.HotelController.GetHotelsForAdminAsync(HotelBooking.Domain.Models.PaginationDTO)">
+            <summary>
+            Get a paginated list of hotels for an admin.
+            </summary>
+            <response code="200">The list of hotels is retrieved successfully.</response>
+        </member>
         <member name="M:HotelBooking.Api.Controllers.HotelController.PostAsync(HotelBooking.Api.Models.HotelCreationDTO)">
             <summary>
             Create and store a new hotel.
@@ -33,6 +45,12 @@
             <param name="id">The Id of the hotel to delete.</param>
             <response code="404">The hotel with the given Id doesn't exist.</response>
             <response code="204">The hotel is deleted successfully.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.RoomController.GetRoomsForAdminAsync(HotelBooking.Domain.Models.PaginationDTO)">
+            <summary>
+            Get a paginated list of rooms for an admin.
+            </summary>
+            <response code="200">The list of rooms is retrieved successfully.</response>
         </member>
         <member name="M:HotelBooking.Api.Controllers.RoomController.PostAsync(HotelBooking.Api.Models.RoomCreationDTO)">
             <summary>

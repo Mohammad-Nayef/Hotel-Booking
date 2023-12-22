@@ -354,6 +354,37 @@ namespace HotelBooking.Db.Migrations
                     b.ToTable("Visits");
                 });
 
+            modelBuilder.Entity("HotelBooking.Domain.Models.CityForAdminDTO", b =>
+                {
+                    b.Property<string>("CountryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ModificationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberOfHotels")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PostOffice")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("vw_CitiesForAdmin", (string)null);
+                });
+
             modelBuilder.Entity("HotelBooking.Domain.Models.HotelForAdminDTO", b =>
                 {
                     b.Property<DateTime>("CreationDate")

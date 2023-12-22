@@ -43,11 +43,11 @@ namespace HotelBooking.Db.Repositories
         }
 
         public IEnumerable<RoomForAdminDTO> GetForAdminByPage(
-            int itemsToTake, int itemsToSkip)
+            int itemsToSkip, int itemsToTake)
         {
             return _dbContext.RoomsForAdmin
-                .Take(itemsToTake)
                 .Skip(itemsToSkip)
+                .Take(itemsToTake)
                 .AsEnumerable();
         }
     }

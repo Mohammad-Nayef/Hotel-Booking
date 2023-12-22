@@ -23,6 +23,7 @@ namespace HotelBooking.Db
         public DbSet<RoleTable> Roles { get; set; }
         public DbSet<HotelForAdminDTO> HotelsForAdmin { get; set; }
         public DbSet<RoomForAdminDTO> RoomsForAdmin { get; set; }
+        public DbSet<CityForAdminDTO> CitiesForAdmin { get; set; }
 
         public HotelsBookingDbContext(IConfiguration config)
         {
@@ -46,6 +47,12 @@ namespace HotelBooking.Db
             {
                 entity.HasNoKey()
                     .ToView("vw_RoomsForAdmin");
+            });
+
+            modelBuilder.Entity<CityForAdminDTO>(entity =>
+            {
+                entity.HasNoKey()
+                    .ToView("vw_CitiesForAdmin");
             });
         }
     }
