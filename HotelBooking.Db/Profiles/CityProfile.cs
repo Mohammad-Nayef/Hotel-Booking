@@ -9,6 +9,7 @@ namespace HotelBooking.Db.Profiles
         public CityProfile()
         {
             CreateMap<CityDTO, CityTable>();
+            CreateMap<CityTable, CityDTO>();
         }
     }
 }

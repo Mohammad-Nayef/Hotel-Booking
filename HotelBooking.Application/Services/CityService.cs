@@ -1,6 +1,8 @@
 ﻿using FluentValidation;
+using HotelBooking.Application.Validators;
 using HotelBooking.Domain.Abstractions.Repositories;
 using HotelBooking.Domain.Abstractions.Services;
+using HotelBooking.Domain.Entities;
 using HotelBooking.Domain.Models;
 
 namespace HotelBooking.Application.Services
@@ -33,13 +35,25 @@ namespace HotelBooking.Application.Services
 
         public async Task DeleteAsync(Guid id)
         {
-            if (!await ExistsAsync(id))
-                throw new KeyNotFoundException($"The Id '{id}' does not exist.");
+            await ValidateIdAsync(id);
 
             await _cityRepository.DeleteAsync(id);
         }
 
+        private async Task ValidateIdAsync(Guid id)
+        {
+            if (!await ExistsAsync(id))
+                throw new KeyNotFoundException($"The Id '{id}' does not exist.");
+        }
+
         public Task<bool> ExistsAsync(Guid id) => _cityRepository.ExistsAsync(id);
+
+        public async Task<CityDTO> GetByIdAsync(Guid id)
+        {
+            await ValidateIdAsync(id);
+
+            return await _cityRepository.GetByIdAsync(id);
+        }
 
         public Task<int> GetCountAsync() => _cityRepository.GetCountAsync();
 
@@ -51,6 +65,15 @@ namespace HotelBooking.Application.Services
             return _cityRepository.GetForAdminByPage(
                 (pagination.PageNumber - 1) * pagination.PageSize,
                 pagination.PageSize);
+        }
+
+        public async Task UpdateAsync(CityDTO city)
+        {
+            await _cityValidator.ValidateAndThrowAsync(city);
+
+            city.ModificationDate = DateTime.UtcNow;
+
+            await _cityRepository.UpdateAsync(city);
         }
     }
 }

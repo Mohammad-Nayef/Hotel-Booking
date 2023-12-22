@@ -9,5 +9,7 @@ namespace HotelBooking.Domain.Abstractions.Services
         Task<int> GetCountAsync();
         Task<IEnumerable<CityForAdminDTO>> GetForAdminByPageAsync(PaginationDTO pagination);
         Task DeleteAsync(Guid id);
+        Task<CityDTO> GetByIdAsync(Guid id);
+        Task UpdateAsync(CityDTO city);
     }
 }
