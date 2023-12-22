@@ -34,6 +34,10 @@ namespace HotelBooking.Application.Validators
                 .NotNull()
                 .Matches(HotelConstants.GeolocationRegex)
                 .WithMessage("{PropertyName} has invalid format.");
+
+            RuleFor(hotel => hotel.CityId)
+                .MustAsync((cityId, cancellation) => cityService.ExistsAsync(cityId))
+                .WithMessage("{PropertyName} does not exist.");
         }
     }
 }

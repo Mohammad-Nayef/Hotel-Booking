@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using HotelBooking.Application.Services;
 using HotelBooking.Domain.Abstractions.Services;
 using HotelBooking.Domain.Constants;
 using HotelBooking.Domain.Models;
@@ -35,6 +36,10 @@ namespace HotelBooking.Application.Validators
             RuleFor(room => room.PricePerNight)
                 .NotNull()
                 .GreaterThanOrEqualTo(0);
+
+            RuleFor(room => room.HotelId)
+                .MustAsync((hotelId, cancellation) => hotelService.ExistsAsync(hotelId))
+                .WithMessage("{PropertyName} does not exist.");
         }
     }
 }
