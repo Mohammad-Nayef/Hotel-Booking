@@ -7,8 +7,7 @@ namespace HotelBooking.Domain.Abstractions.Repositories
         Task<Guid> AddAsync(HotelDTO newHotel);
         Task<bool> ExistsAsync(Guid id);
         Task<int> GetCountAsync();
-        IEnumerable<HotelForAdminDTO> GetForAdminByPage(
-            int itemsToSkip, int itemsToTake);
+        IEnumerable<HotelForAdminDTO> GetForAdminByPage(int itemsToSkip, int itemsToTake);
         Task DeleteAsync(Guid id);
     }
 }

@@ -13,9 +13,10 @@ namespace HotelBooking.Db.Migrations
             migrationBuilder.Sql("""
                 CREATE VIEW vw_HotelsForAdmin AS
                 SELECT Id, Name, StarRating, OwnerName, CreationDate, ModificationDate,
-                    (SELECT COUNT(*) FROM Rooms
-                    WHERE Rooms.HotelId = Hotels.Id)
-                    As NumberOfRooms
+                    (
+                        SELECT COUNT(*) FROM Rooms
+                        WHERE Rooms.HotelId = Hotels.Id
+                    ) As NumberOfRooms
                 FROM Hotels
                 """);
     }

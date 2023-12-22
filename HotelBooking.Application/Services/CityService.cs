@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using HotelBooking.Application.Validators;
 using HotelBooking.Domain.Abstractions.Repositories;
 using HotelBooking.Domain.Abstractions.Services;
 using HotelBooking.Domain.Models;
@@ -9,11 +10,16 @@ namespace HotelBooking.Application.Services
     {
         private readonly ICityRepository _cityRepository;
         private readonly IValidator<CityDTO> _cityValidator;
+        private readonly IValidator<PaginationDTO> _paginationValidator;
 
-        public CityService(ICityRepository cityRepository, IValidator<CityDTO> cityValidator)
+        public CityService(
+            ICityRepository cityRepository, 
+            IValidator<CityDTO> cityValidator,
+            IValidator<PaginationDTO> paginationValidator)
         {
             _cityRepository = cityRepository;
             _cityValidator = cityValidator;
+            _paginationValidator = paginationValidator;
         }
 
         public async Task<Guid> AddAsync(CityDTO city)
@@ -38,10 +44,14 @@ namespace HotelBooking.Application.Services
 
         public Task<int> GetCountAsync() => _cityRepository.GetCountAsync();
 
-        public Task<IEnumerable<CityForAdminDTO>> GetForAdminByPageAsync(
+        public async Task<IEnumerable<CityForAdminDTO>> GetForAdminByPageAsync(
             PaginationDTO pagination)
         {
-            throw new NotImplementedException();
+            await _paginationValidator.ValidateAndThrowAsync(pagination);
+
+            return _cityRepository.GetForAdminByPage(
+                (pagination.PageNumber - 1) * pagination.PageSize,
+                pagination.PageSize);
         }
     }
 }

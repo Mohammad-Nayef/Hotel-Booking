@@ -6,6 +6,7 @@ using HotelBooking.Db.Extensions.DependencyInjection;
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
+services.AddControllers();
 services.AddSwaggerGen(setup =>
 {
     var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";

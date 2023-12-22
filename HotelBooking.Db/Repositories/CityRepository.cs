@@ -34,14 +34,21 @@ namespace HotelBooking.Db.Repositories
         public Task<bool> ExistsAsync(Guid id) =>
             _dbContext.Cities.AnyAsync(city => city.Id == id);
 
-        public IEnumerable<CityDTO> GetByPage(PaginationDTO pagination)
+        public async Task<int> GetCountAsync()
         {
-            throw new NotImplementedException();
+            if (_dbContext.Cities.TryGetNonEnumeratedCount(out var count))
+                return count;
+
+            return await _dbContext.Cities.CountAsync();
         }
 
-        public Task<int> GetCountAsync()
+        public IEnumerable<CityForAdminDTO> GetForAdminByPage(int itemsToSkip, int itemsToTake)
         {
-            throw new NotImplementedException();
+            return _dbContext.CitiesForAdmin
+                .Skip(itemsToSkip)
+                .Take(itemsToTake)
+                .OrderBy(city => city.Name)
+                .AsEnumerable();
         }
     }
 }
