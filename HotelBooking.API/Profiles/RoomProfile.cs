@@ -4,12 +4,12 @@ using HotelBooking.Domain.Models;
 
 namespace HotelBooking.Api.Profiles
 {
-    public class RoomProfile : Profile
+    internal class RoomProfile : Profile
     {
         public RoomProfile()
         {
             CreateMap<RoomCreationDTO, RoomDTO>();
-            CreateMap<RoomCreationDTO, RoomForCreationResponseDTO>();
+            CreateMap<RoomCreationDTO, RoomCreationResponseDTO>();
             CreateMap<RoomDTO, RoomUpdateDTO>();
             CreateMap<RoomUpdateDTO, RoomDTO>();
         }

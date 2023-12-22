@@ -14,14 +14,16 @@ namespace HotelBooking.Application.Extensions.DependencyInjection
         public static IServiceCollection AddDomainServices(this IServiceCollection services)
         {
             services.AddScoped<IValidator<PaginationDTO>, PaginationValidator>();
-            services.AddScoped<IValidator<HotelDTO>, HotelValidator>();
-            services.AddScoped<IValidator<RoomDTO>, RoomValidator>();
-            services.AddScoped<IValidator<CityDTO>, CityValidator>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IHotelService, HotelService>();
+            services.AddScoped<IValidator<HotelDTO>, HotelValidator>();
             services.AddScoped<ICityService, CityService>();
+            services.AddScoped<IValidator<CityDTO>, CityValidator>();
             services.AddScoped<IRoomService, RoomService>();
+            services.AddScoped<IValidator<RoomDTO>, RoomValidator>();
+            services.AddScoped<IDiscountService, DiscountService>();
+            services.AddScoped<IValidator<DiscountDTO>, DiscountValidator>();
 
             return services;
         }

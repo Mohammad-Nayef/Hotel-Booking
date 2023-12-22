@@ -15,11 +15,14 @@ namespace HotelBooking.Api.Controllers
     {
         private readonly IHotelService _hotelService;
         private readonly IMapper _mapper;
+        private readonly IDiscountService _discountService;
 
-        public HotelController(IHotelService hotelService, IMapper mapper)
+        public HotelController(
+            IHotelService hotelService, IMapper mapper, IDiscountService discountService)
         {
             _hotelService = hotelService;
             _mapper = mapper;
+            _discountService = discountService;
         }
 
         /// <summary>
@@ -152,6 +155,37 @@ namespace HotelBooking.Api.Controllers
             hotelPatchDocument.ApplyTo(hotelToPartiallyUpdate, ModelState);
 
             return hotelToPartiallyUpdate;
+        }
+
+        /// <summary>
+        /// Create and store a new discount.
+        /// </summary>
+        /// <param name="hotelId">The Id of the hotel that has the discount.</param>
+        /// <param name="newDiscount">Properties of the new discount.</param>
+        /// <response code="201">Returns the discount with a new Id and its URI in response headers.</response>
+        [HttpPost("{hotelId}/discounts")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(DiscountCreationDTO), StatusCodes.Status201Created)]
+        public async Task<IActionResult> PostDiscountAsync(
+            Guid hotelId, DiscountCreationDTO newDiscount)
+        {
+            Guid newId;
+            newDiscount.HotelId = hotelId;
+
+            try
+            {
+                newId = await _discountService.AddAsync(_mapper.Map<DiscountDTO>(newDiscount));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.GetErrorsForClient());
+            }
+
+            var createdDiscount = _mapper.Map<DiscountCreationResponseDTO>(newDiscount);
+            createdDiscount.Id = newId;
+
+            return Created(
+                $"api/hotels/{createdDiscount.HotelId}/discounts/{newId}", createdDiscount);
         }
     }
 }

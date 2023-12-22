@@ -70,7 +70,7 @@ namespace HotelBooking.Api.Controllers
                 return BadRequest(ex.GetErrorsForClient());
             }
 
-            var createdRoom = _mapper.Map<RoomForCreationResponseDTO>(newRoom);
+            var createdRoom = _mapper.Map<RoomCreationResponseDTO>(newRoom);
             createdRoom.Id = newId;
 
             return Created($"api/rooms/{newId}", createdRoom);

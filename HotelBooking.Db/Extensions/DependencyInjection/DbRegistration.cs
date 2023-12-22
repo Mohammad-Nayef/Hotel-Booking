@@ -13,6 +13,7 @@ namespace HotelBooking.Db.Extensions.DependencyInjection
             services.AddScoped<IHotelRepository, HotelRepository>();
             services.AddScoped<ICityRepository, CityRepository>();
             services.AddScoped<IRoomRepository, RoomRepository>();
+            services.AddScoped<IDiscountRepository, DiscountRepository>();
 
             return services;
         }
