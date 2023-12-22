@@ -78,18 +78,18 @@ namespace HotelBooking.Api.Controllers
         /// <summary>
         /// Delete a hotel with a specific Id.
         /// </summary>
-        /// <param name="id">The Id of the hotel to delete.</param>
+        /// <param name="hoteId">The Id of the hotel to delete.</param>
         /// <response code="404">The hotel with the given Id doesn't exist.</response>
         /// <response code="204">The hotel is deleted successfully.</response>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> DeleteAsync(Guid id)
+        public async Task<IActionResult> DeleteAsync(Guid hoteId)
         {
             try
             {
-                await _hotelService.DeleteAsync(id);
+                await _hotelService.DeleteAsync(hoteId);
             }
             catch (KeyNotFoundException ex)
             {
@@ -98,6 +98,5 @@ namespace HotelBooking.Api.Controllers
 
             return NoContent();
         }
-
     }
 }

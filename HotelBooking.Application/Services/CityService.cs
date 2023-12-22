@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using HotelBooking.Application.Validators;
 using HotelBooking.Domain.Abstractions.Repositories;
 using HotelBooking.Domain.Abstractions.Services;
 using HotelBooking.Domain.Models;
@@ -13,7 +12,7 @@ namespace HotelBooking.Application.Services
         private readonly IValidator<PaginationDTO> _paginationValidator;
 
         public CityService(
-            ICityRepository cityRepository, 
+            ICityRepository cityRepository,
             IValidator<CityDTO> cityValidator,
             IValidator<PaginationDTO> paginationValidator)
         {

@@ -1,10 +1,18 @@
 using System.Reflection;
+using System.Text.Json.Serialization;
 using FluentValidation;
 using HotelBooking.Application.Extensions.DependencyInjection;
 using HotelBooking.Db.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
+
+services.AddControllers()
+    .AddJsonOptions(options =>
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles)
+    .AddNewtonsoftJson(options => 
+        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
 services.AddControllers();
 services.AddSwaggerGen(setup =>
