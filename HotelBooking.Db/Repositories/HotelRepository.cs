@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Linq.Expressions;
+using AutoMapper;
 using HotelBooking.Db.Tables;
 using HotelBooking.Domain.Abstractions.Repositories;
 using HotelBooking.Domain.Models;
@@ -55,6 +56,28 @@ namespace HotelBooking.Db.Repositories
                 .Take(itemsToTake)
                 .AsNoTracking()
                 .AsEnumerable();
+
+        public IEnumerable<HotelForAdminDTO> SearchByHotelForAdminByPage(
+            int itemsToSkip,
+            int itemsToTake,
+            Expression<Func<HotelForAdminDTO, bool>> searchExpression)
+        {
+            return _dbContext.HotelsForAdmin
+                .Where(searchExpression)
+                .OrderBy(hotel => hotel.Name)
+                .Skip(itemsToSkip)
+                .Take(itemsToTake)
+                .AsNoTracking()
+                .AsEnumerable();
+        }
+
+        public Task<int> GetSearchByHotelForAdminCountAsync(
+            Expression<Func<HotelForAdminDTO, bool>> searchExpression)
+        {
+            return _dbContext.HotelsForAdmin
+                .Where(searchExpression)
+                .CountAsync();
+        }
 
         public async Task UpdateAsync(HotelDTO hotel)
         {

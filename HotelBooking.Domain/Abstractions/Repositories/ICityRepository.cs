@@ -16,7 +16,6 @@ namespace HotelBooking.Domain.Abstractions.Repositories
             int itemsToSkip, 
             int itemsToTake,
             Expression<Func<CityForAdminDTO, bool>> searchExpression);
-
         Task<int> GetSearchByCityForAdminCountAsync(
             Expression<Func<CityForAdminDTO, bool>> searchExpression);
     }
