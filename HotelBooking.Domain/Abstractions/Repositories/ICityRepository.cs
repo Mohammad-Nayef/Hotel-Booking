@@ -1,4 +1,5 @@
-﻿using HotelBooking.Domain.Models;
+﻿using System.Linq.Expressions;
+using HotelBooking.Domain.Models;
 
 namespace HotelBooking.Domain.Abstractions.Repositories
 {
@@ -11,5 +12,12 @@ namespace HotelBooking.Domain.Abstractions.Repositories
         IEnumerable<CityForAdminDTO> GetForAdminByPage(int itemsToSkip, int itemsToTake);
         Task<CityDTO> GetByIdAsync(Guid id);
         Task UpdateAsync(CityDTO city);
+        IEnumerable<CityForAdminDTO> SearchByCityForAdminByPage(
+            int itemsToSkip, 
+            int itemsToTake,
+            Expression<Func<CityForAdminDTO, bool>> searchExpression);
+
+        Task<int> GetSearchByCityForAdminCountAsync(
+            Expression<Func<CityForAdminDTO, bool>> searchExpression);
     }
 }

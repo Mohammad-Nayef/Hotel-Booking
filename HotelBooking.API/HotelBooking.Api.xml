@@ -22,6 +22,13 @@
             </summary>
             <response code="200">The list of rooms is retrieved successfully.</response>
         </member>
+        <member name="M:HotelBooking.Api.Controllers.AdminController.SearchCitiesForAdminAsync(HotelBooking.Domain.Models.PaginationDTO,System.String)">
+            <summary>
+            Get Paginated list of cities for an admin based on search query.
+            </summary>
+            <param name="search">The search query</param>
+            <response code="200">The list of cities is retrieved successfully.</response>
+        </member>
         <member name="M:HotelBooking.Api.Controllers.CityController.PostCityAsync(HotelBooking.Api.Models.CityCreationDTO)">
             <summary>
             Create and store a new city.

@@ -1,8 +1,7 @@
-﻿using FluentValidation;
-using HotelBooking.Application.Validators;
+﻿using System.Linq.Expressions;
+using FluentValidation;
 using HotelBooking.Domain.Abstractions.Repositories;
 using HotelBooking.Domain.Abstractions.Services;
-using HotelBooking.Domain.Entities;
 using HotelBooking.Domain.Models;
 
 namespace HotelBooking.Application.Services
@@ -75,5 +74,28 @@ namespace HotelBooking.Application.Services
 
             await _cityRepository.UpdateAsync(city);
         }
+
+        public async Task<IEnumerable<CityForAdminDTO>> SearchByCityForAdminByPageAsync(
+            PaginationDTO pagination, string searchQuery)
+        {
+            await _paginationValidator.ValidateAndThrowAsync(pagination);
+
+            return _cityRepository.SearchByCityForAdminByPage(
+                (pagination.PageNumber - 1) * pagination.PageSize,
+                pagination.PageSize,
+                ToSearchExpression(searchQuery));
+        }
+
+        private Expression<Func<CityForAdminDTO, bool>> ToSearchExpression(string searchQuery) 
+        {
+            searchQuery = searchQuery.ToLower();
+
+            return city =>
+                city.Name.ToLower().Contains(searchQuery) ||
+                city.CountryName.ToLower().Contains(searchQuery);
+        }
+
+        public Task<int> GetSearchByCityForAdminCountAsync(string searchQuery) =>
+            _cityRepository.GetSearchByCityForAdminCountAsync(ToSearchExpression(searchQuery));
     }
 }

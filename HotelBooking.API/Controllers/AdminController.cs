@@ -102,5 +102,33 @@ namespace HotelBooking.Api.Controllers
 
             return Ok(rooms);
         }
+
+        /// <summary>
+        /// Get Paginated list of cities for an admin based on search query.
+        /// </summary>
+        /// <param name="search">The search query</param>
+        /// <response code="200">The list of cities is retrieved successfully.</response>
+        [HttpPost("cities/search")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(IEnumerable<CityForAdminDTO>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> SearchCitiesForAdminAsync(
+            [FromQuery] PaginationDTO pagination, [FromBody] string search)
+        {
+            IEnumerable<CityForAdminDTO> cities;
+
+            try
+            {
+                cities = await _cityService.SearchByCityForAdminByPageAsync(pagination, search);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.GetErrorsForClient());
+            }
+
+            var citiesCount = await _cityService.GetSearchByCityForAdminCountAsync(search);
+            Response.Headers.AddPaginationMetadata(citiesCount, pagination);
+
+            return Ok(cities);
+        }
     }
 }
