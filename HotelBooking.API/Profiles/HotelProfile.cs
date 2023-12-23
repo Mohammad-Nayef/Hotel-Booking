@@ -10,8 +10,8 @@ namespace HotelBooking.Api.Profiles
         {
             CreateMap<HotelCreationDTO, HotelDTO>();
             CreateMap<HotelCreationDTO, HotelCreationResponseDTO>();
-            CreateMap<HotelDTO, HotelUpdateDTO>();
-            CreateMap<HotelUpdateDTO, HotelDTO>();
+            CreateMap<HotelDTO, HotelUpdateDTO>()
+                .ReverseMap();
         }
     }
 }

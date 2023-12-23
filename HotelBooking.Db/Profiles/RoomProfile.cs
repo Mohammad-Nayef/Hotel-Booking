@@ -8,8 +8,8 @@ namespace HotelBooking.Db.Profiles
     {
         public RoomProfile()
         {
-            CreateMap<RoomDTO, RoomTable>();
-            CreateMap<RoomTable, RoomDTO>();
+            CreateMap<RoomDTO, RoomTable>()
+                .ReverseMap();
         }
     }
 }

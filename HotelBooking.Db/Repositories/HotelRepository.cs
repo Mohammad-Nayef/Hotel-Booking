@@ -36,7 +36,9 @@ namespace HotelBooking.Db.Repositories
             _dbContext.Hotels.AnyAsync(hotel => hotel.Id == id);
 
         public async Task<HotelDTO> GetByIdAsync(Guid id) => 
-            _mapper.Map<HotelDTO>(await _dbContext.Hotels.AsNoTracking().FirstOrDefaultAsync());
+            _mapper.Map<HotelDTO>(await _dbContext.Hotels
+                .AsNoTracking()
+                .FirstOrDefaultAsync());
 
         public async Task<int> GetCountAsync()
         {
@@ -46,16 +48,13 @@ namespace HotelBooking.Db.Repositories
             return await _dbContext.Hotels.CountAsync();
         }
 
-        public IEnumerable<HotelForAdminDTO> GetForAdminByPage(
-            int itemsToSkip, int itemsToTake)
-        {
-            return _dbContext.HotelsForAdmin
+        public IEnumerable<HotelForAdminDTO> GetForAdminByPage(int itemsToSkip, int itemsToTake) =>
+            _dbContext.HotelsForAdmin
+                .OrderBy(hotel => hotel.Name)
                 .Skip(itemsToSkip)
                 .Take(itemsToTake)
-                .OrderBy(hotel => hotel.Name)
                 .AsNoTracking()
                 .AsEnumerable();
-        }
 
         public async Task UpdateAsync(HotelDTO hotel)
         {

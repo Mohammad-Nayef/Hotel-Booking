@@ -46,14 +46,11 @@ namespace HotelBooking.Db.Repositories
             return await _dbContext.Rooms.CountAsync();
         }
 
-        public IEnumerable<RoomForAdminDTO> GetForAdminByPage(
-            int itemsToSkip, int itemsToTake)
-        {
-            return _dbContext.RoomsForAdmin
+        public IEnumerable<RoomForAdminDTO> GetForAdminByPage(int itemsToSkip, int itemsToTake) =>
+            _dbContext.RoomsForAdmin
                 .Skip(itemsToSkip)
                 .Take(itemsToTake)
                 .AsEnumerable();
-        }
 
         public async Task UpdateAsync(RoomDTO room)
         {
