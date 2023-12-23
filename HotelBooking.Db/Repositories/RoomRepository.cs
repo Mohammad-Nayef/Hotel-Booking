@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using HotelBooking.Db.Tables;
 using HotelBooking.Domain.Abstractions.Repositories;
-using HotelBooking.Domain.Entities;
 using HotelBooking.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 

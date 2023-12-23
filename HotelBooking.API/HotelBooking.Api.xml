@@ -116,5 +116,12 @@
             <response code="404">The room with the given Id doesn't exist.</response>
             <response code="204">The room is updated successfully.</response>
         </member>
+        <member name="M:HotelBooking.Api.Controllers.UserController.PostUserAsync(HotelBooking.Api.Models.UserCreationDTO)">
+            <summary>
+            Create and store a new user.
+            </summary>
+            <param name="newUser">Properties of the new user.</param>
+            <response code="201">Returns the user with a new Id and its URI in response headers.</response>
+        </member>
     </members>
 </doc>

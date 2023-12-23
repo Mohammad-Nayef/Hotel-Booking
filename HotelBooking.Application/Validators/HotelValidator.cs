@@ -36,7 +36,7 @@ namespace HotelBooking.Application.Validators
                 .WithMessage("{PropertyName} has invalid format.");
 
             RuleFor(hotel => hotel.CityId)
-                .MustAsync((cityId, cancellation) => cityService.ExistsAsync(cityId))
+                .MustAsync(async (cityId, cancellation) => await cityService.ExistsAsync(cityId))
                 .WithMessage("{PropertyName} does not exist.");
         }
     }

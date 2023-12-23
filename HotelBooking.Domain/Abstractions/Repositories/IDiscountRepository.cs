@@ -4,6 +4,6 @@ namespace HotelBooking.Domain.Abstractions.Repositories
 {
     public interface IDiscountRepository
     {
-        Task<Guid> AddAsync(DiscountDTO discount);
+        Task<Guid> AddAsync(DiscountDTO newDiscount);
     }
 }

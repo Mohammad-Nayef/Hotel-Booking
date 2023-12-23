@@ -2,7 +2,6 @@
 using HotelBooking.Application.Services;
 using HotelBooking.Application.Validators;
 using HotelBooking.Domain.Abstractions.Services;
-using HotelBooking.Domain.Entities;
 using HotelBooking.Domain.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +15,7 @@ namespace HotelBooking.Application.Extensions.DependencyInjection
             services.AddScoped<IValidator<PaginationDTO>, PaginationValidator>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IValidator<UserDTO>, UserValidator>();
             services.AddScoped<IHotelService, HotelService>();
             services.AddScoped<IValidator<HotelDTO>, HotelValidator>();
             services.AddScoped<ICityService, CityService>();

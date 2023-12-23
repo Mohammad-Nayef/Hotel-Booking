@@ -38,7 +38,8 @@ namespace HotelBooking.Application.Validators
                 .GreaterThanOrEqualTo(0);
 
             RuleFor(room => room.HotelId)
-                .MustAsync((hotelId, cancellation) => hotelService.ExistsAsync(hotelId))
+                .MustAsync(async (hotelId, cancellation) => 
+                    await hotelService.ExistsAsync(hotelId))
                 .WithMessage("{PropertyName} does not exist.");
         }
     }

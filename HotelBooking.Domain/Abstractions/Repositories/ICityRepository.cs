@@ -5,7 +5,7 @@ namespace HotelBooking.Domain.Abstractions.Repositories
 {
     public interface ICityRepository
     {
-        Task<Guid> AddAsync(CityDTO city);
+        Task<Guid> AddAsync(CityDTO newCity);
         Task<bool> ExistsAsync(Guid id);
         Task<int> GetCountAsync();
         Task DeleteAsync(Guid id);

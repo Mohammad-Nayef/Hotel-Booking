@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using HotelBooking.Domain.Abstractions.Repositories;
 using HotelBooking.Domain.Abstractions.Services;
-using HotelBooking.Domain.Entities;
 using HotelBooking.Domain.Models;
 using Microsoft.AspNet.Identity;
 
@@ -11,25 +10,25 @@ namespace HotelBooking.Application.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly IValidator<UserDTO> _userValidator;
 
         public UserService(
             IUserRepository userRepository,
             IPasswordHasher passwordHasher,
-            IValidator<PaginationDTO> paginationValidator)
+            IValidator<UserDTO> userValidator)
         {
             _userRepository = userRepository;
             _passwordHasher = passwordHasher;
+            _userValidator = userValidator;
         }
 
-        public async Task AddAsync(UserDTO user)
+        public async Task<Guid> AddAsync(UserDTO newUser)
         {
-            ArgumentNullException.ThrowIfNull(user, nameof(user));
+            await _userValidator.ValidateAndThrowAsync(newUser);
 
-            _userRepository.ThrowExceptionIfIdOrUsernameExists(user);
+            newUser.Password = _passwordHasher.HashPassword(newUser.Password);
 
-            user.Password = _passwordHasher.HashPassword(user.Password);
-
-            //await _userRepository.AddAsync(user);
+            return await _userRepository.AddAsync(newUser);
         }
     }
 }

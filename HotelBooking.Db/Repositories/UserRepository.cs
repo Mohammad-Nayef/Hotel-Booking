@@ -1,5 +1,6 @@
-﻿using HotelBooking.Domain.Abstractions.Repositories;
-using HotelBooking.Domain.Exceptions;
+﻿using AutoMapper;
+using HotelBooking.Db.Tables;
+using HotelBooking.Domain.Abstractions.Repositories;
 using HotelBooking.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,26 +9,23 @@ namespace HotelBooking.Db.Repositories
     internal class UserRepository : IUserRepository
     {
         private readonly HotelsBookingDbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public UserRepository(HotelsBookingDbContext dbContext)
+        public UserRepository(HotelsBookingDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
-        public void ThrowExceptionIfIdOrUsernameExists(UserDTO userToFind)
+        public async Task<Guid> AddAsync(UserDTO newUser)
         {
-            bool usernameExists = false;
+            var entityEntry = await _dbContext.Users.AddAsync(_mapper.Map<UserTable>(newUser));
+            await _dbContext.SaveChangesAsync();
 
-            _dbContext.Users.ForEachAsync(user =>
-            {
-                if (user.Id == userToFind.Id)
-                    throw new IdDuplicationException(user.Id);
-
-                usernameExists = user.Username == userToFind.Username;
-            });
-
-            if (usernameExists)
-                throw new UsernameDuplicationException(userToFind.Username);
+            return entityEntry.Entity.Id;
         }
+
+        public Task<bool> UsernameExistsAsync(string username) =>
+            _dbContext.Users.AnyAsync(user => user.Username == username);
     }
 }
