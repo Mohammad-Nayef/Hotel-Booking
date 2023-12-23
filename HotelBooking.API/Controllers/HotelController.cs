@@ -26,33 +26,6 @@ namespace HotelBooking.Api.Controllers
         }
 
         /// <summary>
-        /// Get a paginated list of hotels for an admin.
-        /// </summary>
-        /// <response code="200">The list of hotels is retrieved successfully.</response>
-        [HttpGet("admin-view")]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(IEnumerable<HotelForAdminDTO>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetHotelsForAdminAsync(
-            [FromQuery] PaginationDTO pagination)
-        {
-            IEnumerable<HotelForAdminDTO> hotels;
-
-            try
-            {
-                hotels = await _hotelService.GetForAdminByPageAsync(pagination);
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.GetErrorsForClient());
-            }
-
-            var hotelsCount = await _hotelService.GetCountAsync();
-            Response.Headers.AddPaginationMetadata(hotelsCount, pagination);
-
-            return Ok(hotels);
-        }
-
-        /// <summary>
         /// Create and store a new hotel.
         /// </summary>
         /// <param name="newHotel">Properties of the new hotel.</param>

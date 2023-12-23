@@ -4,11 +4,23 @@
         <name>HotelBooking.Api</name>
     </assembly>
     <members>
-        <member name="M:HotelBooking.Api.Controllers.CityController.GetCitiesForAdminAsync(HotelBooking.Domain.Models.PaginationDTO)">
+        <member name="M:HotelBooking.Api.Controllers.AdminController.GetCitiesForAdminAsync(HotelBooking.Domain.Models.PaginationDTO)">
             <summary>
             Get a paginated list of cities for an admin.
             </summary>
             <response code="200">The list of cities is retrieved successfully.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.AdminController.GetHotelsForAdminAsync(HotelBooking.Domain.Models.PaginationDTO)">
+            <summary>
+            Get a paginated list of hotels for an admin.
+            </summary>
+            <response code="200">The list of hotels is retrieved successfully.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.AdminController.GetRoomsForAdminAsync(HotelBooking.Domain.Models.PaginationDTO)">
+            <summary>
+            Get a paginated list of rooms for an admin.
+            </summary>
+            <response code="200">The list of rooms is retrieved successfully.</response>
         </member>
         <member name="M:HotelBooking.Api.Controllers.CityController.PostCityAsync(HotelBooking.Api.Models.CityCreationDTO)">
             <summary>
@@ -33,12 +45,6 @@
             <param name="cityPatchDocument">Patch operations for (Name, CountryName, PostOffice).</param>
             <response code="404">The city with the given Id doesn't exist.</response>
             <response code="204">The city is updated successfully.</response>
-        </member>
-        <member name="M:HotelBooking.Api.Controllers.HotelController.GetHotelsForAdminAsync(HotelBooking.Domain.Models.PaginationDTO)">
-            <summary>
-            Get a paginated list of hotels for an admin.
-            </summary>
-            <response code="200">The list of hotels is retrieved successfully.</response>
         </member>
         <member name="M:HotelBooking.Api.Controllers.HotelController.PostAsync(HotelBooking.Api.Models.HotelCreationDTO)">
             <summary>
@@ -71,12 +77,6 @@
             <param name="hotelId">The Id of the hotel that has the discount.</param>
             <param name="newDiscount">Properties of the new discount.</param>
             <response code="201">Returns the discount with a new Id and its URI in response headers.</response>
-        </member>
-        <member name="M:HotelBooking.Api.Controllers.RoomController.GetRoomsForAdminAsync(HotelBooking.Domain.Models.PaginationDTO)">
-            <summary>
-            Get a paginated list of rooms for an admin.
-            </summary>
-            <response code="200">The list of rooms is retrieved successfully.</response>
         </member>
         <member name="M:HotelBooking.Api.Controllers.RoomController.PostAsync(HotelBooking.Api.Models.RoomCreationDTO)">
             <summary>

@@ -23,33 +23,6 @@ namespace HotelBooking.Api.Controllers
         }
 
         /// <summary>
-        /// Get a paginated list of rooms for an admin.
-        /// </summary>
-        /// <response code="200">The list of rooms is retrieved successfully.</response>
-        [HttpGet("admin-view")]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(IEnumerable<RoomForAdminDTO>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetRoomsForAdminAsync(
-            [FromQuery] PaginationDTO pagination)
-        {
-            IEnumerable<RoomForAdminDTO> rooms;
-
-            try
-            {
-                rooms = await _roomService.GetForAdminByPageAsync(pagination);
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.GetErrorsForClient());
-            }
-
-            var roomsCount = await _roomService.GetCountAsync();
-            Response.Headers.AddPaginationMetadata(roomsCount, pagination);
-
-            return Ok(rooms);
-        }
-
-        /// <summary>
         /// Create and store a new room.
         /// </summary>
         /// <param name="newRoom">Properties of the new room.</param>
