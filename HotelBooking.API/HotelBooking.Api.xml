@@ -137,5 +137,12 @@
             <param name="newCartItem">Properties of the new cart item.</param>
             <response code="201">Returns the cart item with a new Id and its URI in response headers.</response>
         </member>
+        <member name="M:HotelBooking.Api.Controllers.UserController.GetCartItemsAsync(System.Guid,HotelBooking.Domain.Models.PaginationDTO)">
+            <summary>
+            Get a paginated list of cart items for a user.
+            </summary>
+            <param name="userId">The Id of the user to get his cart items.</param>
+            <response code="200">The list of cart items is retrieved successfully.</response>
+        </member>
     </members>
 </doc>

@@ -8,7 +8,8 @@ namespace HotelBooking.Db.Profiles
     {
         public CartItemProfile()
         {
-            CreateMap<CartItemDTO, CartItemTable>();
+            CreateMap<CartItemDTO, CartItemTable>()
+                .ReverseMap();
         }
     }
 }

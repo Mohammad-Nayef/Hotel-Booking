@@ -27,8 +27,25 @@ namespace HotelBooking.Db.Repositories
         }
 
         public bool ExistsByUserAndRoomAsync(Guid userId, Guid roomId) =>
-            _dbContext.CartItems.Any(item => 
-                item.UserId == userId && 
+            _dbContext.CartItems.Any(item =>
+                item.UserId == userId &&
                 item.RoomId == roomId);
+
+        public IEnumerable<CartItemDTO> GetAllForUserByPage(
+            Guid userId, int itemsToSkip, int itemsToTake)
+        {
+            var items = _dbContext.CartItems
+                .Where(item => item.UserId == userId)
+                .Skip(itemsToSkip)
+                .Take(itemsToTake)
+                .AsNoTracking();
+
+            return _mapper.Map<IEnumerable<CartItemDTO>>(items);
+        }
+
+        public int GetCountForUser(Guid userId) =>
+            _dbContext.CartItems
+            .Where(item => item.UserId == userId)
+            .Count();
     }
 }

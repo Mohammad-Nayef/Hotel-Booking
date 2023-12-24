@@ -6,5 +6,8 @@ namespace HotelBooking.Domain.Abstractions.Repositories
     {
         Task<Guid> AddAsync(CartItemDTO newCartItem);
         bool ExistsByUserAndRoomAsync(Guid userId, Guid roomId);
+        IEnumerable<CartItemDTO> GetAllForUserByPage(
+            Guid userId, int itemsToSkip, int itemsToTake);
+        int GetCountForUser(Guid userId);
     }
 }

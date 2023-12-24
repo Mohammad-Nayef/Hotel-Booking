@@ -56,5 +56,38 @@ namespace HotelBooking.Api.Controllers
             return Created(
                 $"api/users/{createdCartItem.UserId}/cart-items/{newId}", createdCartItem);
         }
+
+        /// <summary>
+        /// Get a paginated list of cart items for a user.
+        /// </summary>
+        /// <param name="userId">The Id of the user to get his cart items.</param>
+        /// <response code="200">The list of cart items is retrieved successfully.</response>
+        [HttpGet("{userId}/cart-items")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(IEnumerable<CartItemDTO>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetCartItemsAsync(
+            Guid userId, [FromQuery] PaginationDTO pagination)
+        {
+            IEnumerable<CartItemDTO> cartItems;
+            int citiesCount = 0;
+
+            try
+            {
+                cartItems = await _cartItemService.GetAllForUserByPage(userId, pagination);
+                citiesCount = await _cartItemService.GetCountForUserAsync(userId);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.GetErrorsForClient());
+            }
+            catch (KeyNotFoundException)
+            {
+                return BadRequest("Invalid user id.");
+            }
+
+            Response.Headers.AddPaginationMetadata(citiesCount, pagination);
+
+            return Ok(cartItems);
+        }
     }
 }
