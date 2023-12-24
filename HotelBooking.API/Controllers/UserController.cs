@@ -3,6 +3,7 @@ using FluentValidation;
 using HotelBooking.Api.Extensions;
 using HotelBooking.Api.Models;
 using HotelBooking.Domain.Abstractions.Services;
+using HotelBooking.Domain.Exceptions;
 using HotelBooking.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -46,6 +47,34 @@ namespace HotelBooking.Api.Controllers
             createdUser.Id = newId;
 
             return Created($"api/users/{newId}", createdUser);
+        }
+
+        /// <summary>
+        /// Login to an existing user account.
+        /// </summary>
+        /// <response code="200">User is authenticated. Authentication token is returned.</response>
+        [HttpPost("login")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        public async Task<IActionResult> LoginAsync(UserLoginDTO userLogin)
+        {
+            string authenticationToken;
+
+            try
+            {
+                authenticationToken = await _userService.AuthenticateAsync(userLogin);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.GetErrorsForClient());
+            }
+            catch(InvalidUserCredentialsException)
+            {
+                return Unauthorized();
+            }
+
+            return Ok(authenticationToken);
         }
     }
 }

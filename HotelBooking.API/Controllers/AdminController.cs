@@ -1,11 +1,16 @@
 ﻿using FluentValidation;
 using HotelBooking.Api.Extensions;
 using HotelBooking.Domain.Abstractions.Services;
+using HotelBooking.Domain.Constants;
 using HotelBooking.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelBooking.Api.Controllers
 {
+    [Authorize(Roles = $"{UserRoles.Admin}")]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ApiController]
     [Route("admins")]
     public class AdminController : Controller

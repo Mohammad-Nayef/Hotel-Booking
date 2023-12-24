@@ -123,5 +123,11 @@
             <param name="newUser">Properties of the new user.</param>
             <response code="201">Returns the user with a new Id and its URI in response headers.</response>
         </member>
+        <member name="M:HotelBooking.Api.Controllers.UserController.LoginAsync(HotelBooking.Domain.Models.UserLoginDTO)">
+            <summary>
+            Login to an existing user account.
+            </summary>
+            <response code="200">User is authenticated. Authentication token is returned.</response>
+        </member>
     </members>
 </doc>

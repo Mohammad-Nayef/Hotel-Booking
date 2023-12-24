@@ -3,12 +3,17 @@ using FluentValidation;
 using HotelBooking.Api.Extensions;
 using HotelBooking.Api.Models;
 using HotelBooking.Domain.Abstractions.Services;
+using HotelBooking.Domain.Constants;
 using HotelBooking.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelBooking.Api.Controllers
 {
+    [Authorize(Roles = $"{UserRoles.Admin}")]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ApiController]
     [Route("api/cities")]
     public class CityController : Controller

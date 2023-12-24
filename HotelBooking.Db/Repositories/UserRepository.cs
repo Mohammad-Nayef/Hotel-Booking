@@ -25,6 +25,15 @@ namespace HotelBooking.Db.Repositories
             return entityEntry.Entity.Id;
         }
 
+        public async Task<UserDTO> GetByUsernameIncludingRolesAsync(string username)
+        {
+            var neededUser = await _dbContext.Users
+                .Include(user => user.Roles)
+                .FirstOrDefaultAsync(user => user.Username == username);
+
+            return neededUser == null? null : _mapper.Map<UserDTO>(neededUser);
+        }
+
         public Task<bool> UsernameExistsAsync(string username) =>
             _dbContext.Users.AnyAsync(user => user.Username == username);
     }

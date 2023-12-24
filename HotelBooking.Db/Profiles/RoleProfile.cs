@@ -4,11 +4,11 @@ using HotelBooking.Domain.Models;
 
 namespace HotelBooking.Db.Profiles
 {
-    internal class UserProfile : Profile
+    internal class RoleProfile : Profile
     {
-        public UserProfile()
+        public RoleProfile()
         {
-            CreateMap<UserDTO, UserTable>()
+            CreateMap<RoleDTO, RoleTable>()
                 .ReverseMap();
         }
     }
