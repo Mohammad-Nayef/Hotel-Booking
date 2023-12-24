@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelBooking.Db.Migrations
 {
     [DbContext(typeof(HotelsBookingDbContext))]
-    [Migration("20231221203028_a")]
-    partial class a
+    [Migration("20231224153638_asd")]
+    partial class asd
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,35 @@ namespace HotelBooking.Db.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("HotelBooking.Db.Entities.BookingDTO", b =>
+            modelBuilder.Entity("HotelBooking.Db.Entities.HotelReviewTable", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("HotelId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HotelId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("HotelReviews");
+                });
+
+            modelBuilder.Entity("HotelBooking.Db.Tables.BookingTable", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -55,7 +83,7 @@ namespace HotelBooking.Db.Migrations
                     b.ToTable("Bookings");
                 });
 
-            modelBuilder.Entity("HotelBooking.Db.Entities.CartItemDTO", b =>
+            modelBuilder.Entity("HotelBooking.Db.Tables.CartItemTable", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -79,7 +107,7 @@ namespace HotelBooking.Db.Migrations
                     b.ToTable("CartItems");
                 });
 
-            modelBuilder.Entity("HotelBooking.Db.Entities.CityDTO", b =>
+            modelBuilder.Entity("HotelBooking.Db.Tables.CityTable", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -108,7 +136,7 @@ namespace HotelBooking.Db.Migrations
                     b.ToTable("Cities");
                 });
 
-            modelBuilder.Entity("HotelBooking.Db.Entities.DiscountDTO", b =>
+            modelBuilder.Entity("HotelBooking.Db.Tables.DiscountTable", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -136,7 +164,7 @@ namespace HotelBooking.Db.Migrations
                     b.ToTable("Discounts");
                 });
 
-            modelBuilder.Entity("HotelBooking.Db.Entities.HotelDTO", b =>
+            modelBuilder.Entity("HotelBooking.Db.Tables.HotelTable", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -181,35 +209,7 @@ namespace HotelBooking.Db.Migrations
                     b.ToTable("Hotels");
                 });
 
-            modelBuilder.Entity("HotelBooking.Db.Entities.HotelReviewDTO", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("HotelId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("HotelId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("HotelReviews");
-                });
-
-            modelBuilder.Entity("HotelBooking.Db.Entities.ImageDTO", b =>
+            modelBuilder.Entity("HotelBooking.Db.Tables.ImageTable", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -245,7 +245,7 @@ namespace HotelBooking.Db.Migrations
                     b.ToTable("Images");
                 });
 
-            modelBuilder.Entity("HotelBooking.Db.Entities.RoleDTO", b =>
+            modelBuilder.Entity("HotelBooking.Db.Tables.RoleTable", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -260,7 +260,7 @@ namespace HotelBooking.Db.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("HotelBooking.Db.Entities.RoomDTO", b =>
+            modelBuilder.Entity("HotelBooking.Db.Tables.RoomTable", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -302,7 +302,7 @@ namespace HotelBooking.Db.Migrations
                     b.ToTable("Rooms");
                 });
 
-            modelBuilder.Entity("HotelBooking.Db.Entities.UserDTO", b =>
+            modelBuilder.Entity("HotelBooking.Db.Tables.UserTable", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -333,7 +333,7 @@ namespace HotelBooking.Db.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("HotelBooking.Db.Entities.VisitDTO", b =>
+            modelBuilder.Entity("HotelBooking.Db.Tables.VisitTable", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -355,6 +355,37 @@ namespace HotelBooking.Db.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Visits");
+                });
+
+            modelBuilder.Entity("HotelBooking.Domain.Models.CityForAdminDTO", b =>
+                {
+                    b.Property<string>("CountryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ModificationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberOfHotels")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PostOffice")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("vw_CitiesForAdmin", (string)null);
                 });
 
             modelBuilder.Entity("HotelBooking.Domain.Models.HotelForAdminDTO", b =>
@@ -407,7 +438,7 @@ namespace HotelBooking.Db.Migrations
                     b.Property<DateTime>("ModificationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("RoomNumber")
+                    b.Property<double>("Number")
                         .HasColumnType("float");
 
                     b.ToTable((string)null);
@@ -415,7 +446,7 @@ namespace HotelBooking.Db.Migrations
                     b.ToView("vw_RoomsForAdmin", (string)null);
                 });
 
-            modelBuilder.Entity("RoleDTOUserDTO", b =>
+            modelBuilder.Entity("RoleTableUserTable", b =>
                 {
                     b.Property<Guid>("RolesId")
                         .HasColumnType("uniqueidentifier");
@@ -427,18 +458,37 @@ namespace HotelBooking.Db.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("RoleDTOUserDTO");
+                    b.ToTable("RoleTableUserTable");
                 });
 
-            modelBuilder.Entity("HotelBooking.Db.Entities.BookingDTO", b =>
+            modelBuilder.Entity("HotelBooking.Db.Entities.HotelReviewTable", b =>
                 {
-                    b.HasOne("HotelBooking.Db.Entities.RoomDTO", "Room")
+                    b.HasOne("HotelBooking.Db.Tables.HotelTable", "Hotel")
+                        .WithMany("Reviews")
+                        .HasForeignKey("HotelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HotelBooking.Db.Tables.UserTable", "User")
+                        .WithMany("Reviews")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Hotel");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("HotelBooking.Db.Tables.BookingTable", b =>
+                {
+                    b.HasOne("HotelBooking.Db.Tables.RoomTable", "Room")
                         .WithMany("Bookings")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HotelBooking.Db.Entities.UserDTO", "User")
+                    b.HasOne("HotelBooking.Db.Tables.UserTable", "User")
                         .WithMany("Bookings")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -449,15 +499,15 @@ namespace HotelBooking.Db.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("HotelBooking.Db.Entities.CartItemDTO", b =>
+            modelBuilder.Entity("HotelBooking.Db.Tables.CartItemTable", b =>
                 {
-                    b.HasOne("HotelBooking.Db.Entities.RoomDTO", "Room")
+                    b.HasOne("HotelBooking.Db.Tables.RoomTable", "Room")
                         .WithMany("CartItems")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HotelBooking.Db.Entities.UserDTO", "User")
+                    b.HasOne("HotelBooking.Db.Tables.UserTable", "User")
                         .WithMany("CartItems")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -468,9 +518,9 @@ namespace HotelBooking.Db.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("HotelBooking.Db.Entities.DiscountDTO", b =>
+            modelBuilder.Entity("HotelBooking.Db.Tables.DiscountTable", b =>
                 {
-                    b.HasOne("HotelBooking.Db.Entities.HotelDTO", "Hotel")
+                    b.HasOne("HotelBooking.Db.Tables.HotelTable", "Hotel")
                         .WithMany("Discounts")
                         .HasForeignKey("HotelId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -479,9 +529,9 @@ namespace HotelBooking.Db.Migrations
                     b.Navigation("Hotel");
                 });
 
-            modelBuilder.Entity("HotelBooking.Db.Entities.HotelDTO", b =>
+            modelBuilder.Entity("HotelBooking.Db.Tables.HotelTable", b =>
                 {
-                    b.HasOne("HotelBooking.Db.Entities.CityDTO", "City")
+                    b.HasOne("HotelBooking.Db.Tables.CityTable", "City")
                         .WithMany("Hotels")
                         .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -490,36 +540,17 @@ namespace HotelBooking.Db.Migrations
                     b.Navigation("City");
                 });
 
-            modelBuilder.Entity("HotelBooking.Db.Entities.HotelReviewDTO", b =>
+            modelBuilder.Entity("HotelBooking.Db.Tables.ImageTable", b =>
                 {
-                    b.HasOne("HotelBooking.Db.Entities.HotelDTO", "Hotel")
-                        .WithMany("Reviews")
-                        .HasForeignKey("HotelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HotelBooking.Db.Entities.UserDTO", "User")
-                        .WithMany("Reviews")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Hotel");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("HotelBooking.Db.Entities.ImageDTO", b =>
-                {
-                    b.HasOne("HotelBooking.Db.Entities.CityDTO", "City")
+                    b.HasOne("HotelBooking.Db.Tables.CityTable", "City")
                         .WithMany("Images")
                         .HasForeignKey("CityId");
 
-                    b.HasOne("HotelBooking.Db.Entities.HotelDTO", "Hotel")
+                    b.HasOne("HotelBooking.Db.Tables.HotelTable", "Hotel")
                         .WithMany("Images")
                         .HasForeignKey("HotelId");
 
-                    b.HasOne("HotelBooking.Db.Entities.RoomDTO", "Room")
+                    b.HasOne("HotelBooking.Db.Tables.RoomTable", "Room")
                         .WithMany("Images")
                         .HasForeignKey("RoomId");
 
@@ -530,9 +561,9 @@ namespace HotelBooking.Db.Migrations
                     b.Navigation("Room");
                 });
 
-            modelBuilder.Entity("HotelBooking.Db.Entities.RoomDTO", b =>
+            modelBuilder.Entity("HotelBooking.Db.Tables.RoomTable", b =>
                 {
-                    b.HasOne("HotelBooking.Db.Entities.HotelDTO", "Hotel")
+                    b.HasOne("HotelBooking.Db.Tables.HotelTable", "Hotel")
                         .WithMany("Rooms")
                         .HasForeignKey("HotelId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -541,15 +572,15 @@ namespace HotelBooking.Db.Migrations
                     b.Navigation("Hotel");
                 });
 
-            modelBuilder.Entity("HotelBooking.Db.Entities.VisitDTO", b =>
+            modelBuilder.Entity("HotelBooking.Db.Tables.VisitTable", b =>
                 {
-                    b.HasOne("HotelBooking.Db.Entities.HotelDTO", "Hotel")
+                    b.HasOne("HotelBooking.Db.Tables.HotelTable", "Hotel")
                         .WithMany("Visits")
                         .HasForeignKey("HotelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HotelBooking.Db.Entities.UserDTO", "User")
+                    b.HasOne("HotelBooking.Db.Tables.UserTable", "User")
                         .WithMany("Visits")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -560,29 +591,29 @@ namespace HotelBooking.Db.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("RoleDTOUserDTO", b =>
+            modelBuilder.Entity("RoleTableUserTable", b =>
                 {
-                    b.HasOne("HotelBooking.Db.Entities.RoleDTO", null)
+                    b.HasOne("HotelBooking.Db.Tables.RoleTable", null)
                         .WithMany()
                         .HasForeignKey("RolesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HotelBooking.Db.Entities.UserDTO", null)
+                    b.HasOne("HotelBooking.Db.Tables.UserTable", null)
                         .WithMany()
                         .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("HotelBooking.Db.Entities.CityDTO", b =>
+            modelBuilder.Entity("HotelBooking.Db.Tables.CityTable", b =>
                 {
                     b.Navigation("Hotels");
 
                     b.Navigation("Images");
                 });
 
-            modelBuilder.Entity("HotelBooking.Db.Entities.HotelDTO", b =>
+            modelBuilder.Entity("HotelBooking.Db.Tables.HotelTable", b =>
                 {
                     b.Navigation("Discounts");
 
@@ -595,7 +626,7 @@ namespace HotelBooking.Db.Migrations
                     b.Navigation("Visits");
                 });
 
-            modelBuilder.Entity("HotelBooking.Db.Entities.RoomDTO", b =>
+            modelBuilder.Entity("HotelBooking.Db.Tables.RoomTable", b =>
                 {
                     b.Navigation("Bookings");
 
@@ -604,7 +635,7 @@ namespace HotelBooking.Db.Migrations
                     b.Navigation("Images");
                 });
 
-            modelBuilder.Entity("HotelBooking.Db.Entities.UserDTO", b =>
+            modelBuilder.Entity("HotelBooking.Db.Tables.UserTable", b =>
                 {
                     b.Navigation("Bookings");
 

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelBooking.Db.Migrations
 {
     [DbContext(typeof(HotelsBookingDbContext))]
-    [Migration("20231222061050_vw_CitiesForAdmin")]
-    partial class vw_CitiesForAdmin
+    [Migration("20231224121945_axzxiuh")]
+    partial class axzxiuh
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -89,7 +89,7 @@ namespace HotelBooking.Db.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("AddingDate")
+                    b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid>("RoomId")

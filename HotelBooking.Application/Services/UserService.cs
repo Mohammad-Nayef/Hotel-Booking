@@ -14,14 +14,14 @@ namespace HotelBooking.Application.Services
         private readonly IPasswordHasher _passwordHasher;
         private readonly IValidator<UserDTO> _userValidator;
         private readonly IValidator<UserLoginDTO> _userLoginValidator;
-        private readonly ITokenGenerator _tokenGenerator;
+        private readonly IAuthTokenProcessor _tokenGenerator;
 
         public UserService(
             IUserRepository userRepository,
             IPasswordHasher passwordHasher,
             IValidator<UserDTO> userValidator,
             IValidator<UserLoginDTO> userLoginValidator,
-            ITokenGenerator tokenGenerator)
+            IAuthTokenProcessor tokenGenerator)
         {
             _userRepository = userRepository;
             _passwordHasher = passwordHasher;
@@ -45,15 +45,17 @@ namespace HotelBooking.Application.Services
             await _userLoginValidator.ValidateAndThrowAsync(userLogin);
 
             var storedUser = await ValidateUsername(userLogin.Username);
-            ValidatePassword(userLogin, storedUser);
+            ValidatePassword(storedUser.Password, userLogin.Password);
 
             return _tokenGenerator.GenerateToken(storedUser);
         }
 
-        private void ValidatePassword(UserLoginDTO userLogin, UserDTO storedUser)
+        public Task<bool> ExistsAsync(Guid id) => _userRepository.ExistsAsync(id);
+
+        private void ValidatePassword(string storedPassword, string loginPassword)
         {
             var validationResult = _passwordHasher.VerifyHashedPassword(
-                storedUser.Password, userLogin.Password);
+                storedPassword, loginPassword);
 
             if (validationResult == PasswordVerificationResult.Failed)
                 throw new InvalidUserCredentialsException();

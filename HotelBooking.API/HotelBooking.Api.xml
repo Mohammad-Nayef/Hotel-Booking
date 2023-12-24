@@ -36,6 +36,19 @@
             <param name="search">The search query</param>
             <response code="200">The list of hotels is retrieved successfully.</response>
         </member>
+        <member name="M:HotelBooking.Api.Controllers.AuthenticationController.PostUserAsync(HotelBooking.Api.Models.UserCreationDTO)">
+            <summary>
+            Create and store a new user.
+            </summary>
+            <param name="newUser">Properties of the new user.</param>
+            <response code="201">Returns the user with a new Id and its URI in response headers.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.AuthenticationController.LoginAsync(HotelBooking.Domain.Models.UserLoginDTO)">
+            <summary>
+            Login to an existing user account.
+            </summary>
+            <response code="200">User is authenticated. Authentication token is returned.</response>
+        </member>
         <member name="M:HotelBooking.Api.Controllers.CityController.PostCityAsync(HotelBooking.Api.Models.CityCreationDTO)">
             <summary>
             Create and store a new city.
@@ -116,18 +129,13 @@
             <response code="404">The room with the given Id doesn't exist.</response>
             <response code="204">The room is updated successfully.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.UserController.PostUserAsync(HotelBooking.Api.Models.UserCreationDTO)">
+        <member name="M:HotelBooking.Api.Controllers.UserController.PostCartItemAsync(System.Guid,HotelBooking.Api.Models.CartItemCreationDTO)">
             <summary>
-            Create and store a new user.
+            Create and store a new cart item for a user.
             </summary>
-            <param name="newUser">Properties of the new user.</param>
-            <response code="201">Returns the user with a new Id and its URI in response headers.</response>
-        </member>
-        <member name="M:HotelBooking.Api.Controllers.UserController.LoginAsync(HotelBooking.Domain.Models.UserLoginDTO)">
-            <summary>
-            Login to an existing user account.
-            </summary>
-            <response code="200">User is authenticated. Authentication token is returned.</response>
+            <param name="userId">The Id of the user that has the cart item.</param>
+            <param name="newCartItem">Properties of the new cart item.</param>
+            <response code="201">Returns the cart item with a new Id and its URI in response headers.</response>
         </member>
     </members>
 </doc>

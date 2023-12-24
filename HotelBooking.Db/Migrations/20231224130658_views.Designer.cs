@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelBooking.Db.Migrations
 {
     [DbContext(typeof(HotelsBookingDbContext))]
-    [Migration("20231222044620_ss")]
-    partial class ss
+    [Migration("20231224130658_views")]
+    partial class views
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -89,7 +89,7 @@ namespace HotelBooking.Db.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("AddingDate")
+                    b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid>("RoomId")
@@ -357,6 +357,37 @@ namespace HotelBooking.Db.Migrations
                     b.ToTable("Visits");
                 });
 
+            modelBuilder.Entity("HotelBooking.Domain.Models.CityForAdminDTO", b =>
+                {
+                    b.Property<string>("CountryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ModificationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberOfHotels")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PostOffice")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("vw_CitiesForAdmin", (string)null);
+                });
+
             modelBuilder.Entity("HotelBooking.Domain.Models.HotelForAdminDTO", b =>
                 {
                     b.Property<DateTime>("CreationDate")
@@ -407,7 +438,7 @@ namespace HotelBooking.Db.Migrations
                     b.Property<DateTime>("ModificationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("RoomNumber")
+                    b.Property<double>("Number")
                         .HasColumnType("float");
 
                     b.ToTable((string)null);

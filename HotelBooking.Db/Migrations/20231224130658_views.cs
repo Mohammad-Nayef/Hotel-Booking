@@ -5,11 +5,21 @@
 namespace HotelBooking.Db.Migrations
 {
     /// <inheritdoc />
-    public partial class vw_CitiesForAdmin : Migration
+    public partial class views : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.Sql("""
+                CREATE VIEW vw_HotelsForAdmin AS
+                SELECT Id, Name, StarRating, OwnerName, CreationDate, ModificationDate,
+                    (
+                        SELECT COUNT(*) FROM Rooms
+                        WHERE Rooms.HotelId = Hotels.Id
+                    ) As NumberOfRooms
+                FROM Hotels
+                """);
+
             migrationBuilder.Sql("""
                 CREATE VIEW vw_CitiesForAdmin AS
                 SELECT Id, Name, CountryName, PostOffice, CreationDate, ModificationDate,
@@ -23,7 +33,13 @@ namespace HotelBooking.Db.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("DROP VIEW vw_CitiesForAdmin");
+            migrationBuilder.Sql("""
+                drop VIEW vw_HotelsForAdmin AS
+                """);
+
+            migrationBuilder.Sql("""
+                drop VIEW vw_CitiesForAdmin AS
+                """);
         }
     }
 }

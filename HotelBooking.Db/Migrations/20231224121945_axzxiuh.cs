@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HotelBooking.Db.Migrations
 {
     /// <inheritdoc />
-    public partial class a : Migration
+    public partial class axzxiuh : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -82,7 +82,7 @@ namespace HotelBooking.Db.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RoleDTOUserDTO",
+                name: "RoleTableUserTable",
                 columns: table => new
                 {
                     RolesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -90,15 +90,15 @@ namespace HotelBooking.Db.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoleDTOUserDTO", x => new { x.RolesId, x.UsersId });
+                    table.PrimaryKey("PK_RoleTableUserTable", x => new { x.RolesId, x.UsersId });
                     table.ForeignKey(
-                        name: "FK_RoleDTOUserDTO_Roles_RolesId",
+                        name: "FK_RoleTableUserTable_Roles_RolesId",
                         column: x => x.RolesId,
                         principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RoleDTOUserDTO_Users_UsersId",
+                        name: "FK_RoleTableUserTable_Users_UsersId",
                         column: x => x.UsersId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -239,7 +239,7 @@ namespace HotelBooking.Db.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AddingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     RoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
@@ -348,8 +348,8 @@ namespace HotelBooking.Db.Migrations
                 column: "RoomId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RoleDTOUserDTO_UsersId",
-                table: "RoleDTOUserDTO",
+                name: "IX_RoleTableUserTable_UsersId",
+                table: "RoleTableUserTable",
                 column: "UsersId");
 
             migrationBuilder.CreateIndex(
@@ -387,7 +387,7 @@ namespace HotelBooking.Db.Migrations
                 name: "Images");
 
             migrationBuilder.DropTable(
-                name: "RoleDTOUserDTO");
+                name: "RoleTableUserTable");
 
             migrationBuilder.DropTable(
                 name: "Visits");

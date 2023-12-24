@@ -6,5 +6,6 @@ namespace HotelBooking.Domain.Abstractions.Services
     {
         Task<Guid> AddAsync(UserDTO user);
         Task<string> AuthenticateAsync(UserLoginDTO userLogin);
+        Task<bool> ExistsAsync(Guid userId);
     }
 }

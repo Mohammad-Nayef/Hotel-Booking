@@ -8,11 +8,11 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace HotelBooking.Application.Services
 {
-    internal class JwtTokenGenerator : ITokenGenerator
+    internal class AuthTokenProcessor : IAuthTokenProcessor
     {
         private readonly IConfiguration _config;
 
-        public JwtTokenGenerator(IConfiguration config)
+        public AuthTokenProcessor(IConfiguration config)
         {
             _config = config;
         }
@@ -27,7 +27,10 @@ namespace HotelBooking.Application.Services
                 throw new Exception("Invalid configuration for `Jwt:ExpirationMinutes`");
 
             var claims = new List<Claim>(
-                user.Roles.Select(role => new Claim(ClaimTypes.Role, role.Name)));
+                user.Roles.Select(role => new Claim(ClaimTypes.Role, role.Name)))
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+            };
 
             var token = new JwtSecurityToken(
                 issuer,

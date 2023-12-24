@@ -2,8 +2,8 @@
 
 namespace HotelBooking.Domain.Abstractions.Services
 {
-    public interface ITokenGenerator
+    public interface ICartItemService
     {
-        public string GenerateToken(UserDTO user);
+        Task<Guid> AddAsync(CartItemDTO newCartItem);
     }
 }

@@ -21,6 +21,7 @@ namespace HotelBooking.Application.Extensions.DependencyInjection
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IValidator<UserDTO>, UserValidator>();
+            services.AddScoped<IValidator<UserLoginDTO>, UserLoginValidator>();
             services.AddScoped<IHotelService, HotelService>();
             services.AddScoped<IValidator<HotelDTO>, HotelValidator>();
             services.AddScoped<ICityService, CityService>();
@@ -29,8 +30,9 @@ namespace HotelBooking.Application.Extensions.DependencyInjection
             services.AddScoped<IValidator<RoomDTO>, RoomValidator>();
             services.AddScoped<IDiscountService, DiscountService>();
             services.AddScoped<IValidator<DiscountDTO>, DiscountValidator>();
-            services.AddScoped<IValidator<UserLoginDTO>, UserLoginValidator>();
-            services.AddScoped<ITokenGenerator, JwtTokenGenerator>();
+            services.AddScoped<ICartItemService, CartItemService>();
+            services.AddScoped<IValidator<CartItemDTO>, CartItemValidator>();
+            services.AddScoped<IAuthTokenProcessor, AuthTokenProcessor>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
