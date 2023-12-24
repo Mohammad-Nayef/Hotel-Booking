@@ -19,11 +19,14 @@ namespace HotelBooking.Api.Controllers
     {
         private readonly IMapper _mapper;
         private readonly ICartItemService _cartItemService;
+        private readonly IBookingService _bookingService;
 
-        public UserController(IMapper mapper, ICartItemService cartItemService)
+        public UserController(
+            IMapper mapper, ICartItemService cartItemService, IBookingService bookingService)
         {
             _mapper = mapper;
             _cartItemService = cartItemService;
+            _bookingService = bookingService;
         }
 
         /// <summary>
@@ -88,6 +91,32 @@ namespace HotelBooking.Api.Controllers
             Response.Headers.AddPaginationMetadata(citiesCount, pagination);
 
             return Ok(cartItems);
+        }
+
+        /// <summary>
+        /// Create and store a new booking for a user.
+        /// </summary>
+        /// <param name="userId">The Id of the user that has the booking.</param>
+        /// <param name="newBooking">Properties of the new booking.</param>
+        /// <response code="201">The booking is created successfully.</response>
+        [HttpPost("{userId}/bookings")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<IActionResult> PostBookingAsync(
+            Guid userId, BookingCreationDTO newBooking)
+        {
+            newBooking.UserId = userId;
+
+            try
+            {
+                await _bookingService.AddAsync(_mapper.Map<BookingDTO>(newBooking));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.GetErrorsForClient());
+            }
+
+            return Created();
         }
     }
 }

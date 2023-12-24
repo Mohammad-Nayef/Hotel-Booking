@@ -1,8 +1,8 @@
-﻿using System.Data.Entity;
-using AutoMapper;
+﻿using AutoMapper;
 using HotelBooking.Db.Tables;
 using HotelBooking.Domain.Abstractions.Repositories;
 using HotelBooking.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotelBooking.Db.Repositories
 {
@@ -26,8 +26,8 @@ namespace HotelBooking.Db.Repositories
             return entityEntry.Entity.Id;
         }
 
-        public bool ExistsByUserAndRoomAsync(Guid userId, Guid roomId) =>
-            _dbContext.CartItems.Any(item =>
+        public Task<bool> ExistsByUserAndRoomAsync(Guid userId, Guid roomId) =>
+            _dbContext.CartItems.AnyAsync(item =>
                 item.UserId == userId &&
                 item.RoomId == roomId);
 
@@ -43,9 +43,9 @@ namespace HotelBooking.Db.Repositories
             return _mapper.Map<IEnumerable<CartItemDTO>>(items);
         }
 
-        public int GetCountForUser(Guid userId) =>
+        public Task<int> GetCountForUserAsync(Guid userId) =>
             _dbContext.CartItems
             .Where(item => item.UserId == userId)
-            .Count();
+            .CountAsync();
     }
 }

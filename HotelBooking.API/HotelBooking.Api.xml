@@ -144,5 +144,13 @@
             <param name="userId">The Id of the user to get his cart items.</param>
             <response code="200">The list of cart items is retrieved successfully.</response>
         </member>
+        <member name="M:HotelBooking.Api.Controllers.UserController.PostBookingAsync(System.Guid,HotelBooking.Api.Models.BookingCreationDTO)">
+            <summary>
+            Create and store a new booking for a user.
+            </summary>
+            <param name="userId">The Id of the user that has the booking.</param>
+            <param name="newBooking">Properties of the new booking.</param>
+            <response code="201">The booking is created successfully.</response>
+        </member>
     </members>
 </doc>

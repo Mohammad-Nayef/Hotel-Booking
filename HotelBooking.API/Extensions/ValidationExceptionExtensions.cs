@@ -11,8 +11,7 @@ namespace HotelBooking.Api.Extensions
             return validationException.Errors.Select(error => new ValidationResultDTO
             {
                 ErrorMessage = error.ErrorMessage,
-                PropertyName = error.PropertyName,
-                AttemptedValue = error.AttemptedValue.ToString()
+                PropertyName = error.PropertyName
             });
         }
     }

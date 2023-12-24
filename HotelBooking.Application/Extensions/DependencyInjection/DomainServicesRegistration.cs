@@ -32,6 +32,8 @@ namespace HotelBooking.Application.Extensions.DependencyInjection
             services.AddScoped<IValidator<DiscountDTO>, DiscountValidator>();
             services.AddScoped<ICartItemService, CartItemService>();
             services.AddScoped<IValidator<CartItemDTO>, CartItemValidator>();
+            services.AddScoped<IBookingService, BookingService>();
+            services.AddScoped<IValidator<BookingDTO>, BookingValidator>();
             services.AddScoped<IAuthTokenProcessor, AuthTokenProcessor>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

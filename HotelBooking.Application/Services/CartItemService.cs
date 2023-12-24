@@ -54,7 +54,7 @@ namespace HotelBooking.Application.Services
         {
             await ValidateUserIdAsync(userId);
 
-            return _cartItemRepository.GetCountForUser(userId);
+            return await _cartItemRepository.GetCountForUserAsync(userId);
         }
     }
 }

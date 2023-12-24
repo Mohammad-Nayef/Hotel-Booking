@@ -25,8 +25,8 @@ namespace HotelBooking.Application.Validators
                 .WithMessage("{PropertyName} does not exist.");
 
             RuleFor(item => item)
-                .Must((item, cancellation) =>
-                    !cartItemRepository.ExistsByUserAndRoomAsync(item.UserId, item.RoomId))
+                .MustAsync(async (item, cancellation) =>
+                    !await cartItemRepository.ExistsByUserAndRoomAsync(item.UserId, item.RoomId))
                 .WithMessage($"The room already exists in the user's cart.");
         }
     }

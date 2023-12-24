@@ -4,7 +4,7 @@ using HotelBooking.Domain.Models;
 
 namespace HotelBooking.Api.Profiles
 {
-    public class UserProfile : Profile
+    internal class UserProfile : Profile
     {
         public UserProfile()
         {

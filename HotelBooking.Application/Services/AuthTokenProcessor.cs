@@ -27,10 +27,7 @@ namespace HotelBooking.Application.Services
                 throw new Exception("Invalid configuration for `Jwt:ExpirationMinutes`");
 
             var claims = new List<Claim>(
-                user.Roles.Select(role => new Claim(ClaimTypes.Role, role.Name)))
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
-            };
+                user.Roles.Select(role => new Claim(ClaimTypes.Role, role.Name)));
 
             var token = new JwtSecurityToken(
                 issuer,
