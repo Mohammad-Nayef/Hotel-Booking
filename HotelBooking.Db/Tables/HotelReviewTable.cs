@@ -1,6 +1,4 @@
-﻿using HotelBooking.Db.Tables;
-
-namespace HotelBooking.Db.Entities
+﻿namespace HotelBooking.Db.Tables
 {
     internal class HotelReviewTable : DbEntity
     {

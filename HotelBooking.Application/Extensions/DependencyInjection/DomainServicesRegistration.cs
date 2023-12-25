@@ -24,6 +24,8 @@ namespace HotelBooking.Application.Extensions.DependencyInjection
             services.AddScoped<IValidator<UserLoginDTO>, UserLoginValidator>();
             services.AddScoped<IHotelService, HotelService>();
             services.AddScoped<IValidator<HotelDTO>, HotelValidator>();
+            services.AddScoped<IHotelReviewService, HotelReviewService>();
+            services.AddScoped<IValidator<HotelReviewDTO>, HotelReviewValidator>();
             services.AddScoped<ICityService, CityService>();
             services.AddScoped<IValidator<CityDTO>, CityValidator>();
             services.AddScoped<IRoomService, RoomService>();

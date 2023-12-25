@@ -20,13 +20,18 @@ namespace HotelBooking.Api.Controllers
         private readonly IMapper _mapper;
         private readonly ICartItemService _cartItemService;
         private readonly IBookingService _bookingService;
+        private readonly IHotelReviewService _hotelReviewService;
 
         public UserController(
-            IMapper mapper, ICartItemService cartItemService, IBookingService bookingService)
+            IMapper mapper, 
+            ICartItemService cartItemService, 
+            IBookingService bookingService,
+            IHotelReviewService hotelReviewService)
         {
             _mapper = mapper;
             _cartItemService = cartItemService;
             _bookingService = bookingService;
+            _hotelReviewService = hotelReviewService;
         }
 
         /// <summary>
@@ -110,6 +115,32 @@ namespace HotelBooking.Api.Controllers
             try
             {
                 await _bookingService.AddAsync(_mapper.Map<BookingDTO>(newBooking));
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.GetErrorsForClient());
+            }
+
+            return Created();
+        }
+
+        /// <summary>
+        /// Create and store a new hotel review for a user.
+        /// </summary>
+        /// <param name="userId">The Id of the user creating the review.</param>
+        /// <param name="newReview">Properties of the new review.</param>
+        /// <response code="201">The review is created successfully.</response>
+        [HttpPost("{userId}/hotel-reviews")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<IActionResult> PostHotelReviewAsync(
+            Guid userId, HotelReviewCreationDTO newReview)
+        {
+            newReview.UserId = userId;
+
+            try
+            {
+                await _hotelReviewService.AddAsync(_mapper.Map<HotelReviewDTO>(newReview));
             }
             catch (ValidationException ex)
             {

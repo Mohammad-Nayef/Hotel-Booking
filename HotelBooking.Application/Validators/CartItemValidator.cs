@@ -27,7 +27,8 @@ namespace HotelBooking.Application.Validators
             RuleFor(item => item)
                 .MustAsync(async (item, cancellation) =>
                     !await cartItemRepository.ExistsByUserAndRoomAsync(item.UserId, item.RoomId))
-                .WithMessage($"The room already exists in the user's cart.");
+                .WithMessage($"The room already exists in the user's cart.")
+                .WithName("CartItem");
         }
     }
 }

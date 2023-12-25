@@ -11,6 +11,7 @@ namespace HotelBooking.Db.Extensions.DependencyInjection
             services.AddDbContext<HotelsBookingDbContext>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IHotelRepository, HotelRepository>();
+            services.AddScoped<IHotelReviewRepository, HotelReviewRepository>();
             services.AddScoped<ICityRepository, CityRepository>();
             services.AddScoped<IRoomRepository, RoomRepository>();
             services.AddScoped<IDiscountRepository, DiscountRepository>();
