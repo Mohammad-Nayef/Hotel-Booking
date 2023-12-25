@@ -24,17 +24,25 @@
         </member>
         <member name="M:HotelBooking.Api.Controllers.AdminController.SearchCitiesForAdminAsync(HotelBooking.Domain.Models.PaginationDTO,System.String)">
             <summary>
-            Get Paginated list of cities for an admin based on search query.
+            Get paginated list of cities for an admin based on search query.
             </summary>
             <param name="search">The search query</param>
             <response code="200">The list of cities is retrieved successfully.</response>
         </member>
         <member name="M:HotelBooking.Api.Controllers.AdminController.SearchHotelsForAdminAsync(HotelBooking.Domain.Models.PaginationDTO,System.String)">
             <summary>
-            Get Paginated list of hotels for an admin based on search query.
+            Get paginated list of hotels for an admin based on search query.
             </summary>
             <param name="search">The search query</param>
             <response code="200">The list of hotels is retrieved successfully.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.AdminController.SearchRoomsForAdminAsync(HotelBooking.Domain.Models.PaginationDTO,System.String)">
+            <summary>
+            Get Paginated list of rooms for an admin based on search query.
+            </summary>
+            <param name="pagination">Pagination parameters</param>
+            <param name="search">The search query</param>
+            <response code="200">The list of rooms is retrieved successfully.</response>
         </member>
         <member name="M:HotelBooking.Api.Controllers.AuthenticationController.PostUserAsync(HotelBooking.Api.Models.UserCreationDTO)">
             <summary>

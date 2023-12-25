@@ -11,5 +11,8 @@ namespace HotelBooking.Domain.Abstractions.Services
         Task DeleteAsync(Guid id);
         Task<RoomDTO> GetByIdAsync(Guid id);
         Task UpdateAsync(RoomDTO room);
+        Task<IEnumerable<RoomForAdminDTO>> SearchByRoomForAdminByPageAsync(
+            PaginationDTO pagination, string searchQuery);
+        Task<int> GetSearchByRoomForAdminCountAsync(string searchQuery);
     }
 }

@@ -109,7 +109,7 @@ namespace HotelBooking.Api.Controllers
         }
 
         /// <summary>
-        /// Get Paginated list of cities for an admin based on search query.
+        /// Get paginated list of cities for an admin based on search query.
         /// </summary>
         /// <param name="search">The search query</param>
         /// <response code="200">The list of cities is retrieved successfully.</response>
@@ -137,7 +137,7 @@ namespace HotelBooking.Api.Controllers
         }
 
         /// <summary>
-        /// Get Paginated list of hotels for an admin based on search query.
+        /// Get paginated list of hotels for an admin based on search query.
         /// </summary>
         /// <param name="search">The search query</param>
         /// <response code="200">The list of hotels is retrieved successfully.</response>
@@ -162,6 +162,35 @@ namespace HotelBooking.Api.Controllers
             Response.Headers.AddPaginationMetadata(hotelsCount, pagination);
 
             return Ok(hotels);
+        }
+
+        /// <summary>
+        /// Get Paginated list of rooms for an admin based on search query.
+        /// </summary>
+        /// <param name="pagination">Pagination parameters</param>
+        /// <param name="search">The search query</param>
+        /// <response code="200">The list of rooms is retrieved successfully.</response>
+        [HttpPost("rooms/search")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(IEnumerable<RoomForAdminDTO>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> SearchRoomsForAdminAsync(
+            [FromQuery] PaginationDTO pagination, [FromBody] string search)
+        {
+            IEnumerable<RoomForAdminDTO> rooms;
+
+            try
+            {
+                rooms = await _roomService.SearchByRoomForAdminByPageAsync(pagination, search);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.GetErrorsForClient());
+            }
+
+            var roomsCount = await _roomService.GetSearchByRoomForAdminCountAsync(search);
+            Response.Headers.AddPaginationMetadata(roomsCount, pagination);
+
+            return Ok(rooms);
         }
     }
 }
