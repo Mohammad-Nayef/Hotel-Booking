@@ -84,5 +84,10 @@ namespace HotelBooking.Db.Repositories
             _dbContext.Hotels.Update(_mapper.Map<HotelTable>(hotel));
             await _dbContext.SaveChangesAsync();
         }
+
+        public Task<int> GetNumberOfImagesAsync(Guid hotelId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

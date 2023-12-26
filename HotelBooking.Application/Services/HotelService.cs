@@ -3,6 +3,7 @@ using FluentValidation;
 using HotelBooking.Domain.Abstractions.Repositories;
 using HotelBooking.Domain.Abstractions.Services;
 using HotelBooking.Domain.Models;
+using SixLabors.ImageSharp;
 
 namespace HotelBooking.Application.Services
 {
@@ -97,5 +98,10 @@ namespace HotelBooking.Application.Services
 
         public Task<int> GetSearchByHotelForAdminCountAsync(string searchQuery) =>
             _hotelRepository.GetSearchByHotelForAdminCountAsync(ToSearchExpression(searchQuery));
+
+        public Task AddImagesForHotelAsync(Guid hotelId, IEnumerable<Image> images)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

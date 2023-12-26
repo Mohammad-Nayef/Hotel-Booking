@@ -14,18 +14,18 @@ namespace HotelBooking.Application.Services
         private readonly ICityRepository _cityRepository;
         private readonly IValidator<CityDTO> _cityValidator;
         private readonly IValidator<PaginationDTO> _paginationValidator;
-        private readonly IValidator<IEnumerable<Image>> _imagesValidator;
+        private readonly IImageService _imageService;
 
         public CityService(
             ICityRepository cityRepository,
             IValidator<CityDTO> cityValidator,
             IValidator<PaginationDTO> paginationValidator,
-            IValidator<IEnumerable<Image>> imagesValidator)
+            IImageService imageService)
         {
             _cityRepository = cityRepository;
             _cityValidator = cityValidator;
             _paginationValidator = paginationValidator;
-            _imagesValidator = imagesValidator;
+            _imageService = imageService;
         }
 
         public async Task<Guid> AddAsync(CityDTO city)
@@ -106,11 +106,10 @@ namespace HotelBooking.Application.Services
 
         public async Task AddImagesForCityAsync(Guid cityId, IEnumerable<Image> images)
         {
-            await _imagesValidator.ValidateAndThrowAsync(images);
             await ValidateIdAsync(cityId);
             await ValidateNumberOfImagesForCityAsync(cityId, images.Count());
 
-            await _cityRepository.AddImagesAsync(cityId, images);
+            await _imageService.AddForCityAsync(cityId, images);
         }
 
         private async Task ValidateNumberOfImagesForCityAsync(Guid cityId, int numberOfImagesToAdd)
