@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using HotelBooking.Domain.Models;
+using SixLabors.ImageSharp;
 
 namespace HotelBooking.Domain.Abstractions.Repositories
 {
@@ -18,5 +19,7 @@ namespace HotelBooking.Domain.Abstractions.Repositories
             Expression<Func<CityForAdminDTO, bool>> searchExpression);
         Task<int> GetSearchByCityForAdminCountAsync(
             Expression<Func<CityForAdminDTO, bool>> searchExpression);
+        Task AddImagesAsync(Guid cityId, IEnumerable<Image> images);
+        Task<int> GetNumberOfImagesAsync(Guid cityId);
     }
 }

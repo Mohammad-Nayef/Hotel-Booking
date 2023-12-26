@@ -64,6 +64,14 @@
             <param name="newCity">Properties of the new city.</param>
             <response code="201">Returns the city with a new Id and its URI in response headers.</response>
         </member>
+        <member name="M:HotelBooking.Api.Controllers.CityController.PostCityImages(System.Guid,System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
+            <summary>
+            Add images for a city.
+            </summary>
+            <param name="cityId">Id of the city to add images for.</param>        
+            /// <response code="404">The city with the given Id doesn't exist.</response>
+            <response code="204">The images are successfully.</response>
+        </member>
         <member name="M:HotelBooking.Api.Controllers.CityController.DeleteAsync(System.Guid)">
             <summary>
             Delete a city with a specific Id.

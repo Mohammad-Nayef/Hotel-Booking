@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using SixLabors.ImageSharp;
 
 namespace HotelBooking.Application.Extensions.DependencyInjection
 {
@@ -36,6 +37,7 @@ namespace HotelBooking.Application.Extensions.DependencyInjection
             services.AddScoped<IValidator<CartItemDTO>, CartItemValidator>();
             services.AddScoped<IBookingService, BookingService>();
             services.AddScoped<IValidator<BookingDTO>, BookingValidator>();
+            services.AddScoped<IValidator<IEnumerable<Image>>, ImagesValidator>();
             services.AddScoped<IAuthTokenProcessor, AuthTokenProcessor>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

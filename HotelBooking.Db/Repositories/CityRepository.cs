@@ -4,6 +4,8 @@ using HotelBooking.Db.Tables;
 using HotelBooking.Domain.Abstractions.Repositories;
 using HotelBooking.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 namespace HotelBooking.Db.Repositories
 {
@@ -11,6 +13,8 @@ namespace HotelBooking.Db.Repositories
     {
         private readonly HotelsBookingDbContext _dbContext;
         private readonly IMapper _mapper;
+        private const string ImagesPath = "CitiesImages";
+        private const string ThumbnailsPath = "CitiesImages\\Thumbnails";
 
         public CityRepository(HotelsBookingDbContext dbContext, IMapper mapper)
         {
@@ -83,5 +87,49 @@ namespace HotelBooking.Db.Repositories
             _dbContext.Cities.Update(_mapper.Map<CityTable>(city));
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task AddImagesAsync(Guid cityId, IEnumerable<Image> images)
+        {
+            var imagesTable = new List<ImageTable>();
+
+            images.ToList().ForEach(image =>
+            {
+                string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+                var imageId = Guid.NewGuid();
+                var imagePath = 
+                    $"{currentDirectory}{ImagesPath}\\{imageId}." +
+                    $"{image.Metadata.DecodedImageFormat.Name}";
+                var thumbnailPath = 
+                    $"{currentDirectory}{ThumbnailsPath}\\{imageId}." +
+                    $"{image.Metadata.DecodedImageFormat.Name}";
+
+                Directory.CreateDirectory($"{currentDirectory}{ImagesPath}");
+                image.Save(imagePath);
+                
+                var thumbnail = image;
+                if (thumbnail.Width < thumbnail.Height)
+                    thumbnail.Mutate(thumbnail => thumbnail.Resize(200, 0));
+                else
+                    thumbnail.Mutate(thumbnail => thumbnail.Resize(0, 200));
+
+                Directory.CreateDirectory($"{currentDirectory}{ThumbnailsPath}");
+                thumbnail.Save(thumbnailPath);
+
+                imagesTable.Add(new ImageTable
+                {
+                    Id = imageId,
+                    CityId = cityId,
+                    Path = imagePath,
+                    ThumbnailPath = thumbnailPath
+                });
+            });
+
+            await _dbContext.Images.AddRangeAsync(imagesTable);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public Task<int> GetNumberOfImagesAsync(Guid cityId) => 
+            _dbContext.Images.Where(image => image.CityId == cityId).CountAsync();
     }
 }

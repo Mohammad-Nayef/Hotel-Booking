@@ -1,4 +1,5 @@
 ﻿using HotelBooking.Domain.Models;
+using SixLabors.ImageSharp;
 
 namespace HotelBooking.Domain.Abstractions.Services
 {
@@ -14,5 +15,6 @@ namespace HotelBooking.Domain.Abstractions.Services
         Task<IEnumerable<CityForAdminDTO>> SearchByCityForAdminByPageAsync(
             PaginationDTO pagination, string searchQuery);
         Task<int> GetSearchByCityForAdminCountAsync(string searchQuery);
+        Task AddImagesForCityAsync(Guid cityId, IEnumerable<Image> images);
     }
 }

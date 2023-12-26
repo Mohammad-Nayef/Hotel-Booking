@@ -2,7 +2,10 @@
 using FluentValidation;
 using HotelBooking.Domain.Abstractions.Repositories;
 using HotelBooking.Domain.Abstractions.Services;
+using HotelBooking.Domain.Constants;
+using HotelBooking.Domain.Exceptions;
 using HotelBooking.Domain.Models;
+using SixLabors.ImageSharp;
 
 namespace HotelBooking.Application.Services
 {
@@ -11,15 +14,18 @@ namespace HotelBooking.Application.Services
         private readonly ICityRepository _cityRepository;
         private readonly IValidator<CityDTO> _cityValidator;
         private readonly IValidator<PaginationDTO> _paginationValidator;
+        private readonly IValidator<IEnumerable<Image>> _imagesValidator;
 
         public CityService(
             ICityRepository cityRepository,
             IValidator<CityDTO> cityValidator,
-            IValidator<PaginationDTO> paginationValidator)
+            IValidator<PaginationDTO> paginationValidator,
+            IValidator<IEnumerable<Image>> imagesValidator)
         {
             _cityRepository = cityRepository;
             _cityValidator = cityValidator;
             _paginationValidator = paginationValidator;
+            _imagesValidator = imagesValidator;
         }
 
         public async Task<Guid> AddAsync(CityDTO city)
@@ -86,7 +92,7 @@ namespace HotelBooking.Application.Services
                 ToSearchExpression(searchQuery));
         }
 
-        private Expression<Func<CityForAdminDTO, bool>> ToSearchExpression(string searchQuery) 
+        private Expression<Func<CityForAdminDTO, bool>> ToSearchExpression(string searchQuery)
         {
             searchQuery = searchQuery.ToLower();
 
@@ -97,5 +103,23 @@ namespace HotelBooking.Application.Services
 
         public Task<int> GetSearchByCityForAdminCountAsync(string searchQuery) =>
             _cityRepository.GetSearchByCityForAdminCountAsync(ToSearchExpression(searchQuery));
+
+        public async Task AddImagesForCityAsync(Guid cityId, IEnumerable<Image> images)
+        {
+            await _imagesValidator.ValidateAndThrowAsync(images);
+            await ValidateIdAsync(cityId);
+            await ValidateNumberOfImagesForCityAsync(cityId, images.Count());
+
+            await _cityRepository.AddImagesAsync(cityId, images);
+        }
+
+        private async Task ValidateNumberOfImagesForCityAsync(Guid cityId, int numberOfImagesToAdd)
+        {
+            var numberOfStoredImages = await _cityRepository.GetNumberOfImagesAsync(cityId);
+
+            if (numberOfStoredImages + numberOfImagesToAdd >
+                    ImagesConstants.MaxNumberOfImagesPerEntity)
+                throw new EntityImagesLimitExceededException();
+        }
     }
 }
