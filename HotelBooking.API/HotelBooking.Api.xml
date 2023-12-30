@@ -96,6 +96,14 @@
             <param name="newHotel">Properties of the new hotel.</param>
             <response code="201">Returns the hotel with a new Id and its URI in response headers.</response>
         </member>
+        <member name="M:HotelBooking.Api.Controllers.HotelController.PostHotelImages(System.Guid,System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
+            <summary>
+            Add images for a hotel.
+            </summary>
+            <param name="hotelId">Id of the hotel to add images for.</param>        
+            <response code="404">The hotel with the given Id doesn't exist.</response>
+            <response code="204">The images are successfully added.</response>
+        </member>
         <member name="M:HotelBooking.Api.Controllers.HotelController.DeleteAsync(System.Guid)">
             <summary>
             Delete a hotel with a specific Id.

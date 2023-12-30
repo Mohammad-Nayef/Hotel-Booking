@@ -11,6 +11,7 @@ namespace HotelBooking.Db.Repositories
         private readonly HotelsBookingDbContext _dbContext;
         private const string ThumbnailsPath = "Thumbnails";
         private const string CitiesPath = "Cities";
+        private const string HotelsPath = "Hotels";
         private const int MinThumbnailLength = 200;
 
         public ImageRepository(HotelsBookingDbContext dbContext)
@@ -24,7 +25,8 @@ namespace HotelBooking.Db.Repositories
 
             images.ToList().ForEach(image =>
             {
-                GenerateImage(image, CitiesPath, out var imageId, out var imagePath, out var thumbnailPath);
+                GenerateImage(
+                    image, CitiesPath, out var imageId, out var imagePath, out var thumbnailPath);
 
                 imagesTable.Add(new ImageTable
                 {
@@ -83,6 +85,27 @@ namespace HotelBooking.Db.Repositories
                 thumbnail.Mutate(thumbnail => thumbnail.Resize(0, MinThumbnailLength));
 
             return thumbnail;
+        }
+
+        public async Task AddForHotelAsync(Guid hotelId, IEnumerable<Image> images)
+        {
+            var imagesTable = new List<ImageTable>();
+
+            images.ToList().ForEach(image =>
+            {
+                GenerateImage(
+                    image, HotelsPath, out var imageId, out var imagePath, out var thumbnailPath);
+
+                imagesTable.Add(new ImageTable
+                {
+                    Id = imageId,
+                    HotelId = hotelId,
+                    Path = imagePath,
+                    ThumbnailPath = thumbnailPath
+                });
+            });
+
+            await PersistAsync(imagesTable);
         }
     }
 }

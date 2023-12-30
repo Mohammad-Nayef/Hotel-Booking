@@ -2,6 +2,8 @@
 using FluentValidation;
 using HotelBooking.Domain.Abstractions.Repositories;
 using HotelBooking.Domain.Abstractions.Services;
+using HotelBooking.Domain.Constants;
+using HotelBooking.Domain.Exceptions;
 using HotelBooking.Domain.Models;
 using SixLabors.ImageSharp;
 
@@ -12,15 +14,18 @@ namespace HotelBooking.Application.Services
         private readonly IHotelRepository _hotelRepository;
         private readonly IValidator<PaginationDTO> _paginationValidator;
         private readonly IValidator<HotelDTO> _hotelValidator;
+        private readonly IImageService _imageService;
 
         public HotelService(
             IHotelRepository hotelRepository,
             IValidator<PaginationDTO> paginationValidator,
-            IValidator<HotelDTO> hotelValidator)
+            IValidator<HotelDTO> hotelValidator,
+            IImageService imageService)
         {
             _hotelRepository = hotelRepository;
             _paginationValidator = paginationValidator;
             _hotelValidator = hotelValidator;
+            _imageService = imageService;
         }
 
         public async Task<Guid> AddAsync(HotelDTO hotel)
@@ -99,9 +104,21 @@ namespace HotelBooking.Application.Services
         public Task<int> GetSearchByHotelForAdminCountAsync(string searchQuery) =>
             _hotelRepository.GetSearchByHotelForAdminCountAsync(ToSearchExpression(searchQuery));
 
-        public Task AddImagesForHotelAsync(Guid hotelId, IEnumerable<Image> images)
+        public async Task AddImagesForHotelAsync(Guid hotelId, IEnumerable<Image> images)
         {
-            throw new NotImplementedException();
+            await ValidateIdAsync(hotelId);
+            await ValidateNumberOfImagesForHotelAsync(hotelId, images.Count());
+
+            await _imageService.AddForHotelAsync(hotelId, images);
+        }
+        private async Task ValidateNumberOfImagesForHotelAsync(
+            Guid hotelId, int numberOfImagesToAdd)
+        {
+            var numberOfStoredImages = await _hotelRepository.GetNumberOfImagesAsync(hotelId);
+
+            if (numberOfStoredImages + numberOfImagesToAdd > 
+                    ImagesConstants.MaxNumberOfImagesPerEntity)
+                throw new EntityImagesLimitExceededException();
         }
     }
 }

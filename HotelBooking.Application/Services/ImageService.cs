@@ -20,8 +20,13 @@ namespace HotelBooking.Application.Services
         public async Task AddForCityAsync(Guid cityId, IEnumerable<Image> images)
         {
             await _imagesValidator.ValidateAndThrowAsync(images);
-
             await _imageRepository.AddForCityAsync(cityId, images);
+        }
+
+        public async Task AddForHotelAsync(Guid hotelId, IEnumerable<Image> images)
+        {
+            await _imagesValidator.ValidateAndThrowAsync(images);
+            await _imageRepository.AddForHotelAsync(hotelId, images);
         }
     }
 }
