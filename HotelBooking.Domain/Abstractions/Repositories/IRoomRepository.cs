@@ -18,5 +18,6 @@ namespace HotelBooking.Domain.Abstractions.Repositories
             Expression<Func<RoomForAdminDTO, bool>> searchExpression);
         Task<int> GetSearchByRoomForAdminCountAsync(
             Expression<Func<RoomForAdminDTO, bool>> searchExpression);
+        Task<int> GetNumberOfImagesAsync(Guid roomId);
     }
 }

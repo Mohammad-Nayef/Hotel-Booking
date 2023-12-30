@@ -6,5 +6,6 @@ namespace HotelBooking.Domain.Abstractions.Repositories
     {
         Task AddForCityAsync(Guid cityId, IEnumerable<Image> images);
         Task AddForHotelAsync(Guid hotelId, IEnumerable<Image> images);
+        Task AddForRoomAsync(Guid roomId, IEnumerable<Image> images);
     }
 }

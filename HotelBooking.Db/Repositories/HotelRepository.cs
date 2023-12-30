@@ -88,6 +88,5 @@ namespace HotelBooking.Db.Repositories
 
         public Task<int> GetNumberOfImagesAsync(Guid hotelId) => 
             _dbContext.Images.Where(image => image.HotelId == hotelId).CountAsync();
-
     }
 }

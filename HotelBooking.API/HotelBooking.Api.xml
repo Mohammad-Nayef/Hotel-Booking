@@ -136,6 +136,14 @@
             <param name="newRoom">Properties of the new room.</param>
             <response code="201">Returns the room with a new Id and its URI in response headers.</response>
         </member>
+        <member name="M:HotelBooking.Api.Controllers.RoomController.PostRoomImages(System.Guid,System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
+            <summary>
+            Add images for a room.
+            </summary>
+            <param name="roomId">Id of the room to add images for.</param>        
+            <response code="404">The room with the given Id doesn't exist.</response>
+            <response code="204">The images are successfully added.</response>
+        </member>
         <member name="M:HotelBooking.Api.Controllers.RoomController.DeleteAsync(System.Guid)">
             <summary>
             Delete a room with a specific Id.

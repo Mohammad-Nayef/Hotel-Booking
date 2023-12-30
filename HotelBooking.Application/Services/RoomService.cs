@@ -2,7 +2,10 @@
 using FluentValidation;
 using HotelBooking.Domain.Abstractions.Repositories;
 using HotelBooking.Domain.Abstractions.Services;
+using HotelBooking.Domain.Constants;
+using HotelBooking.Domain.Exceptions;
 using HotelBooking.Domain.Models;
+using SixLabors.ImageSharp;
 
 namespace HotelBooking.Application.Services
 {
@@ -11,15 +14,18 @@ namespace HotelBooking.Application.Services
         private readonly IRoomRepository _roomRepository;
         private readonly IValidator<PaginationDTO> _paginationValidator;
         private readonly IValidator<RoomDTO> _roomValidator;
+        private readonly IImageService _imageService;
 
         public RoomService(
             IRoomRepository roomRepository,
             IValidator<PaginationDTO> paginationValidator,
-            IValidator<RoomDTO> roomValidator)
+            IValidator<RoomDTO> roomValidator,
+            IImageService imageService)
         {
             _roomRepository = roomRepository;
             _paginationValidator = paginationValidator;
             _roomValidator = roomValidator;
+            _imageService = imageService;
         }
 
         public async Task<Guid> AddAsync(RoomDTO newRoom)
@@ -97,5 +103,22 @@ namespace HotelBooking.Application.Services
 
         public Task<int> GetSearchByRoomForAdminCountAsync(string searchQuery) =>
             _roomRepository.GetSearchByRoomForAdminCountAsync(ToSearchExpression(searchQuery));
+
+        public async Task AddImagesForRoomAsync(Guid roomId, IEnumerable<Image> images)
+        {
+            await ValidateIdAsync(roomId);
+            await ValidateNumberOfImagesForRoomAsync(roomId, images.Count());
+
+            await _imageService.AddForRoomAsync(roomId, images);
+        }
+
+        private async Task ValidateNumberOfImagesForRoomAsync(Guid roomId, int numberOfImagesToAdd)
+        {
+            var numberOfStoredImages = await _roomRepository.GetNumberOfImagesAsync(roomId);
+
+            if (numberOfStoredImages + numberOfImagesToAdd > 
+                ImagesConstants.MaxNumberOfImagesPerEntity)
+                throw new EntityImagesLimitExceededException();
+        }
     }
 }

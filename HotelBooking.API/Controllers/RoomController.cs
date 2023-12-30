@@ -4,10 +4,12 @@ using HotelBooking.Api.Extensions;
 using HotelBooking.Api.Models;
 using HotelBooking.Domain.Abstractions.Services;
 using HotelBooking.Domain.Constants;
+using HotelBooking.Domain.Exceptions;
 using HotelBooking.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using SixLabors.ImageSharp;
 
 namespace HotelBooking.Api.Controllers
 {
@@ -52,6 +54,44 @@ namespace HotelBooking.Api.Controllers
             createdRoom.Id = newId;
 
             return Created($"api/rooms/{newId}", createdRoom);
+        }
+
+        /// <summary>
+        /// Add images for a room.
+        /// </summary>
+        /// <param name="roomId">Id of the room to add images for.</param>        
+        /// <response code="404">The room with the given Id doesn't exist.</response>
+        /// <response code="204">The images are successfully added.</response>
+        [HttpPost("{roomId}/images")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<IActionResult> PostRoomImages(Guid roomId, List<IFormFile> imagesForms)
+        {
+            try
+            {
+                var images = imagesForms.ToImages();
+                await _roomService.AddImagesForRoomAsync(roomId, images);
+            }
+            catch (UnknownImageFormatException)
+            {
+                return BadRequest("Invalid image format.");
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.GetErrorsForClient());
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (EntityImagesLimitExceededException ex)
+            {
+                return BadRequest(
+                    $"The limit of the allowed images per entity ({ex.ExceededLimit}) is exceeded");
+            }
+
+            return Created();
         }
 
         /// <summary>

@@ -2,6 +2,7 @@
 using AutoMapper;
 using HotelBooking.Db.Tables;
 using HotelBooking.Domain.Abstractions.Repositories;
+using HotelBooking.Domain.Entities;
 using HotelBooking.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -78,5 +79,8 @@ namespace HotelBooking.Db.Repositories
             _dbContext.Rooms.Update(_mapper.Map<RoomTable>(room));
             await _dbContext.SaveChangesAsync();
         }
+
+        public Task<int> GetNumberOfImagesAsync(Guid roomId) =>
+            _dbContext.Images.Where(image => image.RoomId == roomId).CountAsync();
     }
 }
