@@ -117,7 +117,7 @@ namespace HotelBooking.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(IEnumerable<CityForAdminDTO>), StatusCodes.Status200OK)]
         public async Task<IActionResult> SearchCitiesForAdminAsync(
-            [FromQuery] PaginationDTO pagination, [FromBody] string search)
+            [FromQuery] PaginationDTO pagination, string search)
         {
             IEnumerable<CityForAdminDTO> cities;
 
@@ -145,7 +145,7 @@ namespace HotelBooking.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(IEnumerable<HotelForAdminDTO>), StatusCodes.Status200OK)]
         public async Task<IActionResult> SearchHotelsForAdminAsync(
-            [FromQuery] PaginationDTO pagination, [FromBody] string search)
+            [FromQuery] PaginationDTO pagination, string search)
         {
             IEnumerable<HotelForAdminDTO> hotels;
 
@@ -174,7 +174,7 @@ namespace HotelBooking.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(IEnumerable<RoomForAdminDTO>), StatusCodes.Status200OK)]
         public async Task<IActionResult> SearchRoomsForAdminAsync(
-            [FromQuery] PaginationDTO pagination, [FromBody] string search)
+            [FromQuery] PaginationDTO pagination, string search)
         {
             IEnumerable<RoomForAdminDTO> rooms;
 
