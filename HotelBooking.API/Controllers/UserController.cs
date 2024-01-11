@@ -21,17 +21,20 @@ namespace HotelBooking.Api.Controllers
         private readonly ICartItemService _cartItemService;
         private readonly IBookingService _bookingService;
         private readonly IHotelReviewService _hotelReviewService;
+        private readonly IHotelService _hotelService;
 
         public UserController(
-            IMapper mapper, 
-            ICartItemService cartItemService, 
+            IMapper mapper,
+            ICartItemService cartItemService,
             IBookingService bookingService,
-            IHotelReviewService hotelReviewService)
+            IHotelReviewService hotelReviewService,
+            IHotelService hotelService)
         {
             _mapper = mapper;
             _cartItemService = cartItemService;
             _bookingService = bookingService;
             _hotelReviewService = hotelReviewService;
+            _hotelService = hotelService;
         }
 
         /// <summary>
@@ -48,7 +51,7 @@ namespace HotelBooking.Api.Controllers
         {
             Guid newId;
             newCartItem.UserId = userId;
-            
+
             try
             {
                 newId = await _cartItemService.AddAsync(_mapper.Map<CartItemDTO>(newCartItem));
@@ -148,6 +151,30 @@ namespace HotelBooking.Api.Controllers
             }
 
             return Created();
+        }
+
+        /// <summary>
+        /// Get a paginated list of featured hotels.
+        /// </summary>
+        /// <response code="200">Returns the list of featured hotels.</response>
+        [HttpGet("hotels/featured")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetFeaturedHotelsAsync(
+            [FromQuery] PaginationDTO pagination)
+        {
+            IEnumerable<FeaturedHotelDTO> featuredHotels;
+
+            try
+            {
+                featuredHotels = await _hotelService.GetFeaturedHotelsByPageAsync(pagination);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.GetErrorsForClient());
+            }
+
+            return Ok(featuredHotels);
         }
     }
 }

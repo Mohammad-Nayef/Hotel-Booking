@@ -65,7 +65,7 @@ namespace HotelBooking.Db.Repositories
         private (string, string) GetFullPaths(string entityPath, Image image, Guid imageId)
         {
             Directory.CreateDirectory($"{_mainDirectory}\\{entityPath}");
-            var imagePath = 
+            var imagePath =
                 $"{_mainDirectory}\\{entityPath}\\{imageId}.{image.Metadata.DecodedImageFormat.Name}";
 
             Directory.CreateDirectory($"{_mainDirectory}\\{entityPath}\\{ThumbnailsPath}");

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HotelBooking.Db.Extensions;
 using HotelBooking.Db.Tables;
 using HotelBooking.Domain.Models;
 
@@ -10,6 +11,16 @@ namespace HotelBooking.Db.Profiles
         {
             CreateMap<HotelDTO, HotelTable>()
                 .ReverseMap();
+
+            CreateMap<HotelTable, FeaturedHotelDTO>()
+                .ForMember(dest => dest.ThumbnailId, opt =>
+                    opt.MapFrom(src => src.Images.FirstOrDefault().Id))
+                .ForMember(dest => dest.CurrentDiscount, opt =>
+                    opt.MapFrom(src => src.Discounts.GetHighestActive()))
+                .ForMember(dest => dest.CityName, opt =>
+                    opt.MapFrom(src => src.City.Name))
+                .ForMember(dest => dest.CountryName, opt =>
+                    opt.MapFrom(src => src.City.CountryName));
         }
     }
 }

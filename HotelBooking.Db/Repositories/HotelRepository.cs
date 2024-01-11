@@ -1,8 +1,8 @@
 ﻿using System.Linq.Expressions;
 using AutoMapper;
+using HotelBooking.Db.Extensions;
 using HotelBooking.Db.Tables;
 using HotelBooking.Domain.Abstractions.Repositories;
-using HotelBooking.Domain.Entities;
 using HotelBooking.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -37,7 +37,7 @@ namespace HotelBooking.Db.Repositories
         public Task<bool> ExistsAsync(Guid id) =>
             _dbContext.Hotels.AnyAsync(hotel => hotel.Id == id);
 
-        public async Task<HotelDTO> GetByIdAsync(Guid id) => 
+        public async Task<HotelDTO> GetByIdAsync(Guid id) =>
             _mapper.Map<HotelDTO>(await _dbContext.Hotels
                 .AsNoTracking()
                 .FirstOrDefaultAsync());
@@ -86,7 +86,22 @@ namespace HotelBooking.Db.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public Task<int> GetNumberOfImagesAsync(Guid hotelId) => 
+        public Task<int> GetNumberOfImagesAsync(Guid hotelId) =>
             _dbContext.Images.Where(image => image.HotelId == hotelId).CountAsync();
+
+        public IEnumerable<FeaturedHotelDTO> GetHotelsWithActiveDiscountsByPage(
+            int itemsToSkip, int itemsToTake)
+        {
+            var hotels = _dbContext.Hotels
+                .Include(hotel => hotel.City)
+                .Include(hotel => hotel.Discounts)
+                .Include(hotel => hotel.Images)
+                .AsEnumerable()
+                .Where(hotel => hotel.Discounts.HasActiveDiscount())
+                .Skip(itemsToSkip)
+                .Take(itemsToTake);
+
+            return _mapper.Map<IEnumerable<FeaturedHotelDTO>>(hotels);
+        }
     }
 }

@@ -69,7 +69,7 @@ namespace HotelBooking.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> PostHotelImages(Guid hotelId, List<IFormFile> imagesForms)
+        public async Task<IActionResult> PostHotelImagesAsync(Guid hotelId, List<IFormFile> imagesForms)
         {
             try
             {

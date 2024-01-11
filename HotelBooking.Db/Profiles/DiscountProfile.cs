@@ -8,7 +8,8 @@ namespace HotelBooking.Db.Profiles
     {
         public DiscountProfile()
         {
-            CreateMap<DiscountDTO, DiscountTable>();
+            CreateMap<DiscountDTO, DiscountTable>()
+                .ReverseMap();
         }
     }
 }

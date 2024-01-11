@@ -92,14 +92,10 @@ namespace HotelBooking.Application.Services
                 ToSearchExpression(searchQuery));
         }
 
-        private Expression<Func<HotelForAdminDTO, bool>> ToSearchExpression(string searchQuery)
-        {
-            searchQuery = searchQuery.ToLower();
-
-            return hotel =>
-                hotel.Name.ToLower().Contains(searchQuery) ||
-                hotel.OwnerName.ToLower().Contains(searchQuery);
-        }
+        private Expression<Func<HotelForAdminDTO, bool>> ToSearchExpression(string searchQuery) =>
+            hotel =>
+                hotel.Name.Contains(searchQuery, StringComparison.CurrentCultureIgnoreCase) ||
+                hotel.OwnerName.Contains(searchQuery, StringComparison.CurrentCultureIgnoreCase);
 
         public Task<int> GetSearchByHotelForAdminCountAsync(string searchQuery) =>
             _hotelRepository.GetSearchByHotelForAdminCountAsync(ToSearchExpression(searchQuery));
@@ -119,6 +115,16 @@ namespace HotelBooking.Application.Services
             if (numberOfStoredImages + numberOfImagesToAdd > 
                     ImagesConstants.MaxNumberOfImagesPerEntity)
                 throw new EntityImagesLimitExceededException();
+        }
+
+        public async Task<IEnumerable<FeaturedHotelDTO>> GetFeaturedHotelsByPageAsync(
+            PaginationDTO pagination)
+        {
+            await _paginationValidator.ValidateAndThrowAsync(pagination);
+
+            return _hotelRepository.GetHotelsWithActiveDiscountsByPage(
+                (pagination.PageNumber - 1) * pagination.PageSize,
+                pagination.PageSize);
         }
     }
 }

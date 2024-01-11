@@ -64,7 +64,7 @@
             <param name="newCity">Properties of the new city.</param>
             <response code="201">Returns the city with a new Id and its URI in response headers.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.CityController.PostCityImages(System.Guid,System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
+        <member name="M:HotelBooking.Api.Controllers.CityController.PostCityImagesAsync(System.Guid,System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
             <summary>
             Add images for a city.
             </summary>
@@ -96,7 +96,7 @@
             <param name="newHotel">Properties of the new hotel.</param>
             <response code="201">Returns the hotel with a new Id and its URI in response headers.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.HotelController.PostHotelImages(System.Guid,System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
+        <member name="M:HotelBooking.Api.Controllers.HotelController.PostHotelImagesAsync(System.Guid,System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
             <summary>
             Add images for a hotel.
             </summary>
@@ -136,7 +136,7 @@
             <param name="newRoom">Properties of the new room.</param>
             <response code="201">Returns the room with a new Id and its URI in response headers.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.RoomController.PostRoomImages(System.Guid,System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
+        <member name="M:HotelBooking.Api.Controllers.RoomController.PostRoomImagesAsync(System.Guid,System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
             <summary>
             Add images for a room.
             </summary>
