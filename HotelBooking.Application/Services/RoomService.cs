@@ -92,10 +92,14 @@ namespace HotelBooking.Application.Services
                 ToSearchExpression(searchQuery));
         }
 
-        private Expression<Func<RoomForAdminDTO, bool>> ToSearchExpression(string searchQuery) =>
-            room =>
-                room.Type.Contains(searchQuery, StringComparison.CurrentCultureIgnoreCase) ||
+        private Expression<Func<RoomForAdminDTO, bool>> ToSearchExpression(string searchQuery)
+        {
+            searchQuery = searchQuery.ToLower();
+
+            return room =>
+                room.Type.ToLower().Contains(searchQuery) ||
                 room.Number.ToString().Contains(searchQuery);
+        }
 
         public Task<int> GetSearchByRoomForAdminCountAsync(string searchQuery) =>
             _roomRepository.GetSearchByRoomForAdminCountAsync(ToSearchExpression(searchQuery));

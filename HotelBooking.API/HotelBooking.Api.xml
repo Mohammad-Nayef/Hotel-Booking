@@ -192,5 +192,11 @@
             <param name="newReview">Properties of the new review.</param>
             <response code="201">The review is created successfully.</response>
         </member>
+        <member name="M:HotelBooking.Api.Controllers.UserController.GetFeaturedHotelsAsync(HotelBooking.Domain.Models.PaginationDTO)">
+            <summary>
+            Get a paginated list of featured hotels.
+            </summary>
+            <response code="200">Returns the list of featured hotels.</response>
+        </member>
     </members>
 </doc>
