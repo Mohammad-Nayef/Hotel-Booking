@@ -17,5 +17,9 @@ namespace HotelBooking.Domain.Abstractions.Services
         Task<int> GetSearchByHotelForAdminCountAsync(string searchQuery);
         Task AddImagesForHotelAsync(Guid hotelId, IEnumerable<Image> images);
         Task<IEnumerable<FeaturedHotelDTO>> GetFeaturedHotelsByPageAsync(PaginationDTO pagination);
+        Task<IEnumerable<HotelForUserDTO>> SearchForUserByPageAsync(
+            HotelSearchDTO hotelSearch, PaginationDTO pagination);
+        int GetSearchForUserCount(HotelSearchDTO hotelSearch);
+        int GetFeaturedHotelsCount();
     }
 }

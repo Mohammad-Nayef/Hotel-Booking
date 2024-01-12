@@ -21,6 +21,10 @@ namespace HotelBooking.Db.Profiles
                     opt.MapFrom(src => src.City.Name))
                 .ForMember(dest => dest.CountryName, opt =>
                     opt.MapFrom(src => src.City.CountryName));
+
+            CreateMap<HotelTable, HotelForUserDTO>()
+                .ForMember(dest => dest.ThumbnailId, opt =>
+                    opt.MapFrom(src => src.Images.FirstOrDefault().Id));
         }
     }
 }

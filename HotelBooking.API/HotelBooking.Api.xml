@@ -198,5 +198,12 @@
             </summary>
             <response code="200">Returns the list of featured hotels.</response>
         </member>
+        <member name="M:HotelBooking.Api.Controllers.UserController.HotelsSearchAsync(HotelBooking.Domain.Models.PaginationDTO,HotelBooking.Domain.Models.HotelSearchDTO)">
+            <summary>
+            Global search method for paginated list of hotels by user.
+            </summary>
+            <param name="hotelSearch">Search criteria properties.</param>
+            <response code="200">Returns the list of relevant hotels.</response>
+        </member>
     </members>
 </doc>

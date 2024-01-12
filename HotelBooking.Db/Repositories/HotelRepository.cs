@@ -92,16 +92,98 @@ namespace HotelBooking.Db.Repositories
         public IEnumerable<FeaturedHotelDTO> GetHotelsWithActiveDiscountsByPage(
             int itemsToSkip, int itemsToTake)
         {
-            var hotels = _dbContext.Hotels
-                .Include(hotel => hotel.City)
-                .Include(hotel => hotel.Discounts)
-                .Include(hotel => hotel.Images)
-                .AsEnumerable()
-                .Where(hotel => hotel.Discounts.HasActiveDiscount())
+            var hotels = GetHotelsWithActiveDiscounts()
                 .Skip(itemsToSkip)
                 .Take(itemsToTake);
 
             return _mapper.Map<IEnumerable<FeaturedHotelDTO>>(hotels);
+        }
+
+        private IEnumerable<HotelTable> GetHotelsWithActiveDiscounts()
+        {
+            return _dbContext.Hotels
+                .Include(hotel => hotel.City)
+                .Include(hotel => hotel.Discounts)
+                .Include(hotel => hotel.Images)
+                .AsEnumerable()
+                .Where(hotel => hotel.Discounts.HasActiveDiscount());
+        }
+
+        public int GetHotelsWithActiveDiscountsCount()
+        {
+            var hotels = GetHotelsWithActiveDiscounts();
+
+            if (hotels.TryGetNonEnumeratedCount(out var count))
+                return count;
+
+            return hotels.Count();
+        }
+
+        public IEnumerable<HotelForUserDTO> SearchForUserByPage(
+            HotelSearchDTO hotelSearch, int itemsToSkip, int itemsToTake)
+        {
+            var hotels = GetSearchResultHotels(hotelSearch)
+                .Skip(itemsToSkip)
+                .Take(itemsToTake);
+
+            return _mapper.Map<IEnumerable<HotelForUserDTO>>(hotels);
+        }
+
+        public int GetSearchForUserCount(HotelSearchDTO hotelSearch)
+        {
+            var hotels = GetSearchResultHotels(hotelSearch);
+
+            if (hotels.TryGetNonEnumeratedCount(out var count))
+                return count;
+
+            return hotels.Count();
+        }
+
+        private IEnumerable<HotelTable> GetSearchResultHotels(HotelSearchDTO hotelSearch)
+        {
+            var searchString = hotelSearch.SearchQuery.ToLower();
+            var roomsType = hotelSearch.RoomsType.ToLower();
+
+            var hotels = _dbContext.Hotels
+                .Include(hotel => hotel.City)
+                .Include(hotel => hotel.Images)
+                .Include(hotel => hotel.Rooms)
+                .Where(HasTextSimilarity(searchString))
+                .AsEnumerable()
+                .Where(HasValidRoom(hotelSearch, roomsType))
+                .Where(hotel => hotel.Rooms.Count() >= hotelSearch.NumberOfRooms);
+            return hotels;
+        }
+
+        private static Func<HotelTable, bool> HasValidRoom(
+            HotelSearchDTO hotelSearch, string roomsType)
+        {
+            return hotel => hotel.Rooms
+                .Exists(room =>
+                    room.AdultsCapacity >= hotelSearch.NumberOfAdults &&
+                    room.ChildrenCapacity >= hotelSearch.NumberOfChildren &&
+                    room.PricePerNight.IsBetweenInclusive(
+                        hotelSearch.MinRoomPrice, hotelSearch.MaxRoomPrice) &&
+                    room.Type.ToLower().Contains(roomsType) &&
+                    IsNotBookedInTheNeededInterval(hotelSearch, room));
+        }
+
+        private static bool IsNotBookedInTheNeededInterval(
+            HotelSearchDTO hotelSearch, RoomTable room)
+        {
+            return room.Bookings.TrueForAll(booking =>
+                !booking.IntersectsWith(hotelSearch.CheckinDate, hotelSearch.CheckoutDate));
+        }
+
+        private static Expression<Func<HotelTable, bool>> HasTextSimilarity(string searchString)
+        {
+            return hotel =>
+                hotel.Name.ToLower().Contains(searchString) ||
+                hotel.BriefDescription.ToLower().Contains(searchString) ||
+                hotel.Rooms.Any(room =>
+                    room.BriefDescription.ToLower().Contains(searchString)) ||
+                hotel.City.Name.ToLower().Contains(searchString) ||
+                hotel.City.CountryName.ToLower().Contains(searchString);
         }
     }
 }

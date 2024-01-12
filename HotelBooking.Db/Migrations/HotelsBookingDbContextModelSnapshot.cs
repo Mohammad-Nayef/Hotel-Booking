@@ -22,34 +22,6 @@ namespace HotelBooking.Db.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("HotelBooking.Db.Entities.HotelReviewTable", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("HotelId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("HotelId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("HotelReviews");
-                });
-
             modelBuilder.Entity("HotelBooking.Db.Tables.BookingTable", b =>
                 {
                     b.Property<Guid>("Id")
@@ -161,6 +133,34 @@ namespace HotelBooking.Db.Migrations
                     b.ToTable("Discounts");
                 });
 
+            modelBuilder.Entity("HotelBooking.Db.Tables.HotelReviewTable", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("HotelId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HotelId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("HotelReviews");
+                });
+
             modelBuilder.Entity("HotelBooking.Db.Tables.HotelTable", b =>
                 {
                     b.Property<Guid>("Id")
@@ -216,9 +216,6 @@ namespace HotelBooking.Db.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("HotelId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("LocationId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Path")
@@ -462,25 +459,6 @@ namespace HotelBooking.Db.Migrations
                     b.ToTable("RoleTableUserTable");
                 });
 
-            modelBuilder.Entity("HotelBooking.Db.Entities.HotelReviewTable", b =>
-                {
-                    b.HasOne("HotelBooking.Db.Tables.HotelTable", "Hotel")
-                        .WithMany("Reviews")
-                        .HasForeignKey("HotelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HotelBooking.Db.Tables.UserTable", "User")
-                        .WithMany("Reviews")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Hotel");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("HotelBooking.Db.Tables.BookingTable", b =>
                 {
                     b.HasOne("HotelBooking.Db.Tables.RoomTable", "Room")
@@ -528,6 +506,25 @@ namespace HotelBooking.Db.Migrations
                         .IsRequired();
 
                     b.Navigation("Hotel");
+                });
+
+            modelBuilder.Entity("HotelBooking.Db.Tables.HotelReviewTable", b =>
+                {
+                    b.HasOne("HotelBooking.Db.Tables.HotelTable", "Hotel")
+                        .WithMany("Reviews")
+                        .HasForeignKey("HotelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HotelBooking.Db.Tables.UserTable", "User")
+                        .WithMany("Reviews")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Hotel");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("HotelBooking.Db.Tables.HotelTable", b =>

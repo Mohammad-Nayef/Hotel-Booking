@@ -40,6 +40,7 @@ namespace HotelBooking.Application.Extensions.DependencyInjection
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IValidator<IEnumerable<Image>>, ImagesValidator>();
             services.AddScoped<IAuthTokenProcessor, AuthTokenProcessor>();
+            services.AddScoped<IValidator<HotelSearchDTO>, HotelSearchValidator>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {

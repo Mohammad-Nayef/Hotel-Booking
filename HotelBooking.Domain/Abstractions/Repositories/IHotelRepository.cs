@@ -21,5 +21,10 @@ namespace HotelBooking.Domain.Abstractions.Repositories
         Task<int> GetNumberOfImagesAsync(Guid hotelId);
         IEnumerable<FeaturedHotelDTO> GetHotelsWithActiveDiscountsByPage(
             int itemsToSkip, int itemsToTake);
+        IEnumerable<HotelForUserDTO> SearchForUserByPage(
+            HotelSearchDTO hotelSearch, int itemsToSkip, int itemsToTake);
+
+        int GetSearchForUserCount(HotelSearchDTO hotelSearch);
+        int GetHotelsWithActiveDiscountsCount();
     }
 }

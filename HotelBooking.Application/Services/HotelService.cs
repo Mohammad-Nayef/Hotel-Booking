@@ -15,17 +15,20 @@ namespace HotelBooking.Application.Services
         private readonly IValidator<PaginationDTO> _paginationValidator;
         private readonly IValidator<HotelDTO> _hotelValidator;
         private readonly IImageService _imageService;
+        private readonly IValidator<HotelSearchDTO> _hotelSearchValidator;
 
         public HotelService(
             IHotelRepository hotelRepository,
             IValidator<PaginationDTO> paginationValidator,
             IValidator<HotelDTO> hotelValidator,
-            IImageService imageService)
+            IImageService imageService,
+            IValidator<HotelSearchDTO> hotelSearchValidator)
         {
             _hotelRepository = hotelRepository;
             _paginationValidator = paginationValidator;
             _hotelValidator = hotelValidator;
             _imageService = imageService;
+            _hotelSearchValidator = hotelSearchValidator;
         }
 
         public async Task<Guid> AddAsync(HotelDTO hotel)
@@ -89,10 +92,11 @@ namespace HotelBooking.Application.Services
             return _hotelRepository.SearchByHotelForAdminByPage(
                 (pagination.PageNumber - 1) * pagination.PageSize,
                 pagination.PageSize,
-                ToSearchExpression(searchQuery));
+                ToAdminSearchExpression(searchQuery));
         }
 
-        private Expression<Func<HotelForAdminDTO, bool>> ToSearchExpression(string searchQuery) 
+        private Expression<Func<HotelForAdminDTO, bool>> ToAdminSearchExpression(
+            string searchQuery) 
         {
             searchQuery = searchQuery.ToLower();
 
@@ -102,7 +106,7 @@ namespace HotelBooking.Application.Services
         }
 
         public Task<int> GetSearchByHotelForAdminCountAsync(string searchQuery) =>
-            _hotelRepository.GetSearchByHotelForAdminCountAsync(ToSearchExpression(searchQuery));
+            _hotelRepository.GetSearchByHotelForAdminCountAsync(ToAdminSearchExpression(searchQuery));
 
         public async Task AddImagesForHotelAsync(Guid hotelId, IEnumerable<Image> images)
         {
@@ -111,6 +115,7 @@ namespace HotelBooking.Application.Services
 
             await _imageService.AddForHotelAsync(hotelId, images);
         }
+
         private async Task ValidateNumberOfImagesForHotelAsync(
             Guid hotelId, int numberOfImagesToAdd)
         {
@@ -130,5 +135,23 @@ namespace HotelBooking.Application.Services
                 (pagination.PageNumber - 1) * pagination.PageSize,
                 pagination.PageSize);
         }
+
+        public async Task<IEnumerable<HotelForUserDTO>> SearchForUserByPageAsync(
+            HotelSearchDTO hotelSearch, PaginationDTO pagination)
+        {
+            await _paginationValidator.ValidateAndThrowAsync(pagination);
+            await _hotelSearchValidator.ValidateAndThrowAsync(hotelSearch);
+
+            return _hotelRepository.SearchForUserByPage(
+                hotelSearch,
+                (pagination.PageNumber - 1) * pagination.PageSize,
+                pagination.PageSize);
+        }
+
+        public int GetSearchForUserCount(HotelSearchDTO hotelSearch) =>
+            _hotelRepository.GetSearchForUserCount(hotelSearch);
+
+        public int GetFeaturedHotelsCount() =>
+            _hotelRepository.GetHotelsWithActiveDiscountsCount();
     }
 }

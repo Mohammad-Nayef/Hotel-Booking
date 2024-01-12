@@ -159,22 +159,55 @@ namespace HotelBooking.Api.Controllers
         /// <response code="200">Returns the list of featured hotels.</response>
         [HttpGet("hotels/featured")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<FeaturedHotelDTO>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetFeaturedHotelsAsync(
             [FromQuery] PaginationDTO pagination)
         {
             IEnumerable<FeaturedHotelDTO> featuredHotels;
+            int featuredHotelsCount = 0;
 
             try
             {
                 featuredHotels = await _hotelService.GetFeaturedHotelsByPageAsync(pagination);
+                featuredHotelsCount = _hotelService.GetFeaturedHotelsCount();
             }
             catch (ValidationException ex)
             {
                 return BadRequest(ex.GetErrorsForClient());
             }
 
+            Response.Headers.AddPaginationMetadata(featuredHotelsCount, pagination);
+
             return Ok(featuredHotels);
+        }
+
+        /// <summary>
+        /// Global search method for paginated list of hotels by user.
+        /// </summary>
+        /// <param name="hotelSearch">Search criteria properties.</param>
+        /// <response code="200">Returns the list of relevant hotels.</response>
+        [HttpPost("search")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(IEnumerable<HotelForUserDTO>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> HotelsSearchAsync(
+            [FromQuery] PaginationDTO pagination, HotelSearchDTO hotelSearch)
+        {
+            IEnumerable<HotelForUserDTO> hotels;
+            int hotelsCount = 0;
+
+            try
+            {
+                hotels = await _hotelService.SearchForUserByPageAsync(hotelSearch, pagination);
+                hotelsCount = _hotelService.GetSearchForUserCount(hotelSearch);
+            }
+            catch(ValidationException ex)
+            {
+                return BadRequest(ex.GetErrorsForClient());
+            }
+
+            Response.Headers.AddPaginationMetadata(hotelsCount, pagination);
+
+            return Ok(hotels);
         }
     }
 }

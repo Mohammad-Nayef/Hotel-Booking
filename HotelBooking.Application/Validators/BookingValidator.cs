@@ -34,6 +34,10 @@ namespace HotelBooking.Application.Validators
                         booking.RoomId, booking.StartingDate, booking.EndingDate))
                 .WithMessage("The room is already booked in the given interval.")
                 .WithName("Booking");
+
+            RuleFor(booking => booking.StartingDate)
+                .Must(startingDate => startingDate >= DateTime.Today)
+                .WithMessage("{PropertyName} can't be in the past");
         }
     }
 }
