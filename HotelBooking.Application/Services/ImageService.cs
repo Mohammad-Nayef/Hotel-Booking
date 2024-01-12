@@ -56,6 +56,45 @@ namespace HotelBooking.Application.Services
             return _imageRepository.GetRoomImage(imageId);
         }
 
+        public async Task<FileStream> GetThumbnailOfCityImageAsync(Guid thumbnailId)
+        {
+            await ValidateCityThumbnailIdAsync(thumbnailId);
+
+            return _imageRepository.GetCityThumbnail(thumbnailId);
+        }
+
+        private async Task ValidateCityThumbnailIdAsync(Guid thumbnailId)
+        {
+            if (!await _imageRepository.CityThumbnailExistsAsync(thumbnailId))
+                throw new KeyNotFoundException();
+        }
+
+        public async Task<FileStream> GetThumbnailOfHotelImageAsync(Guid thumbnailId)
+        {
+            await ValidateHotelThumbnailIdAsync(thumbnailId);
+
+            return _imageRepository.GetHotelThumbnail(thumbnailId);
+        }
+
+        private async Task ValidateHotelThumbnailIdAsync(Guid thumbnailId)
+        {
+            if (!await _imageRepository.HotelThumbnailExistsAsync(thumbnailId))
+                throw new KeyNotFoundException();
+        }
+
+        public async Task<FileStream> GetThumbnailOfRoomImageAsync(Guid thumbnailId)
+        {
+            await ValidateRoomThumbnailIdAsync(thumbnailId);
+
+            return _imageRepository.GetRoomThumbnail(thumbnailId);
+        }
+
+        private async Task ValidateRoomThumbnailIdAsync(Guid thumbnailId)
+        {
+            if (!await _imageRepository.RoomThumbnailExistsAsync(thumbnailId))
+                throw new KeyNotFoundException();
+        }
+
         private async Task ValidateCityImageIdAsync(Guid imageId)
         {
             if (!await _imageRepository.CityImageExistsAsync(imageId))

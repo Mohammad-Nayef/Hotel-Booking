@@ -136,19 +136,30 @@ namespace HotelBooking.Db.Repositories
             await PersistAsync(imagesTable);
         }
 
-        public async Task<bool> HotelImageExistsAsync(Guid imageId) =>
-            await ExistsInDatabaseAsync(imageId) && ExistsInFileSystem(HotelsPath, imageId.ToString());
+        public async Task<bool> HotelImageExistsAsync(Guid imageId)
+        {
+            return await ExistsInDatabaseAsync(imageId) &&
+                ImageExistsInFileSystem(HotelsPath, imageId.ToString());
+        }
 
         public async Task<bool> CityImageExistsAsync(Guid imageId)
         {
-            return await ExistsInDatabaseAsync(imageId) && 
-                ExistsInFileSystem(CitiesPath, imageId.ToString());
+            return await ExistsInDatabaseAsync(imageId) &&
+                ImageExistsInFileSystem(CitiesPath, imageId.ToString());
         }
 
-        public async Task<bool> RoomImageExistsAsync(Guid imageId) =>
-            await ExistsInDatabaseAsync(imageId) && ExistsInFileSystem(RoomsPath, imageId.ToString());
+        public async Task<bool> RoomImageExistsAsync(Guid imageId) {
+            return await ExistsInDatabaseAsync(imageId) && 
+                ThumbnailExistsInFileSystem(RoomsPath, imageId.ToString());
+        }
 
-        private bool ExistsInFileSystem(string entityPath, string imageName) =>
+        private bool ThumbnailExistsInFileSystem(string entityPath, string ThumbnailName)
+        {
+            return File.Exists(
+                $"{_mainDirectory}\\{entityPath}\\{ThumbnailsPath}\\{ThumbnailName}.{_extension}");
+        }
+
+        private bool ImageExistsInFileSystem(string entityPath, string imageName) =>
             File.Exists($"{_mainDirectory}\\{entityPath}\\{imageName}.{_extension}");
 
         private Task<bool> ExistsInDatabaseAsync(Guid imageId) =>
@@ -170,6 +181,45 @@ namespace HotelBooking.Db.Repositories
         {
             return new FileStream(
                 $"{_mainDirectory}\\{RoomsPath}\\{imageId}.{_extension}", FileMode.Open);
+        }
+
+        public FileStream GetCityThumbnail(Guid thumbnailId)
+        {
+            return new FileStream(
+                $"{_mainDirectory}\\{CitiesPath}\\{ThumbnailsPath}\\{thumbnailId}.{_extension}", 
+                FileMode.Open);
+        }
+
+        public async Task<bool> CityThumbnailExistsAsync(Guid thumbnailId)
+        {
+            return await ExistsInDatabaseAsync(thumbnailId) &&
+                ThumbnailExistsInFileSystem(CitiesPath, thumbnailId.ToString());
+        }
+
+        public FileStream GetHotelThumbnail(Guid thumbnailId)
+        {
+            return new FileStream(
+                $"{_mainDirectory}\\{HotelsPath}\\{ThumbnailsPath}\\{thumbnailId}.{_extension}",
+                FileMode.Open);
+        }
+
+        public async Task<bool> HotelThumbnailExistsAsync(Guid thumbnailId)
+        {
+            return await ExistsInDatabaseAsync(thumbnailId) &&
+                ThumbnailExistsInFileSystem(HotelsPath, thumbnailId.ToString());
+        }
+
+        public FileStream GetRoomThumbnail(Guid thumbnailId)
+        {
+            return new FileStream(
+                $"{_mainDirectory}\\{RoomsPath}\\{ThumbnailsPath}\\{thumbnailId}.{_extension}",
+                FileMode.Open);
+        }
+
+        public async Task<bool> RoomThumbnailExistsAsync(Guid thumbnailId)
+        {
+            return await ExistsInDatabaseAsync(thumbnailId) &&
+                ThumbnailExistsInFileSystem(RoomsPath, thumbnailId.ToString());
         }
     }
 }

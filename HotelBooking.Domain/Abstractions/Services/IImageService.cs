@@ -10,5 +10,8 @@ namespace HotelBooking.Domain.Abstractions.Services
         Task<FileStream> GetCityImageAsync(Guid imageId);
         Task<FileStream> GetHotelImageAsync(Guid imageId);
         Task<FileStream> GetRoomImageAsync(Guid imageId);
+        Task<FileStream> GetThumbnailOfCityImageAsync(Guid thumbnailId);
+        Task<FileStream> GetThumbnailOfHotelImageAsync(Guid thumbnailId);
+        Task<FileStream> GetThumbnailOfRoomImageAsync(Guid thumbnailId);
     }
 }

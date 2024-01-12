@@ -150,6 +150,27 @@
              <param name="imageId">Id of the image to return.</param>
             <response code="200">The image is returned successfully.</response>
         </member>
+        <member name="M:HotelBooking.Api.Controllers.ImagesController.GetThumbnailOfRoomImageAsync(System.Guid)">
+             <summary>
+             Gets a thumbnail of an image for a room by an image Id.
+             </summary>
+             <param name="thumbnailId">Id of the image thumbnail to return.</param>
+            <response code="200">The thumbnail is returned successfully.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.ImagesController.GetThumbnailOfHotelImageAsync(System.Guid)">
+             <summary>
+             Gets a thumbnail of an image for a hotel by a thumbnail Id.
+             </summary>
+             <param name="thumbnailId">Id of the image thumbnail to return.</param>
+            <response code="200">The thumbnail is returned successfully.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.ImagesController.GetThumbnailOfCityImageAsync(System.Guid)">
+             <summary>
+             Gets a thumbnail of an image for a city by a thumbnail Id.
+             </summary>
+             <param name="thumbnailId">Id of the image thumbnail to return.</param>
+            <response code="200">The thumbnail is returned successfully.</response>
+        </member>
         <member name="M:HotelBooking.Api.Controllers.RoomController.PostAsync(HotelBooking.Api.Models.RoomCreationDTO)">
             <summary>
             Create and store a new room.
