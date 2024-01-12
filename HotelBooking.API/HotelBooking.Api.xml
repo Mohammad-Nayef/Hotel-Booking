@@ -129,6 +129,27 @@
             <param name="newDiscount">Properties of the new discount.</param>
             <response code="201">Returns the discount with a new Id and its URI in response headers.</response>
         </member>
+        <member name="M:HotelBooking.Api.Controllers.ImagesController.GetCityImageAsync(System.Guid)">
+             <summary>
+             Gets an image for a city by an image Id.
+             </summary>
+             <param name="imageId">Id of the image to return.</param>
+            <response code="200">The image is returned successfully.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.ImagesController.GetHotelImageAsync(System.Guid)">
+             <summary>
+             Gets an image for a hotel by an image Id.
+             </summary>
+             <param name="imageId">Id of the image to return.</param>
+            <response code="200">The image is returned successfully.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.ImagesController.GetRoomImageAsync(System.Guid)">
+             <summary>
+             Gets an image for a room by an image Id.
+             </summary>
+             <param name="imageId">Id of the image to return.</param>
+            <response code="200">The image is returned successfully.</response>
+        </member>
         <member name="M:HotelBooking.Api.Controllers.RoomController.PostAsync(HotelBooking.Api.Models.RoomCreationDTO)">
             <summary>
             Create and store a new room.

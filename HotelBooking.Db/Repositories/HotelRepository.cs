@@ -152,6 +152,7 @@ namespace HotelBooking.Db.Repositories
                 .AsEnumerable()
                 .Where(HasValidRoom(hotelSearch, roomsType))
                 .Where(hotel => hotel.Rooms.Count() >= hotelSearch.NumberOfRooms);
+
             return hotels;
         }
 
