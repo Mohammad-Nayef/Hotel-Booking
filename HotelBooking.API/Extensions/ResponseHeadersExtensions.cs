@@ -6,7 +6,7 @@ namespace HotelBooking.Api.Extensions
 {
     internal static class ResponseHeadersExtensions
     {
-        public const string PaginationKeyName = "X-Pagination";
+        private const string PaginationKeyName = "X-Pagination";
 
         public static void AddPaginationMetadata(
             this IHeaderDictionary headers,

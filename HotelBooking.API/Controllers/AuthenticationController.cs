@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using HotelBooking.Api.Extensions;
-using HotelBooking.Api.Models;
+using HotelBooking.Api.Models.User;
 using HotelBooking.Domain.Abstractions.Services;
 using HotelBooking.Domain.Exceptions;
 using HotelBooking.Domain.Models;

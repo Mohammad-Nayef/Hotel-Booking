@@ -1,4 +1,4 @@
-﻿namespace HotelBooking.Api.Models
+﻿namespace HotelBooking.Api.Models.City
 {
     public class CityCreationResponseDTO
     {

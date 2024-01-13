@@ -4,7 +4,7 @@
         <name>HotelBooking.Api</name>
     </assembly>
     <members>
-        <member name="M:HotelBooking.Api.Controllers.AuthenticationController.PostUserAsync(HotelBooking.Api.Models.UserCreationDTO)">
+        <member name="M:HotelBooking.Api.Controllers.AuthenticationController.PostUserAsync(HotelBooking.Api.Models.User.UserCreationDTO)">
             <summary>
             Create and store a new user.
             </summary>
@@ -30,7 +30,7 @@
             <param name="search">The search query</param>
             <response code="200">The list of cities is retrieved successfully.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.CityAdminController.PostCityAsync(HotelBooking.Api.Models.CityCreationDTO)">
+        <member name="M:HotelBooking.Api.Controllers.CityAdminController.PostCityAsync(HotelBooking.Api.Models.City.CityCreationDTO)">
             <summary>
             Create and store a new city.
             </summary>
@@ -45,7 +45,7 @@
             <response code="404">The city with the given Id doesn't exist.</response>
             <response code="204">The city is deleted successfully.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.CityAdminController.PatchCityAsync(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{HotelBooking.Api.Models.CityUpdateDTO})">
+        <member name="M:HotelBooking.Api.Controllers.CityAdminController.PatchCityAsync(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{HotelBooking.Api.Models.City.CityUpdateDTO})">
             <summary>
             Partially update a specific city.
             </summary>
@@ -67,7 +67,7 @@
             <param name="search">The search query</param>
             <response code="200">The list of hotels is retrieved successfully.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.HotelAdminController.PostAsync(HotelBooking.Api.Models.HotelCreationDTO)">
+        <member name="M:HotelBooking.Api.Controllers.HotelAdminController.PostAsync(HotelBooking.Api.Models.Hotel.HotelCreationDTO)">
             <summary>
             Create and store a new hotel.
             </summary>
@@ -82,7 +82,7 @@
             <response code="404">The hotel with the given Id doesn't exist.</response>
             <response code="204">The hotel is deleted successfully.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.HotelAdminController.PatchAsync(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{HotelBooking.Api.Models.HotelUpdateDTO})">
+        <member name="M:HotelBooking.Api.Controllers.HotelAdminController.PatchAsync(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{HotelBooking.Api.Models.Hotel.HotelUpdateDTO})">
             <summary>
             Partially update a specific hotel.
             </summary>
@@ -91,7 +91,7 @@
             <response code="404">The hotel with the given Id doesn't exist.</response>
             <response code="204">The hotel is updated successfully.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.HotelAdminController.PostDiscountAsync(System.Guid,HotelBooking.Api.Models.DiscountCreationDTO)">
+        <member name="M:HotelBooking.Api.Controllers.HotelAdminController.PostDiscountAsync(System.Guid,HotelBooking.Api.Models.Discount.DiscountCreationDTO)">
             <summary>
             Create and store a new discount.
             </summary>
@@ -208,7 +208,7 @@
             <param name="search">The search query</param>
             <response code="200">The list of rooms is retrieved successfully.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.RoomAdminController.PostAsync(HotelBooking.Api.Models.RoomCreationDTO)">
+        <member name="M:HotelBooking.Api.Controllers.RoomAdminController.PostAsync(HotelBooking.Api.Models.Room.RoomCreationDTO)">
             <summary>
             Create and store a new room.
             </summary>
@@ -223,7 +223,7 @@
             <response code="404">The room with the given Id doesn't exist.</response>
             <response code="204">The room is deleted successfully.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.RoomAdminController.PatchRoomAsync(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{HotelBooking.Api.Models.RoomUpdateDTO})">
+        <member name="M:HotelBooking.Api.Controllers.RoomAdminController.PatchRoomAsync(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{HotelBooking.Api.Models.Room.RoomUpdateDTO})">
             <summary>
             Partially update a specific room.
             </summary>
@@ -232,7 +232,7 @@
             <response code="404">The room with the given Id doesn't exist.</response>
             <response code="204">The room is updated successfully.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.UserController.PostCartItemAsync(HotelBooking.Api.Models.CartItemCreationDTO)">
+        <member name="M:HotelBooking.Api.Controllers.UserController.PostCartItemAsync(HotelBooking.Api.Models.CartItem.CartItemCreationDTO)">
             <summary>
             Create and store a new cart item for a user.
             </summary>
@@ -255,7 +255,7 @@
             <param name="newBooking">Properties of the new booking.</param>
             <response code="201">The booking is created successfully.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.UserController.PostHotelReviewAsync(System.Guid,HotelBooking.Api.Models.HotelReviewCreationDTO)">
+        <member name="M:HotelBooking.Api.Controllers.UserController.PostHotelReviewAsync(System.Guid,HotelBooking.Api.Models.Hotel.HotelReviewCreationDTO)">
             <summary>
             Create and store a new hotel review for a user.
             </summary>

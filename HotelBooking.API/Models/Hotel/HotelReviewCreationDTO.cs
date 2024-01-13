@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace HotelBooking.Api.Models
+namespace HotelBooking.Api.Models.Hotel
 {
     public class HotelReviewCreationDTO
     {

@@ -1,6 +1,6 @@
-﻿namespace HotelBooking.Api.Models
+﻿namespace HotelBooking.Api.Models.City
 {
-    public class CityUpdateDTO
+    public class CityCreationDTO
     {
         public string Name { get; set; }
         public string CountryName { get; set; }

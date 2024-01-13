@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using HotelBooking.Api.Models;
+using HotelBooking.Api.Models.City;
 using HotelBooking.Domain.Models;
 
 namespace HotelBooking.Api.Profiles

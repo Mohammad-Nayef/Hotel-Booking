@@ -1,7 +1,8 @@
-﻿namespace HotelBooking.Api.Models
+﻿namespace HotelBooking.Api.Models.Room
 {
-    public class RoomCreationDTO
+    public class RoomCreationResponseDTO
     {
+        public Guid Id { get; set; }
         public double RoomNumber { get; set; }
         public string Type { get; set; }
         public int AdultsCapacity { get; set; }
