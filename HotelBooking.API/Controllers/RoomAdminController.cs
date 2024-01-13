@@ -4,12 +4,10 @@ using HotelBooking.Api.Extensions;
 using HotelBooking.Api.Models;
 using HotelBooking.Domain.Abstractions.Services;
 using HotelBooking.Domain.Constants;
-using HotelBooking.Domain.Exceptions;
 using HotelBooking.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using SixLabors.ImageSharp;
 
 namespace HotelBooking.Api.Controllers
 {
@@ -17,16 +15,72 @@ namespace HotelBooking.Api.Controllers
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ApiController]
-    [Route("api/rooms")]
-    public class RoomController : Controller
+    [Route("api/admin/rooms")]
+    public class RoomAdminController : Controller
     {
         private readonly IRoomService _roomService;
         private readonly IMapper _mapper;
 
-        public RoomController(IRoomService roomService, IMapper mapper)
+        public RoomAdminController(IRoomService roomService, IMapper mapper)
         {
             _roomService = roomService;
             _mapper = mapper;
+        }
+
+        /// <summary>
+        /// Get a paginated list of rooms for an admin.
+        /// </summary>
+        /// <response code="200">The list of rooms is retrieved successfully.</response>
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(IEnumerable<RoomForAdminDTO>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetRoomsForAdminAsync(
+            [FromQuery] PaginationDTO pagination)
+        {
+            IEnumerable<RoomForAdminDTO> rooms;
+
+            try
+            {
+                rooms = await _roomService.GetForAdminByPageAsync(pagination);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.GetErrorsForClient());
+            }
+
+            var roomsCount = await _roomService.GetCountAsync();
+            Response.Headers.AddPaginationMetadata(roomsCount, pagination);
+
+            return Ok(rooms);
+        }
+
+        /// <summary>
+        /// Get Paginated list of rooms for an admin based on search query.
+        /// </summary>
+        /// <param name="pagination">Pagination parameters</param>
+        /// <param name="search">The search query</param>
+        /// <response code="200">The list of rooms is retrieved successfully.</response>
+        [HttpPost("search")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(IEnumerable<RoomForAdminDTO>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> SearchRoomsForAdminAsync(
+            [FromQuery] PaginationDTO pagination, string search)
+        {
+            IEnumerable<RoomForAdminDTO> rooms;
+
+            try
+            {
+                rooms = await _roomService.SearchByRoomForAdminByPageAsync(pagination, search);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.GetErrorsForClient());
+            }
+
+            var roomsCount = await _roomService.GetSearchByRoomForAdminCountAsync(search);
+            Response.Headers.AddPaginationMetadata(roomsCount, pagination);
+
+            return Ok(rooms);
         }
 
         /// <summary>
@@ -54,45 +108,6 @@ namespace HotelBooking.Api.Controllers
             createdRoom.Id = newId;
 
             return Created($"api/rooms/{newId}", createdRoom);
-        }
-
-        /// <summary>
-        /// Add images for a room.
-        /// </summary>
-        /// <param name="roomId">Id of the room to add images for.</param>        
-        /// <response code="404">The room with the given Id doesn't exist.</response>
-        /// <response code="204">The images are successfully added.</response>
-        [HttpPost("{roomId}/images")]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> PostRoomImagesAsync(
-            Guid roomId, List<IFormFile> imagesForms)
-        {
-            try
-            {
-                var images = imagesForms.ToImages();
-                await _roomService.AddImagesForRoomAsync(roomId, images);
-            }
-            catch (UnknownImageFormatException)
-            {
-                return BadRequest("Invalid image format.");
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.GetErrorsForClient());
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (EntityImagesLimitExceededException ex)
-            {
-                return BadRequest(
-                    $"The limit of the allowed images per entity ({ex.ExceededLimit}) is exceeded");
-            }
-
-            return Created();
         }
 
         /// <summary>
@@ -126,7 +141,7 @@ namespace HotelBooking.Api.Controllers
         /// <param name="roomPatchDocument">Patch operations for (Number, AdultsCapacity, ChildrenCapacity).</param>
         /// <response code="404">The room with the given Id doesn't exist.</response>
         /// <response code="204">The room is updated successfully.</response>
-        [HttpPatch("rooms/{roomId}")]
+        [HttpPatch("{roomId}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

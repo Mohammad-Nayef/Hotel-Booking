@@ -4,12 +4,10 @@ using HotelBooking.Api.Extensions;
 using HotelBooking.Api.Models;
 using HotelBooking.Domain.Abstractions.Services;
 using HotelBooking.Domain.Constants;
-using HotelBooking.Domain.Exceptions;
 using HotelBooking.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using SixLabors.ImageSharp;
 
 namespace HotelBooking.Api.Controllers
 {
@@ -17,19 +15,74 @@ namespace HotelBooking.Api.Controllers
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ApiController]
-    [Route("api/hotels")]
-    public class HotelController : Controller
+    [Route("api/admin/hotels")]
+    public class HotelAdminController : Controller
     {
         private readonly IHotelService _hotelService;
         private readonly IMapper _mapper;
         private readonly IDiscountService _discountService;
 
-        public HotelController(
+        public HotelAdminController(
             IHotelService hotelService, IMapper mapper, IDiscountService discountService)
         {
             _hotelService = hotelService;
             _mapper = mapper;
             _discountService = discountService;
+        }
+
+        /// <summary>
+        /// Get a paginated list of hotels for an admin.
+        /// </summary>
+        /// <response code="200">The list of hotels is retrieved successfully.</response>
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(IEnumerable<HotelForAdminDTO>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetHotelsForAdminAsync(
+            [FromQuery] PaginationDTO pagination)
+        {
+            IEnumerable<HotelForAdminDTO> hotels;
+
+            try
+            {
+                hotels = await _hotelService.GetForAdminByPageAsync(pagination);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.GetErrorsForClient());
+            }
+
+            var hotelsCount = await _hotelService.GetCountAsync();
+            Response.Headers.AddPaginationMetadata(hotelsCount, pagination);
+
+            return Ok(hotels);
+        }
+
+        /// <summary>
+        /// Get paginated list of hotels for an admin based on search query.
+        /// </summary>
+        /// <param name="search">The search query</param>
+        /// <response code="200">The list of hotels is retrieved successfully.</response>
+        [HttpPost("search")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(IEnumerable<HotelForAdminDTO>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> SearchHotelsForAdminAsync(
+            [FromQuery] PaginationDTO pagination, string search)
+        {
+            IEnumerable<HotelForAdminDTO> hotels;
+
+            try
+            {
+                hotels = await _hotelService.SearchByHotelForAdminByPageAsync(pagination, search);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.GetErrorsForClient());
+            }
+
+            var hotelsCount = await _hotelService.GetSearchByHotelForAdminCountAsync(search);
+            Response.Headers.AddPaginationMetadata(hotelsCount, pagination);
+
+            return Ok(hotels);
         }
 
         /// <summary>
@@ -57,45 +110,6 @@ namespace HotelBooking.Api.Controllers
             createdHotel.Id = newId;
 
             return Created($"api/hotels/{newId}", createdHotel);
-        }
-
-        /// <summary>
-        /// Add images for a hotel.
-        /// </summary>
-        /// <param name="hotelId">Id of the hotel to add images for.</param>        
-        /// <response code="404">The hotel with the given Id doesn't exist.</response>
-        /// <response code="204">The images are successfully added.</response>
-        [HttpPost("{hotelId}/images")]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> PostHotelImagesAsync(
-            Guid hotelId, List<IFormFile> imagesForms)
-        {
-            try
-            {
-                var images = imagesForms.ToImages();
-                await _hotelService.AddImagesForHotelAsync(hotelId, images);
-            }
-            catch (UnknownImageFormatException)
-            {
-                return BadRequest("Invalid image format.");
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.GetErrorsForClient());
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (EntityImagesLimitExceededException ex)
-            {
-                return BadRequest(
-                    $"The limit of the allowed images per entity ({ex.ExceededLimit}) is exceeded");
-            }
-
-            return Created();
         }
 
         /// <summary>
@@ -205,67 +219,6 @@ namespace HotelBooking.Api.Controllers
 
             return Created(
                 $"api/hotels/{createdDiscount.HotelId}/discounts/{newId}", createdDiscount);
-        }
-
-        /// <summary>
-        /// Get hotel info by Id.
-        /// </summary>
-        /// <param name="hotelId">Id of the hotel.</param>
-        /// <response code="404">The hotel Id does not exists.</response>
-        /// <response code="200">Returns the requested hotel info.</response>
-        [HttpGet("{hotelId}")]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(HotelPageDTO), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetHotel(Guid hotelId)
-        {
-            HotelPageDTO hotel;
-
-            try
-            {
-                hotel = await _hotelService.GetHotelPageAsync(hotelId);
-            }
-            catch (KeyNotFoundException ex) 
-            {
-                return NotFound(ex.Message);
-            }
-
-            return Ok(hotel);
-        }
-
-        /// <summary>
-        /// Get a paginated list of reviews for a specific hotel.
-        /// </summary>
-        /// <param name="hotelId">Id of the hotel to get its reviews.</param>
-        /// <response code="404">The hotel Id does not exists.</response>
-        /// <response code="200">Returns the requested hotel reviews.</response>
-        [HttpGet("{hotelId}/reviews")]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(IEnumerable<ReviewForHotelPageDTO>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetHotelReviewsAsync(
-            Guid hotelId, [FromQuery] PaginationDTO pagination)
-        {
-            IEnumerable<ReviewForHotelPageDTO> reviews;
-            int reviewsCount = 0;
-
-            try
-            {
-                reviews = await _hotelService.GetReviewsByPageAsync(hotelId, pagination);
-                reviewsCount = await _hotelService.GetReviewsCountAsync(hotelId);
-            }
-            catch(ValidationException ex)
-            {
-                return BadRequest(ex.GetErrorsForClient());
-            }
-            catch(KeyNotFoundException)
-            {
-                return NotFound();
-            }
-
-            Response.Headers.AddPaginationMetadata(reviewsCount, pagination);
-
-            return Ok(reviews);
         }
     }
 }

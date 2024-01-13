@@ -35,7 +35,7 @@ namespace HotelBooking.Application.Services
             await _userValidator.ValidateAndThrowAsync(newUser);
 
             newUser.Password = _passwordHasher.HashPassword(newUser.Password);
-            newUser.Roles.Add(new RoleDTO { Name = UserRoles.Regular });
+            newUser.Roles.Add(new RoleDTO { Name = UserRoles.RegularUser });
 
             return await _userRepository.AddAsync(newUser);
         }

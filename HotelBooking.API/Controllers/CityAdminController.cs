@@ -4,12 +4,10 @@ using HotelBooking.Api.Extensions;
 using HotelBooking.Api.Models;
 using HotelBooking.Domain.Abstractions.Services;
 using HotelBooking.Domain.Constants;
-using HotelBooking.Domain.Exceptions;
 using HotelBooking.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using SixLabors.ImageSharp;
 
 namespace HotelBooking.Api.Controllers
 {
@@ -17,16 +15,71 @@ namespace HotelBooking.Api.Controllers
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ApiController]
-    [Route("api/cities")]
-    public class CityController : Controller
+    [Route("api/admin/cities")]
+    public class CityAdminController : Controller
     {
         private readonly ICityService _cityService;
         private readonly IMapper _mapper;
 
-        public CityController(ICityService cityService, IMapper mapper)
+        public CityAdminController(ICityService cityService, IMapper mapper)
         {
             _cityService = cityService;
             _mapper = mapper;
+        }
+
+        /// <summary>
+        /// Get a paginated list of cities for an admin.
+        /// </summary>
+        /// <response code="200">The list of cities is retrieved successfully.</response>
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(IEnumerable<CityForAdminDTO>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetCitiesForAdminAsync(
+            [FromQuery] PaginationDTO pagination)
+        {
+            IEnumerable<CityForAdminDTO> cities;
+
+            try
+            {
+                cities = await _cityService.GetForAdminByPageAsync(pagination);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.GetErrorsForClient());
+            }
+
+            var citiesCount = await _cityService.GetCountAsync();
+            Response.Headers.AddPaginationMetadata(citiesCount, pagination);
+
+            return Ok(cities);
+        }
+
+        /// <summary>
+        /// Get paginated list of cities for an admin based on search query.
+        /// </summary>
+        /// <param name="search">The search query</param>
+        /// <response code="200">The list of cities is retrieved successfully.</response>
+        [HttpPost("search")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(IEnumerable<CityForAdminDTO>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> SearchCitiesForAdminAsync(
+            [FromQuery] PaginationDTO pagination, string search)
+        {
+            IEnumerable<CityForAdminDTO> cities;
+
+            try
+            {
+                cities = await _cityService.SearchByCityForAdminByPageAsync(pagination, search);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.GetErrorsForClient());
+            }
+
+            var citiesCount = await _cityService.GetSearchByCityForAdminCountAsync(search);
+            Response.Headers.AddPaginationMetadata(citiesCount, pagination);
+
+            return Ok(cities);
         }
 
         /// <summary>
@@ -54,45 +107,6 @@ namespace HotelBooking.Api.Controllers
             createdCity.Id = newId;
 
             return Created($"api/cities/{newId}", createdCity);
-        }
-
-        /// <summary>
-        /// Add images for a city.
-        /// </summary>
-        /// <param name="cityId">Id of the city to add images for.</param>        
-        /// /// <response code="404">The city with the given Id doesn't exist.</response>
-        /// <response code="204">The images are successfully.</response>
-        [HttpPost("{cityId}/images")]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> PostCityImagesAsync(
-            Guid cityId, List<IFormFile> imagesForms)
-        {
-            try
-            {
-                var images = imagesForms.ToImages();
-                await _cityService.AddImagesForCityAsync(cityId, images);
-            }
-            catch (UnknownImageFormatException)
-            {
-                return BadRequest("Invalid image format.");
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.GetErrorsForClient());
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (EntityImagesLimitExceededException ex)
-            {
-                return BadRequest(
-                    $"The limit of the allowed images per entity ({ex.ExceededLimit}) is exceeded");
-            }
-
-            return Created();
         }
 
         /// <summary>
@@ -126,7 +140,7 @@ namespace HotelBooking.Api.Controllers
         /// <param name="cityPatchDocument">Patch operations for (Name, CountryName, PostOffice).</param>
         /// <response code="404">The city with the given Id doesn't exist.</response>
         /// <response code="204">The city is updated successfully.</response>
-        [HttpPatch("cities/{cityId}")]
+        [HttpPatch("{cityId}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

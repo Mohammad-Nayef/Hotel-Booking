@@ -1,16 +1,21 @@
 ﻿using HotelBooking.Domain.Abstractions.Services;
+using HotelBooking.Domain.Constants;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
 
 namespace HotelBooking.Api.Controllers
 {
+    [Authorize(Roles = $"{UserRoles.Admin}, {UserRoles.RegularUser}")]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ApiController]
     [Route("api")]
-    public class ImagesController : Controller
+    public class ImageRetrievingController : Controller
     {
         private readonly IImageService _imageService;
 
-        public ImagesController(IImageService imageService)
+        public ImageRetrievingController(IImageService imageService)
         {
             _imageService = imageService;
         }
@@ -24,23 +29,8 @@ namespace HotelBooking.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetCityImageAsync(Guid imageId)
-        {
-            FileStream imageStream;
-
-            try
-            {
-                imageStream = await _imageService.GetCityImageAsync(imageId);
-            }
-            catch (KeyNotFoundException) 
-            {
-                return NotFound();
-            }
-
-            var imageFormat = await Image.DetectFormatAsync(imageStream);
-
-            return File(imageStream, imageFormat.DefaultMimeType);
-        }
+        public Task<IActionResult> GetCityImageAsync(Guid imageId) =>
+            GetEntityImageAsync(imageId, _imageService.GetCityImageAsync);
 
         /// <summary>
         /// Gets an image for a hotel by an image Id.
@@ -51,23 +41,8 @@ namespace HotelBooking.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetHotelImageAsync(Guid imageId)
-        {
-            FileStream imageStream;
-
-            try
-            {
-                imageStream = await _imageService.GetHotelImageAsync(imageId);
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound();
-            }
-
-            var imageFormat = await Image.DetectFormatAsync(imageStream);
-
-            return File(imageStream, imageFormat.DefaultMimeType);
-        }
+        public Task<IActionResult> GetHotelImageAsync(Guid imageId) =>
+            GetEntityImageAsync(imageId, _imageService.GetHotelImageAsync);
 
         /// <summary>
         /// Gets an image for a room by an image Id.
@@ -78,23 +53,8 @@ namespace HotelBooking.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetRoomImageAsync(Guid imageId)
-        {
-            FileStream imageStream;
-
-            try
-            {
-                imageStream = await _imageService.GetRoomImageAsync(imageId);
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound();
-            }
-
-            var imageFormat = await Image.DetectFormatAsync(imageStream);
-
-            return File(imageStream, imageFormat.DefaultMimeType);
-        }
+        public Task<IActionResult> GetRoomImageAsync(Guid imageId) =>
+            GetEntityImageAsync(imageId, _imageService.GetRoomImageAsync);
 
         /// <summary>
         /// Gets a thumbnail of an image for a room by an image Id.
@@ -105,23 +65,8 @@ namespace HotelBooking.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetThumbnailOfRoomImageAsync(Guid thumbnailId)
-        {
-            FileStream thumbnailStream;
-
-            try
-            {
-                thumbnailStream = await _imageService.GetThumbnailOfRoomImageAsync(thumbnailId);
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound();
-            }
-
-            var thumbnailFormat = await Image.DetectFormatAsync(thumbnailStream);
-
-            return File(thumbnailStream, thumbnailFormat.DefaultMimeType);
-        }
+        public Task<IActionResult> GetThumbnailOfRoomImageAsync(Guid thumbnailId) =>
+            GetEntityImageAsync(thumbnailId, _imageService.GetThumbnailOfRoomImageAsync);
 
         /// <summary>
         /// Gets a thumbnail of an image for a hotel by a thumbnail Id.
@@ -132,23 +77,8 @@ namespace HotelBooking.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetThumbnailOfHotelImageAsync(Guid thumbnailId)
-        {
-            FileStream thumbnailStream;
-
-            try
-            {
-                thumbnailStream = await _imageService.GetThumbnailOfHotelImageAsync(thumbnailId);
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound();
-            }
-
-            var thumbnailFormat = await Image.DetectFormatAsync(thumbnailStream);
-
-            return File(thumbnailStream, thumbnailFormat.DefaultMimeType);
-        }
+        public Task<IActionResult> GetThumbnailOfHotelImageAsync(Guid thumbnailId) =>
+            GetEntityImageAsync(thumbnailId, _imageService.GetThumbnailOfHotelImageAsync);
 
         /// <summary>
         /// Gets a thumbnail of an image for a city by a thumbnail Id.
@@ -159,22 +89,26 @@ namespace HotelBooking.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetThumbnailOfCityImageAsync(Guid thumbnailId)
+        public Task<IActionResult> GetThumbnailOfCityImageAsync(Guid thumbnailId) =>
+            GetEntityImageAsync(thumbnailId, _imageService.GetThumbnailOfCityImageAsync);
+
+        private async Task<IActionResult> GetEntityImageAsync(
+            Guid imageId, Func<Guid, Task<FileStream>> entityImageGetterAsync)
         {
-            FileStream thumbnailStream;
+            FileStream imageStream;
 
             try
             {
-                thumbnailStream = await _imageService.GetThumbnailOfCityImageAsync(thumbnailId);
+                imageStream = await entityImageGetterAsync(imageId);
             }
             catch (KeyNotFoundException)
             {
                 return NotFound();
             }
 
-            var thumbnailFormat = await Image.DetectFormatAsync(thumbnailStream);
+            var imageFormat = await Image.DetectFormatAsync(imageStream);
 
-            return File(thumbnailStream, thumbnailFormat.DefaultMimeType);
+            return File(imageStream, imageFormat.DefaultMimeType);
         }
     }
 }

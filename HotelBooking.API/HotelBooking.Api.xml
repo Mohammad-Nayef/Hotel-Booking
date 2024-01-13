@@ -4,46 +4,6 @@
         <name>HotelBooking.Api</name>
     </assembly>
     <members>
-        <member name="M:HotelBooking.Api.Controllers.AdminController.GetCitiesForAdminAsync(HotelBooking.Domain.Models.PaginationDTO)">
-            <summary>
-            Get a paginated list of cities for an admin.
-            </summary>
-            <response code="200">The list of cities is retrieved successfully.</response>
-        </member>
-        <member name="M:HotelBooking.Api.Controllers.AdminController.GetHotelsForAdminAsync(HotelBooking.Domain.Models.PaginationDTO)">
-            <summary>
-            Get a paginated list of hotels for an admin.
-            </summary>
-            <response code="200">The list of hotels is retrieved successfully.</response>
-        </member>
-        <member name="M:HotelBooking.Api.Controllers.AdminController.GetRoomsForAdminAsync(HotelBooking.Domain.Models.PaginationDTO)">
-            <summary>
-            Get a paginated list of rooms for an admin.
-            </summary>
-            <response code="200">The list of rooms is retrieved successfully.</response>
-        </member>
-        <member name="M:HotelBooking.Api.Controllers.AdminController.SearchCitiesForAdminAsync(HotelBooking.Domain.Models.PaginationDTO,System.String)">
-            <summary>
-            Get paginated list of cities for an admin based on search query.
-            </summary>
-            <param name="search">The search query</param>
-            <response code="200">The list of cities is retrieved successfully.</response>
-        </member>
-        <member name="M:HotelBooking.Api.Controllers.AdminController.SearchHotelsForAdminAsync(HotelBooking.Domain.Models.PaginationDTO,System.String)">
-            <summary>
-            Get paginated list of hotels for an admin based on search query.
-            </summary>
-            <param name="search">The search query</param>
-            <response code="200">The list of hotels is retrieved successfully.</response>
-        </member>
-        <member name="M:HotelBooking.Api.Controllers.AdminController.SearchRoomsForAdminAsync(HotelBooking.Domain.Models.PaginationDTO,System.String)">
-            <summary>
-            Get Paginated list of rooms for an admin based on search query.
-            </summary>
-            <param name="pagination">Pagination parameters</param>
-            <param name="search">The search query</param>
-            <response code="200">The list of rooms is retrieved successfully.</response>
-        </member>
         <member name="M:HotelBooking.Api.Controllers.AuthenticationController.PostUserAsync(HotelBooking.Api.Models.UserCreationDTO)">
             <summary>
             Create and store a new user.
@@ -57,22 +17,27 @@
             </summary>
             <response code="200">User is authenticated. Authentication token is returned.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.CityController.PostCityAsync(HotelBooking.Api.Models.CityCreationDTO)">
+        <member name="M:HotelBooking.Api.Controllers.CityAdminController.GetCitiesForAdminAsync(HotelBooking.Domain.Models.PaginationDTO)">
+            <summary>
+            Get a paginated list of cities for an admin.
+            </summary>
+            <response code="200">The list of cities is retrieved successfully.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.CityAdminController.SearchCitiesForAdminAsync(HotelBooking.Domain.Models.PaginationDTO,System.String)">
+            <summary>
+            Get paginated list of cities for an admin based on search query.
+            </summary>
+            <param name="search">The search query</param>
+            <response code="200">The list of cities is retrieved successfully.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.CityAdminController.PostCityAsync(HotelBooking.Api.Models.CityCreationDTO)">
             <summary>
             Create and store a new city.
             </summary>
             <param name="newCity">Properties of the new city.</param>
             <response code="201">Returns the city with a new Id and its URI in response headers.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.CityController.PostCityImagesAsync(System.Guid,System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
-            <summary>
-            Add images for a city.
-            </summary>
-            <param name="cityId">Id of the city to add images for.</param>        
-            /// <response code="404">The city with the given Id doesn't exist.</response>
-            <response code="204">The images are successfully.</response>
-        </member>
-        <member name="M:HotelBooking.Api.Controllers.CityController.DeleteAsync(System.Guid)">
+        <member name="M:HotelBooking.Api.Controllers.CityAdminController.DeleteAsync(System.Guid)">
             <summary>
             Delete a city with a specific Id.
             </summary>
@@ -80,7 +45,7 @@
             <response code="404">The city with the given Id doesn't exist.</response>
             <response code="204">The city is deleted successfully.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.CityController.PatchCityAsync(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{HotelBooking.Api.Models.CityUpdateDTO})">
+        <member name="M:HotelBooking.Api.Controllers.CityAdminController.PatchCityAsync(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{HotelBooking.Api.Models.CityUpdateDTO})">
             <summary>
             Partially update a specific city.
             </summary>
@@ -89,22 +54,27 @@
             <response code="404">The city with the given Id doesn't exist.</response>
             <response code="204">The city is updated successfully.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.HotelController.PostAsync(HotelBooking.Api.Models.HotelCreationDTO)">
+        <member name="M:HotelBooking.Api.Controllers.HotelAdminController.GetHotelsForAdminAsync(HotelBooking.Domain.Models.PaginationDTO)">
+            <summary>
+            Get a paginated list of hotels for an admin.
+            </summary>
+            <response code="200">The list of hotels is retrieved successfully.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.HotelAdminController.SearchHotelsForAdminAsync(HotelBooking.Domain.Models.PaginationDTO,System.String)">
+            <summary>
+            Get paginated list of hotels for an admin based on search query.
+            </summary>
+            <param name="search">The search query</param>
+            <response code="200">The list of hotels is retrieved successfully.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.HotelAdminController.PostAsync(HotelBooking.Api.Models.HotelCreationDTO)">
             <summary>
             Create and store a new hotel.
             </summary>
             <param name="newHotel">Properties of the new hotel.</param>
             <response code="201">Returns the hotel with a new Id and its URI in response headers.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.HotelController.PostHotelImagesAsync(System.Guid,System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
-            <summary>
-            Add images for a hotel.
-            </summary>
-            <param name="hotelId">Id of the hotel to add images for.</param>        
-            <response code="404">The hotel with the given Id doesn't exist.</response>
-            <response code="204">The images are successfully added.</response>
-        </member>
-        <member name="M:HotelBooking.Api.Controllers.HotelController.DeleteAsync(System.Guid)">
+        <member name="M:HotelBooking.Api.Controllers.HotelAdminController.DeleteAsync(System.Guid)">
             <summary>
             Delete a hotel with a specific Id.
             </summary>
@@ -112,7 +82,7 @@
             <response code="404">The hotel with the given Id doesn't exist.</response>
             <response code="204">The hotel is deleted successfully.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.HotelController.PatchAsync(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{HotelBooking.Api.Models.HotelUpdateDTO})">
+        <member name="M:HotelBooking.Api.Controllers.HotelAdminController.PatchAsync(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{HotelBooking.Api.Models.HotelUpdateDTO})">
             <summary>
             Partially update a specific hotel.
             </summary>
@@ -121,7 +91,7 @@
             <response code="404">The hotel with the given Id doesn't exist.</response>
             <response code="204">The hotel is updated successfully.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.HotelController.PostDiscountAsync(System.Guid,HotelBooking.Api.Models.DiscountCreationDTO)">
+        <member name="M:HotelBooking.Api.Controllers.HotelAdminController.PostDiscountAsync(System.Guid,HotelBooking.Api.Models.DiscountCreationDTO)">
             <summary>
             Create and store a new discount.
             </summary>
@@ -129,7 +99,7 @@
             <param name="newDiscount">Properties of the new discount.</param>
             <response code="201">Returns the discount with a new Id and its URI in response headers.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.HotelController.GetHotel(System.Guid)">
+        <member name="M:HotelBooking.Api.Controllers.HotelUserController.GetHotel(System.Guid)">
             <summary>
             Get hotel info by Id.
             </summary>
@@ -137,7 +107,7 @@
             <response code="404">The hotel Id does not exists.</response>
             <response code="200">Returns the requested hotel info.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.HotelController.GetHotelReviewsAsync(System.Guid,HotelBooking.Domain.Models.PaginationDTO)">
+        <member name="M:HotelBooking.Api.Controllers.HotelUserController.GetHotelReviewsAsync(System.Guid,HotelBooking.Domain.Models.PaginationDTO)">
             <summary>
             Get a paginated list of reviews for a specific hotel.
             </summary>
@@ -145,56 +115,36 @@
             <response code="404">The hotel Id does not exists.</response>
             <response code="200">Returns the requested hotel reviews.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.ImagesController.GetCityImageAsync(System.Guid)">
-             <summary>
-             Gets an image for a city by an image Id.
-             </summary>
-             <param name="imageId">Id of the image to return.</param>
-            <response code="200">The image is returned successfully.</response>
-        </member>
-        <member name="M:HotelBooking.Api.Controllers.ImagesController.GetHotelImageAsync(System.Guid)">
-             <summary>
-             Gets an image for a hotel by an image Id.
-             </summary>
-             <param name="imageId">Id of the image to return.</param>
-            <response code="200">The image is returned successfully.</response>
-        </member>
-        <member name="M:HotelBooking.Api.Controllers.ImagesController.GetRoomImageAsync(System.Guid)">
-             <summary>
-             Gets an image for a room by an image Id.
-             </summary>
-             <param name="imageId">Id of the image to return.</param>
-            <response code="200">The image is returned successfully.</response>
-        </member>
-        <member name="M:HotelBooking.Api.Controllers.ImagesController.GetThumbnailOfRoomImageAsync(System.Guid)">
-             <summary>
-             Gets a thumbnail of an image for a room by an image Id.
-             </summary>
-             <param name="thumbnailId">Id of the image thumbnail to return.</param>
-            <response code="200">The thumbnail is returned successfully.</response>
-        </member>
-        <member name="M:HotelBooking.Api.Controllers.ImagesController.GetThumbnailOfHotelImageAsync(System.Guid)">
-             <summary>
-             Gets a thumbnail of an image for a hotel by a thumbnail Id.
-             </summary>
-             <param name="thumbnailId">Id of the image thumbnail to return.</param>
-            <response code="200">The thumbnail is returned successfully.</response>
-        </member>
-        <member name="M:HotelBooking.Api.Controllers.ImagesController.GetThumbnailOfCityImageAsync(System.Guid)">
-             <summary>
-             Gets a thumbnail of an image for a city by a thumbnail Id.
-             </summary>
-             <param name="thumbnailId">Id of the image thumbnail to return.</param>
-            <response code="200">The thumbnail is returned successfully.</response>
-        </member>
-        <member name="M:HotelBooking.Api.Controllers.RoomController.PostAsync(HotelBooking.Api.Models.RoomCreationDTO)">
+        <member name="M:HotelBooking.Api.Controllers.HotelUserController.GetFeaturedHotelsAsync(HotelBooking.Domain.Models.PaginationDTO)">
             <summary>
-            Create and store a new room.
+            Get a paginated list of featured hotels.
             </summary>
-            <param name="newRoom">Properties of the new room.</param>
-            <response code="201">Returns the room with a new Id and its URI in response headers.</response>
+            <response code="200">Returns the list of featured hotels.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.RoomController.PostRoomImagesAsync(System.Guid,System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
+        <member name="M:HotelBooking.Api.Controllers.HotelUserController.HotelsSearchAsync(HotelBooking.Domain.Models.PaginationDTO,HotelBooking.Domain.Models.HotelSearchDTO)">
+            <summary>
+            Global search method for paginated list of hotels by user.
+            </summary>
+            <param name="hotelSearch">Search criteria properties.</param>
+            <response code="200">Returns the list of relevant hotels.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.ImageCreationController.PostCityImagesAsync(System.Guid,System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
+            <summary>
+            Add images for a city.
+            </summary>
+            <param name="cityId">Id of the city to add images for.</param>        
+            /// <response code="404">The city with the given Id doesn't exist.</response>
+            <response code="204">The images are successfully.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.ImageCreationController.PostHotelImagesAsync(System.Guid,System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
+            <summary>
+            Add images for a hotel.
+            </summary>
+            <param name="hotelId">Id of the hotel to add images for.</param>        
+            <response code="404">The hotel with the given Id doesn't exist.</response>
+            <response code="204">The images are successfully added.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.ImageCreationController.PostRoomImagesAsync(System.Guid,System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
             <summary>
             Add images for a room.
             </summary>
@@ -202,7 +152,70 @@
             <response code="404">The room with the given Id doesn't exist.</response>
             <response code="204">The images are successfully added.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.RoomController.DeleteAsync(System.Guid)">
+        <member name="M:HotelBooking.Api.Controllers.ImageRetrievingController.GetCityImageAsync(System.Guid)">
+             <summary>
+             Gets an image for a city by an image Id.
+             </summary>
+             <param name="imageId">Id of the image to return.</param>
+            <response code="200">The image is returned successfully.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.ImageRetrievingController.GetHotelImageAsync(System.Guid)">
+             <summary>
+             Gets an image for a hotel by an image Id.
+             </summary>
+             <param name="imageId">Id of the image to return.</param>
+            <response code="200">The image is returned successfully.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.ImageRetrievingController.GetRoomImageAsync(System.Guid)">
+             <summary>
+             Gets an image for a room by an image Id.
+             </summary>
+             <param name="imageId">Id of the image to return.</param>
+            <response code="200">The image is returned successfully.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.ImageRetrievingController.GetThumbnailOfRoomImageAsync(System.Guid)">
+             <summary>
+             Gets a thumbnail of an image for a room by an image Id.
+             </summary>
+             <param name="thumbnailId">Id of the image thumbnail to return.</param>
+            <response code="200">The thumbnail is returned successfully.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.ImageRetrievingController.GetThumbnailOfHotelImageAsync(System.Guid)">
+             <summary>
+             Gets a thumbnail of an image for a hotel by a thumbnail Id.
+             </summary>
+             <param name="thumbnailId">Id of the image thumbnail to return.</param>
+            <response code="200">The thumbnail is returned successfully.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.ImageRetrievingController.GetThumbnailOfCityImageAsync(System.Guid)">
+             <summary>
+             Gets a thumbnail of an image for a city by a thumbnail Id.
+             </summary>
+             <param name="thumbnailId">Id of the image thumbnail to return.</param>
+            <response code="200">The thumbnail is returned successfully.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.RoomAdminController.GetRoomsForAdminAsync(HotelBooking.Domain.Models.PaginationDTO)">
+            <summary>
+            Get a paginated list of rooms for an admin.
+            </summary>
+            <response code="200">The list of rooms is retrieved successfully.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.RoomAdminController.SearchRoomsForAdminAsync(HotelBooking.Domain.Models.PaginationDTO,System.String)">
+            <summary>
+            Get Paginated list of rooms for an admin based on search query.
+            </summary>
+            <param name="pagination">Pagination parameters</param>
+            <param name="search">The search query</param>
+            <response code="200">The list of rooms is retrieved successfully.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.RoomAdminController.PostAsync(HotelBooking.Api.Models.RoomCreationDTO)">
+            <summary>
+            Create and store a new room.
+            </summary>
+            <param name="newRoom">Properties of the new room.</param>
+            <response code="201">Returns the room with a new Id and its URI in response headers.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.RoomAdminController.DeleteAsync(System.Guid)">
             <summary>
             Delete a room with a specific Id.
             </summary>
@@ -210,7 +223,7 @@
             <response code="404">The room with the given Id doesn't exist.</response>
             <response code="204">The room is deleted successfully.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.RoomController.PatchRoomAsync(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{HotelBooking.Api.Models.RoomUpdateDTO})">
+        <member name="M:HotelBooking.Api.Controllers.RoomAdminController.PatchRoomAsync(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{HotelBooking.Api.Models.RoomUpdateDTO})">
             <summary>
             Partially update a specific room.
             </summary>
@@ -249,19 +262,6 @@
             <param name="userId">The Id of the user creating the review.</param>
             <param name="newReview">Properties of the new review.</param>
             <response code="201">The review is created successfully.</response>
-        </member>
-        <member name="M:HotelBooking.Api.Controllers.UserController.GetFeaturedHotelsAsync(HotelBooking.Domain.Models.PaginationDTO)">
-            <summary>
-            Get a paginated list of featured hotels.
-            </summary>
-            <response code="200">Returns the list of featured hotels.</response>
-        </member>
-        <member name="M:HotelBooking.Api.Controllers.UserController.HotelsSearchAsync(HotelBooking.Domain.Models.PaginationDTO,HotelBooking.Domain.Models.HotelSearchDTO)">
-            <summary>
-            Global search method for paginated list of hotels by user.
-            </summary>
-            <param name="hotelSearch">Search criteria properties.</param>
-            <response code="200">Returns the list of relevant hotels.</response>
         </member>
     </members>
 </doc>
