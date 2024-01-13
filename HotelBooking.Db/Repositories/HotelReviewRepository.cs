@@ -27,5 +27,30 @@ namespace HotelBooking.Db.Repositories
             _dbContext.HotelReviews.AnyAsync(review =>
                 review.UserId == userId &&
                 review.HotelId == hotelId);
+
+        public IEnumerable<ReviewForHotelPageDTO> GetReviewsByHotelByPage(
+            Guid hotelId, int itemsToSkip, int itemsToTake)
+        {
+            var reviews = _dbContext.HotelReviews
+                .Where(review => review.HotelId == hotelId)
+                .Include(review => review.User)
+                .Skip(itemsToSkip)
+                .Take(itemsToTake)
+                .AsNoTracking()
+                .AsEnumerable();
+
+            return _mapper.Map<IEnumerable<ReviewForHotelPageDTO>>(reviews);
+        }
+
+        public async Task<int> GetReviewsByHotelCountAsync(Guid hotelId)
+        {
+            var reviews = _dbContext.HotelReviews
+                .Where(review => review.HotelId == hotelId);
+
+            if (reviews.TryGetNonEnumeratedCount(out int count))
+                return count;
+
+            return await reviews.CountAsync();
+        }
     }
 }

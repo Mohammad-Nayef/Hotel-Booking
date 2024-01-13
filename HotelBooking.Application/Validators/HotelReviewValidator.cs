@@ -10,7 +10,7 @@ namespace HotelBooking.Application.Validators
     {
         public HotelReviewValidator(
             IUserService userService,
-            IHotelService hotelService,
+            IHotelRepository hotelRepository,
             IHotelReviewRepository hotelReviewRepository)
         {
             RuleFor(review => review.Content)
@@ -27,7 +27,7 @@ namespace HotelBooking.Application.Validators
             RuleFor(review => review.HotelId)
                 .NotNull()
                 .MustAsync(async (hotelId, cancellation) =>
-                    await hotelService.ExistsAsync(hotelId))
+                    await hotelRepository.ExistsAsync(hotelId))
                 .WithMessage("{PropertyName} does not exist.");
 
             RuleFor(review => review)

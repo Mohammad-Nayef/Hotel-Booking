@@ -10,6 +10,8 @@ namespace HotelBooking.Db.Profiles
         {
             CreateMap<HotelReviewDTO, HotelReviewTable>()
                 .ReverseMap();
+
+            CreateMap<HotelReviewTable, ReviewForHotelPageDTO>();
         }
     }
 }

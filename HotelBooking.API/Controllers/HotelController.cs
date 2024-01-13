@@ -211,6 +211,7 @@ namespace HotelBooking.Api.Controllers
         /// Get hotel info by Id.
         /// </summary>
         /// <param name="hotelId">Id of the hotel.</param>
+        /// <response code="404">The hotel Id does not exists.</response>
         /// <response code="200">Returns the requested hotel info.</response>
         [HttpGet("{hotelId}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -230,6 +231,41 @@ namespace HotelBooking.Api.Controllers
             }
 
             return Ok(hotel);
+        }
+
+        /// <summary>
+        /// Get a paginated list of reviews for a specific hotel.
+        /// </summary>
+        /// <param name="hotelId">Id of the hotel to get its reviews.</param>
+        /// <response code="404">The hotel Id does not exists.</response>
+        /// <response code="200">Returns the requested hotel reviews.</response>
+        [HttpGet("{hotelId}/reviews")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(IEnumerable<ReviewForHotelPageDTO>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetHotelReviewsAsync(
+            Guid hotelId, [FromQuery] PaginationDTO pagination)
+        {
+            IEnumerable<ReviewForHotelPageDTO> reviews;
+            int reviewsCount = 0;
+
+            try
+            {
+                reviews = await _hotelService.GetReviewsByPageAsync(hotelId, pagination);
+                reviewsCount = await _hotelService.GetReviewsCountAsync(hotelId);
+            }
+            catch(ValidationException ex)
+            {
+                return BadRequest(ex.GetErrorsForClient());
+            }
+            catch(KeyNotFoundException)
+            {
+                return NotFound();
+            }
+
+            Response.Headers.AddPaginationMetadata(reviewsCount, pagination);
+
+            return Ok(reviews);
         }
     }
 }

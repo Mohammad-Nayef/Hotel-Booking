@@ -134,7 +134,16 @@
             Get hotel info by Id.
             </summary>
             <param name="hotelId">Id of the hotel.</param>
+            <response code="404">The hotel Id does not exists.</response>
             <response code="200">Returns the requested hotel info.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Controllers.HotelController.GetHotelReviewsAsync(System.Guid,HotelBooking.Domain.Models.PaginationDTO)">
+            <summary>
+            Get a paginated list of reviews for a specific hotel.
+            </summary>
+            <param name="hotelId">Id of the hotel to get its reviews.</param>
+            <response code="404">The hotel Id does not exists.</response>
+            <response code="200">Returns the requested hotel reviews.</response>
         </member>
         <member name="M:HotelBooking.Api.Controllers.ImagesController.GetCityImageAsync(System.Guid)">
              <summary>

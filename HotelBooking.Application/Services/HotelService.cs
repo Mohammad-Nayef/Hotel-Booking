@@ -16,19 +16,22 @@ namespace HotelBooking.Application.Services
         private readonly IValidator<HotelDTO> _hotelValidator;
         private readonly IImageService _imageService;
         private readonly IValidator<HotelSearchDTO> _hotelSearchValidator;
+        private readonly IHotelReviewService _hotelReviewService;
 
         public HotelService(
             IHotelRepository hotelRepository,
             IValidator<PaginationDTO> paginationValidator,
             IValidator<HotelDTO> hotelValidator,
             IImageService imageService,
-            IValidator<HotelSearchDTO> hotelSearchValidator)
+            IValidator<HotelSearchDTO> hotelSearchValidator,
+            IHotelReviewService hotelReviewService)
         {
             _hotelRepository = hotelRepository;
             _paginationValidator = paginationValidator;
             _hotelValidator = hotelValidator;
             _imageService = imageService;
             _hotelSearchValidator = hotelSearchValidator;
+            _hotelReviewService = hotelReviewService;
         }
 
         public async Task<Guid> AddAsync(HotelDTO hotel)
@@ -71,7 +74,7 @@ namespace HotelBooking.Application.Services
             await _paginationValidator.ValidateAndThrowAsync(pagination);
 
             return _hotelRepository.GetForAdminByPage(
-                (pagination.PageNumber - 1) * pagination.PageSize,
+                (pagination.PageNumber - 1) * pagination.PageSize, 
                 pagination.PageSize);
         }
 
@@ -160,5 +163,17 @@ namespace HotelBooking.Application.Services
 
             return _hotelRepository.GetHotelPage(id);
         }
+
+        public async Task<IEnumerable<ReviewForHotelPageDTO>> GetReviewsByPageAsync(
+            Guid id, PaginationDTO pagination)
+        {
+            await _paginationValidator.ValidateAndThrowAsync(pagination);
+            await ValidateIdAsync(id);
+
+            return _hotelReviewService.GetReviewsByHotelByPage(id, pagination);
+        }
+
+        public Task<int> GetReviewsCountAsync(Guid id) =>
+            _hotelReviewService.GetReviewsByHotelCountAsync(id);
     }
 }

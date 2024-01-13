@@ -26,5 +26,17 @@ namespace HotelBooking.Application.Services
 
             await _hotelReviewRepository.AddAsync(newReview);
         }
+
+        public IEnumerable<ReviewForHotelPageDTO> GetReviewsByHotelByPage(
+            Guid hotelId, PaginationDTO pagination)
+        {
+            return _hotelReviewRepository.GetReviewsByHotelByPage(
+                hotelId, 
+                (pagination.PageNumber - 1) * pagination.PageSize,
+                pagination.PageSize);
+        }
+
+        public Task<int> GetReviewsByHotelCountAsync(Guid hotelId) =>
+            _hotelReviewRepository.GetReviewsByHotelCountAsync(hotelId);
     }
 }
