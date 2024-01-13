@@ -26,5 +26,6 @@ namespace HotelBooking.Domain.Abstractions.Repositories
 
         int GetSearchForUserCount(HotelSearchDTO hotelSearch);
         int GetHotelsWithActiveDiscountsCount();
+        HotelPageDTO GetHotelPage(Guid id);
     }
 }

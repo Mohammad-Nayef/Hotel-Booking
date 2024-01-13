@@ -186,5 +186,17 @@ namespace HotelBooking.Db.Repositories
                 hotel.City.Name.ToLower().Contains(searchString) ||
                 hotel.City.CountryName.ToLower().Contains(searchString);
         }
+
+        public HotelPageDTO GetHotelPage(Guid id)
+        {
+            var hotelTable = _dbContext.Hotels
+                .Include(hotel => hotel.City)
+                .Include(hotel => hotel.Images)
+                .Include(hotel => hotel.Discounts)
+                .AsNoTracking()
+                .SingleOrDefault(hotel => hotel.Id == id);
+
+            return _mapper.Map<HotelPageDTO>(hotelTable);
+        }
     }
 }

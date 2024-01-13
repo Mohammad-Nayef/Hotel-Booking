@@ -104,7 +104,7 @@ namespace HotelBooking.Api.Controllers
         /// <param name="hotelId">The Id of the hotel to delete.</param>
         /// <response code="404">The hotel with the given Id doesn't exist.</response>
         /// <response code="204">The hotel is deleted successfully.</response>
-        [HttpDelete("{id}")]
+        [HttpDelete("{hotelId}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -205,6 +205,31 @@ namespace HotelBooking.Api.Controllers
 
             return Created(
                 $"api/hotels/{createdDiscount.HotelId}/discounts/{newId}", createdDiscount);
+        }
+
+        /// <summary>
+        /// Get hotel info by Id.
+        /// </summary>
+        /// <param name="hotelId">Id of the hotel.</param>
+        /// <response code="200">Returns the requested hotel info.</response>
+        [HttpGet("{hotelId}")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(HotelPageDTO), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetHotel(Guid hotelId)
+        {
+            HotelPageDTO hotel;
+
+            try
+            {
+                hotel = await _hotelService.GetHotelPageAsync(hotelId);
+            }
+            catch (KeyNotFoundException ex) 
+            {
+                return NotFound(ex.Message);
+            }
+
+            return Ok(hotel);
         }
     }
 }

@@ -21,5 +21,6 @@ namespace HotelBooking.Domain.Abstractions.Services
             HotelSearchDTO hotelSearch, PaginationDTO pagination);
         int GetSearchForUserCount(HotelSearchDTO hotelSearch);
         int GetFeaturedHotelsCount();
+        Task<HotelPageDTO> GetHotelPageAsync(Guid hotelId);
     }
 }

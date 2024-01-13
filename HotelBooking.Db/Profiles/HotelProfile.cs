@@ -25,6 +25,12 @@ namespace HotelBooking.Db.Profiles
             CreateMap<HotelTable, HotelForUserDTO>()
                 .ForMember(dest => dest.ThumbnailId, opt =>
                     opt.MapFrom(src => src.Images.FirstOrDefault().Id));
+
+            CreateMap<HotelTable, HotelPageDTO>()
+                .ForMember(dest => dest.ImagesIds, opt =>
+                    opt.MapFrom(src => src.Images.Select(image => image.Id)))
+                .ForMember(dest => dest.CurrentDiscount, opt =>
+                    opt.MapFrom(src => src.Discounts.GetHighestActive()));
         }
     }
 }

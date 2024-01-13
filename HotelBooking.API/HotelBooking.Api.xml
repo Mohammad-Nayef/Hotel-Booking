@@ -129,6 +129,13 @@
             <param name="newDiscount">Properties of the new discount.</param>
             <response code="201">Returns the discount with a new Id and its URI in response headers.</response>
         </member>
+        <member name="M:HotelBooking.Api.Controllers.HotelController.GetHotel(System.Guid)">
+            <summary>
+            Get hotel info by Id.
+            </summary>
+            <param name="hotelId">Id of the hotel.</param>
+            <response code="200">Returns the requested hotel info.</response>
+        </member>
         <member name="M:HotelBooking.Api.Controllers.ImagesController.GetCityImageAsync(System.Guid)">
              <summary>
              Gets an image for a city by an image Id.

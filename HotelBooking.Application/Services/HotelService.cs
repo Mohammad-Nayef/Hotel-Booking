@@ -153,5 +153,12 @@ namespace HotelBooking.Application.Services
 
         public int GetFeaturedHotelsCount() =>
             _hotelRepository.GetHotelsWithActiveDiscountsCount();
+
+        public async Task<HotelPageDTO> GetHotelPageAsync(Guid id)
+        {
+            await ValidateIdAsync(id);
+
+            return _hotelRepository.GetHotelPage(id);
+        }
     }
 }
