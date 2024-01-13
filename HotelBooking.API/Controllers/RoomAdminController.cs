@@ -116,7 +116,7 @@ namespace HotelBooking.Api.Controllers
         /// <param name="roomId">The Id of the room to delete.</param>
         /// <response code="404">The room with the given Id doesn't exist.</response>
         /// <response code="204">The room is deleted successfully.</response>
-        [HttpDelete("{id}")]
+        [HttpDelete("{roomId}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

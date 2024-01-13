@@ -115,7 +115,7 @@ namespace HotelBooking.Api.Controllers
         /// <param name="cityId">The Id of the city to delete.</param>
         /// <response code="404">The city with the given Id doesn't exist.</response>
         /// <response code="204">The city is deleted successfully.</response>
-        [HttpDelete("{id}")]
+        [HttpDelete("{cityId}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

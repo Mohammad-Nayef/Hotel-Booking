@@ -26,8 +26,7 @@ namespace HotelBooking.Application.Services
             if (!double.TryParse(_config["Jwt:ExpirationMinutes"], out var expirationMinutes))
                 throw new Exception("Invalid configuration for `Jwt:ExpirationMinutes`");
 
-            var claims = new List<Claim>(
-                user.Roles.Select(role => new Claim(ClaimTypes.Role, role.Name)));
+            var claims = GetClaims(user);
 
             var token = new JwtSecurityToken(
                 issuer,
@@ -37,6 +36,15 @@ namespace HotelBooking.Application.Services
                 signingCredentials: signingCredentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        private static List<Claim> GetClaims(UserDTO user)
+        {
+            return new List<Claim>(
+                user.Roles.Select(role => new Claim(ClaimTypes.Role, role.Name)))
+            {
+                new Claim(ClaimTypes.Name, user.Id.ToString())
+            };
         }
 
         private SigningCredentials GetSigningCredentials()

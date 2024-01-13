@@ -232,7 +232,7 @@
             <response code="404">The room with the given Id doesn't exist.</response>
             <response code="204">The room is updated successfully.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.UserController.PostCartItemAsync(System.Guid,HotelBooking.Api.Models.CartItemCreationDTO)">
+        <member name="M:HotelBooking.Api.Controllers.UserController.PostCartItemAsync(HotelBooking.Api.Models.CartItemCreationDTO)">
             <summary>
             Create and store a new cart item for a user.
             </summary>
@@ -240,14 +240,14 @@
             <param name="newCartItem">Properties of the new cart item.</param>
             <response code="201">Returns the cart item with a new Id and its URI in response headers.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.UserController.GetCartItemsAsync(System.Guid,HotelBooking.Domain.Models.PaginationDTO)">
+        <member name="M:HotelBooking.Api.Controllers.UserController.GetCartItemsAsync(HotelBooking.Domain.Models.PaginationDTO)">
             <summary>
             Get a paginated list of cart items for a user.
             </summary>
             <param name="userId">The Id of the user to get his cart items.</param>
             <response code="200">The list of cart items is retrieved successfully.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.UserController.PostBookingAsync(System.Guid,HotelBooking.Api.Models.BookingCreationDTO)">
+        <member name="M:HotelBooking.Api.Controllers.UserController.PostBookingAsync(HotelBooking.Api.Models.BookingCreationDTO)">
             <summary>
             Create and store a new booking for a user.
             </summary>

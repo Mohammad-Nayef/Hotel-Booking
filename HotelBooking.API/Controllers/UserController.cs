@@ -43,12 +43,12 @@ namespace HotelBooking.Api.Controllers
         /// <param name="userId">The Id of the user that has the cart item.</param>
         /// <param name="newCartItem">Properties of the new cart item.</param>
         /// <response code="201">Returns the cart item with a new Id and its URI in response headers.</response>
-        [HttpPost("{userId}/cart-items")]
+        [HttpPost("current-user/cart-items")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(CartItemCreationDTO), StatusCodes.Status201Created)]
-        public async Task<IActionResult> PostCartItemAsync(
-            Guid userId, CartItemCreationDTO newCartItem)
+        public async Task<IActionResult> PostCartItemAsync(CartItemCreationDTO newCartItem)
         {
+            var userId = new Guid(HttpContext.User.Identity.Name);
             Guid newId;
             newCartItem.UserId = userId;
 
@@ -73,12 +73,12 @@ namespace HotelBooking.Api.Controllers
         /// </summary>
         /// <param name="userId">The Id of the user to get his cart items.</param>
         /// <response code="200">The list of cart items is retrieved successfully.</response>
-        [HttpGet("{userId}/cart-items")]
+        [HttpGet("current-user/cart-items")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(IEnumerable<CartItemDTO>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetCartItemsAsync(
-            Guid userId, [FromQuery] PaginationDTO pagination)
+        public async Task<IActionResult> GetCartItemsAsync([FromQuery] PaginationDTO pagination)
         {
+            var userId = new Guid(HttpContext.User.Identity.Name);
             IEnumerable<CartItemDTO> cartItems;
             int citiesCount = 0;
 
@@ -107,13 +107,12 @@ namespace HotelBooking.Api.Controllers
         /// <param name="userId">The Id of the user that has the booking.</param>
         /// <param name="newBooking">Properties of the new booking.</param>
         /// <response code="201">The booking is created successfully.</response>
-        [HttpPost("{userId}/bookings")]
+        [HttpPost("current-user/bookings")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> PostBookingAsync(
-            Guid userId, BookingCreationDTO newBooking)
+        public async Task<IActionResult> PostBookingAsync(BookingCreationDTO newBooking)
         {
-            newBooking.UserId = userId;
+            newBooking.UserId = new Guid(HttpContext.User.Identity.Name);
 
             try
             {
@@ -133,13 +132,13 @@ namespace HotelBooking.Api.Controllers
         /// <param name="userId">The Id of the user creating the review.</param>
         /// <param name="newReview">Properties of the new review.</param>
         /// <response code="201">The review is created successfully.</response>
-        [HttpPost("{userId}/hotel-reviews")]
+        [HttpPost("current-user/hotel-reviews")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> PostHotelReviewAsync(
             Guid userId, HotelReviewCreationDTO newReview)
         {
-            newReview.UserId = userId;
+            newReview.UserId = new Guid(HttpContext.User.Identity.Name);
 
             try
             {
