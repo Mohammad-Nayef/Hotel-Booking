@@ -1,4 +1,4 @@
-﻿using HotelBooking.Domain.Models;
+﻿using HotelBooking.Domain.Models.User;
 
 namespace HotelBooking.Domain.Abstractions.Repositories
 {

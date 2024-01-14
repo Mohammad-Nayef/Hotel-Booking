@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using HotelBooking.Domain.Abstractions.Repositories;
+using HotelBooking.Domain.Abstractions.Repositories.City;
 using HotelBooking.Domain.Constants;
 using SixLabors.ImageSharp;
 

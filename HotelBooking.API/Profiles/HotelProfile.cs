@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using HotelBooking.Api.Models.Hotel;
-using HotelBooking.Domain.Models;
+using HotelBooking.Domain.Models.Hotel;
 
 namespace HotelBooking.Api.Profiles
 {

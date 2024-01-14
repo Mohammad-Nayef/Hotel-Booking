@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using HotelBooking.Domain.Abstractions.Services;
+using HotelBooking.Domain.Abstractions.Services.Hotel;
 using HotelBooking.Domain.Constants;
 using HotelBooking.Domain.Models;
 

@@ -5,6 +5,7 @@ using HotelBooking.Api.Models;
 using HotelBooking.Api.Models.CartItem;
 using HotelBooking.Api.Models.Hotel;
 using HotelBooking.Domain.Abstractions.Services;
+using HotelBooking.Domain.Abstractions.Services.Hotel;
 using HotelBooking.Domain.Constants;
 using HotelBooking.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -23,20 +24,17 @@ namespace HotelBooking.Api.Controllers
         private readonly ICartItemService _cartItemService;
         private readonly IBookingService _bookingService;
         private readonly IHotelReviewService _hotelReviewService;
-        private readonly IHotelService _hotelService;
 
         public UserController(
             IMapper mapper,
             ICartItemService cartItemService,
             IBookingService bookingService,
-            IHotelReviewService hotelReviewService,
-            IHotelService hotelService)
+            IHotelReviewService hotelReviewService)
         {
             _mapper = mapper;
             _cartItemService = cartItemService;
             _bookingService = bookingService;
             _hotelReviewService = hotelReviewService;
-            _hotelService = hotelService;
         }
 
         /// <summary>

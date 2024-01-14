@@ -23,11 +23,13 @@ namespace HotelBooking.Db.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public bool RoomIsBookedBetween(Guid roomId, DateTime startingDate, DateTime endingDate) =>
-            _dbContext.Bookings
-                .ToList()
+        public bool RoomIsBookedBetween(Guid roomId, DateTime startingDate, DateTime endingDate)
+        {
+            return _dbContext.Bookings
+                .AsEnumerable()
                 .Any(booking =>
                     booking.RoomId == roomId &&
                     booking.IntersectsWith(startingDate, endingDate));
+        }
     }
 }

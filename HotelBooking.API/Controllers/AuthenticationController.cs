@@ -4,7 +4,7 @@ using HotelBooking.Api.Extensions;
 using HotelBooking.Api.Models.User;
 using HotelBooking.Domain.Abstractions.Services;
 using HotelBooking.Domain.Exceptions;
-using HotelBooking.Domain.Models;
+using HotelBooking.Domain.Models.User;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelBooking.Api.Controllers

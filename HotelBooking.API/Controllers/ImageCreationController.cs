@@ -1,6 +1,8 @@
 ﻿using FluentValidation;
 using HotelBooking.Api.Extensions;
-using HotelBooking.Domain.Abstractions.Services;
+using HotelBooking.Domain.Abstractions.Services.City;
+using HotelBooking.Domain.Abstractions.Services.Hotel;
+using HotelBooking.Domain.Abstractions.Services.Room;
 using HotelBooking.Domain.Constants;
 using HotelBooking.Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
@@ -16,16 +18,18 @@ namespace HotelBooking.Api.Controllers
     [Route("api")]
     public class ImageCreationController : Controller
     {
-        private readonly ICityService _cityService;
-        private readonly IHotelService _hotelService;
-        private readonly IRoomService _roomService;
+        private readonly ICityAdminService _cityAdminService;
+        private readonly IHotelAdminService _hotelAdminService;
+        private readonly IRoomAdminService _roomAdminService;
 
         public ImageCreationController(
-            ICityService cityService, IHotelService hotelService, IRoomService roomService)
+            ICityAdminService cityAdminService, 
+            IHotelAdminService hotelAdminService, 
+            IRoomAdminService roomAdminService)
         {
-            _cityService = cityService;
-            _hotelService = hotelService;
-            _roomService = roomService;
+            _cityAdminService = cityAdminService;
+            _hotelAdminService = hotelAdminService;
+            _roomAdminService = roomAdminService;
         }
 
         /// <summary>
@@ -42,7 +46,7 @@ namespace HotelBooking.Api.Controllers
             Guid cityId, List<IFormFile> imagesForms)
         {
             return CreateEntityImageAsync(
-                cityId, imagesForms, _cityService.AddImagesForCityAsync);
+                cityId, imagesForms, _cityAdminService.AddImagesAsync);
         }
 
         /// <summary>
@@ -59,7 +63,7 @@ namespace HotelBooking.Api.Controllers
             Guid hotelId, List<IFormFile> imagesForms)
         {
             return CreateEntityImageAsync(
-                hotelId, imagesForms, _hotelService.AddImagesForHotelAsync);
+                hotelId, imagesForms, _hotelAdminService.AddImagesAsync);
         }
 
         /// <summary>
@@ -76,7 +80,7 @@ namespace HotelBooking.Api.Controllers
             Guid roomId, List<IFormFile> imagesForms)
         {
             return CreateEntityImageAsync(
-                roomId, imagesForms, _roomService.AddImagesForRoomAsync);
+                roomId, imagesForms, _roomAdminService.AddImagesAsync);
         }
 
         private async Task<IActionResult> CreateEntityImageAsync(
@@ -84,6 +88,9 @@ namespace HotelBooking.Api.Controllers
             List<IFormFile> imagesForms, 
             Func<Guid, IEnumerable<Image>, Task> addImagesAsync)
         {
+            if (imagesForms.Count == 0)
+                return BadRequest("Images list can't be empty.");
+
             try
             {
                 var images = imagesForms.ToImages();

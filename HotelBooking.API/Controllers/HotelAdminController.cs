@@ -4,8 +4,10 @@ using HotelBooking.Api.Extensions;
 using HotelBooking.Api.Models.Discount;
 using HotelBooking.Api.Models.Hotel;
 using HotelBooking.Domain.Abstractions.Services;
+using HotelBooking.Domain.Abstractions.Services.Hotel;
 using HotelBooking.Domain.Constants;
 using HotelBooking.Domain.Models;
+using HotelBooking.Domain.Models.Hotel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -20,13 +22,18 @@ namespace HotelBooking.Api.Controllers
     public class HotelAdminController : Controller
     {
         private readonly IHotelService _hotelService;
+        private readonly IHotelAdminService _hotelAdminService;
         private readonly IMapper _mapper;
         private readonly IDiscountService _discountService;
 
         public HotelAdminController(
-            IHotelService hotelService, IMapper mapper, IDiscountService discountService)
+            IHotelService hotelService,
+            IHotelAdminService hotelAdminService, 
+            IMapper mapper, 
+            IDiscountService discountService)
         {
             _hotelService = hotelService;
+            _hotelAdminService = hotelAdminService;
             _mapper = mapper;
             _discountService = discountService;
         }
@@ -45,7 +52,7 @@ namespace HotelBooking.Api.Controllers
 
             try
             {
-                hotels = await _hotelService.GetForAdminByPageAsync(pagination);
+                hotels = await _hotelAdminService.GetByPageAsync(pagination);
             }
             catch (ValidationException ex)
             {
@@ -73,14 +80,14 @@ namespace HotelBooking.Api.Controllers
 
             try
             {
-                hotels = await _hotelService.SearchByHotelForAdminByPageAsync(pagination, search);
+                hotels = await _hotelAdminService.SearchByPageAsync(pagination, search);
             }
             catch (ValidationException ex)
             {
                 return BadRequest(ex.GetErrorsForClient());
             }
 
-            var hotelsCount = await _hotelService.GetSearchByHotelForAdminCountAsync(search);
+            var hotelsCount = await _hotelAdminService.GetSearchCountAsync(search);
             Response.Headers.AddPaginationMetadata(hotelsCount, pagination);
 
             return Ok(hotels);

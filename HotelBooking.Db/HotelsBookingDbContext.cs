@@ -1,5 +1,7 @@
 ﻿using HotelBooking.Db.Tables;
-using HotelBooking.Domain.Models;
+using HotelBooking.Domain.Models.City;
+using HotelBooking.Domain.Models.Hotel;
+using HotelBooking.Domain.Models.Room;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 

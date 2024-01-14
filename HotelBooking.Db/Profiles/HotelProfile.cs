@@ -2,6 +2,7 @@
 using HotelBooking.Db.Extensions;
 using HotelBooking.Db.Tables;
 using HotelBooking.Domain.Models;
+using HotelBooking.Domain.Models.Hotel;
 
 namespace HotelBooking.Db.Profiles
 {

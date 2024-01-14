@@ -26,10 +26,12 @@ namespace HotelBooking.Db.Repositories
             return entityEntry.Entity.Id;
         }
 
-        public Task<bool> ExistsByUserAndRoomAsync(Guid userId, Guid roomId) =>
-            _dbContext.CartItems.AnyAsync(item =>
+        public Task<bool> ExistsByUserAndRoomAsync(Guid userId, Guid roomId)
+        {
+            return _dbContext.CartItems.AnyAsync(item =>
                 item.UserId == userId &&
                 item.RoomId == roomId);
+        }
 
         public IEnumerable<CartItemDTO> GetAllForUserByPage(
             Guid userId, int itemsToSkip, int itemsToTake)
@@ -43,9 +45,16 @@ namespace HotelBooking.Db.Repositories
             return _mapper.Map<IEnumerable<CartItemDTO>>(items);
         }
 
-        public Task<int> GetCountForUserAsync(Guid userId) =>
-            _dbContext.CartItems
-            .Where(item => item.UserId == userId)
-            .CountAsync();
+        public async Task<int> GetCountForUserAsync(Guid userId)
+        {
+            var cartItems = _dbContext.CartItems
+                .Where(item => item.UserId == userId)
+                .AsNoTracking();
+
+            if (cartItems.TryGetNonEnumeratedCount(out var count))
+                return count;
+
+            return await cartItems.CountAsync();
+        }
     }
 }

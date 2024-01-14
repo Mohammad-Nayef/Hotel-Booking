@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using HotelBooking.Domain.Abstractions.Repositories;
 using HotelBooking.Domain.Abstractions.Services;
+using HotelBooking.Domain.Abstractions.Services.Room;
 using HotelBooking.Domain.Models;
 
 namespace HotelBooking.Application.Validators

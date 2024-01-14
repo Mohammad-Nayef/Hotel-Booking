@@ -2,9 +2,10 @@
 using FluentValidation;
 using HotelBooking.Api.Extensions;
 using HotelBooking.Api.Models.City;
-using HotelBooking.Domain.Abstractions.Services;
+using HotelBooking.Domain.Abstractions.Services.City;
 using HotelBooking.Domain.Constants;
 using HotelBooking.Domain.Models;
+using HotelBooking.Domain.Models.City;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -20,11 +21,14 @@ namespace HotelBooking.Api.Controllers
     {
         private readonly ICityService _cityService;
         private readonly IMapper _mapper;
+        private readonly ICityAdminService _cityAdminService;
 
-        public CityAdminController(ICityService cityService, IMapper mapper)
+        public CityAdminController(
+            ICityService cityService, IMapper mapper, ICityAdminService cityAdminService)
         {
             _cityService = cityService;
             _mapper = mapper;
+            _cityAdminService = cityAdminService;
         }
 
         /// <summary>
@@ -41,7 +45,7 @@ namespace HotelBooking.Api.Controllers
 
             try
             {
-                cities = await _cityService.GetForAdminByPageAsync(pagination);
+                cities = await _cityAdminService.GetByPageAsync(pagination);
             }
             catch (ValidationException ex)
             {
@@ -69,14 +73,14 @@ namespace HotelBooking.Api.Controllers
 
             try
             {
-                cities = await _cityService.SearchByCityForAdminByPageAsync(pagination, search);
+                cities = await _cityAdminService.SearchByPageAsync(pagination, search);
             }
             catch (ValidationException ex)
             {
                 return BadRequest(ex.GetErrorsForClient());
             }
 
-            var citiesCount = await _cityService.GetSearchByCityForAdminCountAsync(search);
+            var citiesCount = await _cityAdminService.GetSearchCountAsync(search);
             Response.Headers.AddPaginationMetadata(citiesCount, pagination);
 
             return Ok(cities);

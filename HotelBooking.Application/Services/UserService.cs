@@ -4,6 +4,7 @@ using HotelBooking.Domain.Abstractions.Services;
 using HotelBooking.Domain.Constants;
 using HotelBooking.Domain.Exceptions;
 using HotelBooking.Domain.Models;
+using HotelBooking.Domain.Models.User;
 using Microsoft.AspNet.Identity;
 
 namespace HotelBooking.Application.Services

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using HotelBooking.Db.Tables;
 using HotelBooking.Domain.Abstractions.Repositories;
-using HotelBooking.Domain.Models;
+using HotelBooking.Domain.Models.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelBooking.Db.Repositories
@@ -32,6 +32,7 @@ namespace HotelBooking.Db.Repositories
         {
             var neededUser = await _dbContext.Users
                 .Include(user => user.Roles)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(user => user.Username == username);
 
             return neededUser == null? null : _mapper.Map<UserDTO>(neededUser);

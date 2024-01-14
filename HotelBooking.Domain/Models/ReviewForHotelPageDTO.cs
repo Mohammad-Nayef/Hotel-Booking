@@ -1,4 +1,6 @@
-﻿namespace HotelBooking.Domain.Models
+﻿using HotelBooking.Domain.Models.User;
+
+namespace HotelBooking.Domain.Models
 {
     public class ReviewForHotelPageDTO
     {

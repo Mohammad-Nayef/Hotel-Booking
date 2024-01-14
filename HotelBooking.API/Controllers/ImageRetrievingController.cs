@@ -1,4 +1,6 @@
-﻿using HotelBooking.Domain.Abstractions.Services;
+﻿using HotelBooking.Domain.Abstractions.Services.City;
+using HotelBooking.Domain.Abstractions.Services.Hotel;
+using HotelBooking.Domain.Abstractions.Services.Room;
 using HotelBooking.Domain.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,11 +15,18 @@ namespace HotelBooking.Api.Controllers
     [Route("api")]
     public class ImageRetrievingController : Controller
     {
-        private readonly IImageService _imageService;
+        private readonly IHotelImageService _hotelImageService;
+        private readonly ICityImageService _cityImageService;
+        private readonly IRoomImageService _roomImageService;
 
-        public ImageRetrievingController(IImageService imageService)
+        public ImageRetrievingController(
+            IHotelImageService hotelImageService,
+            ICityImageService cityImageService,
+            IRoomImageService roomImageService)
         {
-            _imageService = imageService;
+            _hotelImageService = hotelImageService;
+            _cityImageService = cityImageService;
+            _roomImageService = roomImageService;
         }
 
         /// <summary>
@@ -30,7 +39,7 @@ namespace HotelBooking.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public Task<IActionResult> GetCityImageAsync(Guid imageId) =>
-            GetEntityImageAsync(imageId, _imageService.GetCityImageAsync);
+            GetEntityImageAsync(imageId, _cityImageService.GetImageAsync);
 
         /// <summary>
         /// Gets an image for a hotel by an image Id.
@@ -42,7 +51,7 @@ namespace HotelBooking.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public Task<IActionResult> GetHotelImageAsync(Guid imageId) =>
-            GetEntityImageAsync(imageId, _imageService.GetHotelImageAsync);
+            GetEntityImageAsync(imageId, _hotelImageService.GetImageAsync);
 
         /// <summary>
         /// Gets an image for a room by an image Id.
@@ -54,7 +63,7 @@ namespace HotelBooking.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public Task<IActionResult> GetRoomImageAsync(Guid imageId) =>
-            GetEntityImageAsync(imageId, _imageService.GetRoomImageAsync);
+            GetEntityImageAsync(imageId, _roomImageService.GetImageAsync);
 
         /// <summary>
         /// Gets a thumbnail of an image for a room by an image Id.
@@ -66,7 +75,7 @@ namespace HotelBooking.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public Task<IActionResult> GetThumbnailOfRoomImageAsync(Guid thumbnailId) =>
-            GetEntityImageAsync(thumbnailId, _imageService.GetThumbnailOfRoomImageAsync);
+            GetEntityImageAsync(thumbnailId, _roomImageService.GetThumbnailOfImageAsync);
 
         /// <summary>
         /// Gets a thumbnail of an image for a hotel by a thumbnail Id.
@@ -78,7 +87,7 @@ namespace HotelBooking.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public Task<IActionResult> GetThumbnailOfHotelImageAsync(Guid thumbnailId) =>
-            GetEntityImageAsync(thumbnailId, _imageService.GetThumbnailOfHotelImageAsync);
+            GetEntityImageAsync(thumbnailId, _hotelImageService.GetThumbnailOfImageAsync);
 
         /// <summary>
         /// Gets a thumbnail of an image for a city by a thumbnail Id.
@@ -90,7 +99,7 @@ namespace HotelBooking.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public Task<IActionResult> GetThumbnailOfCityImageAsync(Guid thumbnailId) =>
-            GetEntityImageAsync(thumbnailId, _imageService.GetThumbnailOfCityImageAsync);
+            GetEntityImageAsync(thumbnailId, _cityImageService.GetThumbnailOfImageAsync);
 
         private async Task<IActionResult> GetEntityImageAsync(
             Guid imageId, Func<Guid, Task<FileStream>> entityImageGetterAsync)

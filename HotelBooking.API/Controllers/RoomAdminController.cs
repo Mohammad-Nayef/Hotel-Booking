@@ -2,9 +2,10 @@
 using FluentValidation;
 using HotelBooking.Api.Extensions;
 using HotelBooking.Api.Models.Room;
-using HotelBooking.Domain.Abstractions.Services;
+using HotelBooking.Domain.Abstractions.Services.Room;
 using HotelBooking.Domain.Constants;
 using HotelBooking.Domain.Models;
+using HotelBooking.Domain.Models.Room;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -20,11 +21,14 @@ namespace HotelBooking.Api.Controllers
     {
         private readonly IRoomService _roomService;
         private readonly IMapper _mapper;
+        private readonly IRoomAdminService _roomAdminService;
 
-        public RoomAdminController(IRoomService roomService, IMapper mapper)
+        public RoomAdminController(
+            IRoomService roomService, IMapper mapper, IRoomAdminService roomAdminService)
         {
             _roomService = roomService;
             _mapper = mapper;
+            _roomAdminService = roomAdminService;
         }
 
         /// <summary>
@@ -41,7 +45,7 @@ namespace HotelBooking.Api.Controllers
 
             try
             {
-                rooms = await _roomService.GetForAdminByPageAsync(pagination);
+                rooms = await _roomAdminService.GetByPageAsync(pagination);
             }
             catch (ValidationException ex)
             {
@@ -70,14 +74,14 @@ namespace HotelBooking.Api.Controllers
 
             try
             {
-                rooms = await _roomService.SearchByRoomForAdminByPageAsync(pagination, search);
+                rooms = await _roomAdminService.SearchByPageAsync(pagination, search);
             }
             catch (ValidationException ex)
             {
                 return BadRequest(ex.GetErrorsForClient());
             }
 
-            var roomsCount = await _roomService.GetSearchByRoomForAdminCountAsync(search);
+            var roomsCount = await _roomAdminService.GetSearchCountAsync(search);
             Response.Headers.AddPaginationMetadata(roomsCount, pagination);
 
             return Ok(rooms);

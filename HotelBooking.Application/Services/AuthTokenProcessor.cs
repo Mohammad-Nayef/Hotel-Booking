@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using HotelBooking.Domain.Abstractions.Services;
-using HotelBooking.Domain.Models;
+using HotelBooking.Domain.Models.User;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 

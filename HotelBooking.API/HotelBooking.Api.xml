@@ -11,7 +11,7 @@
             <param name="newUser">Properties of the new user.</param>
             <response code="201">Returns the user with a new Id and its URI in response headers.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.AuthenticationController.LoginAsync(HotelBooking.Domain.Models.UserLoginDTO)">
+        <member name="M:HotelBooking.Api.Controllers.AuthenticationController.LoginAsync(HotelBooking.Domain.Models.User.UserLoginDTO)">
             <summary>
             Login to an existing user account.
             </summary>
@@ -121,7 +121,7 @@
             </summary>
             <response code="200">Returns the list of featured hotels.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.HotelUserController.HotelsSearchAsync(HotelBooking.Domain.Models.PaginationDTO,HotelBooking.Domain.Models.HotelSearchDTO)">
+        <member name="M:HotelBooking.Api.Controllers.HotelUserController.HotelsSearchAsync(HotelBooking.Domain.Models.PaginationDTO,HotelBooking.Domain.Models.Hotel.HotelSearchDTO)">
             <summary>
             Global search method for paginated list of hotels by user.
             </summary>

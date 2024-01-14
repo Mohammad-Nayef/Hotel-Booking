@@ -1,8 +1,9 @@
 ﻿using FluentValidation;
 using HotelBooking.Api.Extensions;
-using HotelBooking.Domain.Abstractions.Services;
+using HotelBooking.Domain.Abstractions.Services.Hotel;
 using HotelBooking.Domain.Constants;
 using HotelBooking.Domain.Models;
+using HotelBooking.Domain.Models.Hotel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,11 +16,11 @@ namespace HotelBooking.Api.Controllers
     [Route("api/hotels")]
     public class HotelUserController : Controller
     {
-        private readonly IHotelService _hotelService;
+        private readonly IHotelUserService _hotelUserService;
 
-        public HotelUserController(IHotelService hotelService)
+        public HotelUserController(IHotelUserService hotelUserService)
         {
-            _hotelService = hotelService;
+            _hotelUserService = hotelUserService;
         }
 
         /// <summary>
@@ -38,7 +39,7 @@ namespace HotelBooking.Api.Controllers
 
             try
             {
-                hotel = await _hotelService.GetHotelPageAsync(hotelId);
+                hotel = await _hotelUserService.GetHotelPageAsync(hotelId);
             }
             catch (KeyNotFoundException ex)
             {
@@ -66,8 +67,8 @@ namespace HotelBooking.Api.Controllers
 
             try
             {
-                reviews = await _hotelService.GetReviewsByPageAsync(hotelId, pagination);
-                reviewsCount = await _hotelService.GetReviewsCountAsync(hotelId);
+                reviews = await _hotelUserService.GetReviewsByPageAsync(hotelId, pagination);
+                reviewsCount = await _hotelUserService.GetReviewsCountAsync(hotelId);
             }
             catch (ValidationException ex)
             {
@@ -98,8 +99,8 @@ namespace HotelBooking.Api.Controllers
 
             try
             {
-                featuredHotels = await _hotelService.GetFeaturedHotelsByPageAsync(pagination);
-                featuredHotelsCount = _hotelService.GetFeaturedHotelsCount();
+                featuredHotels = await _hotelUserService.GetFeaturedHotelsByPageAsync(pagination);
+                featuredHotelsCount = _hotelUserService.GetFeaturedHotelsCount();
             }
             catch (ValidationException ex)
             {
@@ -127,8 +128,8 @@ namespace HotelBooking.Api.Controllers
 
             try
             {
-                hotels = await _hotelService.SearchForUserByPageAsync(hotelSearch, pagination);
-                hotelsCount = _hotelService.GetSearchForUserCount(hotelSearch);
+                hotels = await _hotelUserService.SearchByPageAsync(hotelSearch, pagination);
+                hotelsCount = _hotelUserService.GetSearchCount(hotelSearch);
             }
             catch (ValidationException ex)
             {

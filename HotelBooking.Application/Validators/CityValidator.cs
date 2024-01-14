@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using HotelBooking.Domain.Constants;
-using HotelBooking.Domain.Models;
+using HotelBooking.Domain.Models.City;
 
 namespace HotelBooking.Application.Validators
 {
