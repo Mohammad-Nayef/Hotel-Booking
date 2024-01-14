@@ -4,6 +4,7 @@ using HotelBooking.Domain.Abstractions.Services;
 using HotelBooking.Domain.Abstractions.Services.Hotel;
 using HotelBooking.Domain.Models;
 using HotelBooking.Domain.Models.Hotel;
+using HotelBooking.Domain.Models.Room;
 
 namespace HotelBooking.Application.Services.Hotel
 {
@@ -78,5 +79,20 @@ namespace HotelBooking.Application.Services.Hotel
 
         public Task<int> GetReviewsCountAsync(Guid id) =>
             _hotelReviewService.GetReviewsByHotelCountAsync(id);
+
+        public async Task<IEnumerable<RoomForUserDTO>> GetAvailableRoomsAsync(
+            Guid id, PaginationDTO pagination)
+        {
+            await _paginationValidator.ValidateAndThrowAsync(pagination);
+            await _hotelService.ValidateIdAsync(id);
+
+            return _hotelUserRepository.GetAvailableRooms(
+                id,
+                (pagination.PageNumber - 1) * pagination.PageSize,
+                pagination.PageSize);
+        }
+
+        public int GetAvailableRoomsCount(Guid id) =>
+            _hotelUserRepository.GetAvailableRoomsCount(id);
     }
 }

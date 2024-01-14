@@ -3,6 +3,7 @@ using HotelBooking.Db.Extensions;
 using HotelBooking.Db.Tables;
 using HotelBooking.Domain.Abstractions.Repositories.Hotel;
 using HotelBooking.Domain.Models.Hotel;
+using HotelBooking.Domain.Models.Room;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -98,6 +99,36 @@ namespace HotelBooking.Db.Repositories.Hotel
                 .SingleOrDefault(hotel => hotel.Id == id);
 
             return _mapper.Map<HotelPageDTO>(hotelTable);
+        }
+
+        public IEnumerable<RoomForUserDTO> GetAvailableRooms(
+            Guid id, int itemsToSkip, int itemsToTake)
+        {
+            var rooms = _dbContext.Hotels
+                .Where(hotel => hotel.Id == id)
+                .SelectMany(hotel => hotel.Rooms)
+                .Include(room => room.Images)
+                .Include(room => room.Bookings)
+                .Include(room => room.Hotel.Discounts)
+                .AsNoTracking()
+                .AsEnumerable()
+                .Where(room => !room.Bookings
+                    .Any(booking => booking.IntersectsWith(DateTime.UtcNow)))
+                .Skip(itemsToSkip)
+                .Take(itemsToTake);
+
+            return _mapper.Map<IEnumerable<RoomForUserDTO>>(rooms);
+        }
+
+        public int GetAvailableRoomsCount(Guid id)
+        {
+            return _dbContext.Hotels
+                .Where(hotel => hotel.Id == id)
+                .SelectMany(hotel => hotel.Rooms)
+                .AsEnumerable()
+                .Where(room => !room.Bookings
+                    .Any(booking => booking.IntersectsWith(DateTime.UtcNow)))
+                .Count();
         }
     }
 }

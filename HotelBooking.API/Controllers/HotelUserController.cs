@@ -4,6 +4,7 @@ using HotelBooking.Domain.Abstractions.Services.Hotel;
 using HotelBooking.Domain.Constants;
 using HotelBooking.Domain.Models;
 using HotelBooking.Domain.Models.Hotel;
+using HotelBooking.Domain.Models.Room;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -139,6 +140,40 @@ namespace HotelBooking.Api.Controllers
             Response.Headers.AddPaginationMetadata(hotelsCount, pagination);
 
             return Ok(hotels);
+        }
+
+        /// <summary>
+        /// Get paginated list of available rooms in an hotel.
+        /// </summary>
+        /// <param name="hotelId">Id of the hotel to get its available rooms.</param>
+        /// <response code="200">Returns the list of available rooms.</response>
+        [HttpGet("{hotelId}/rooms/available")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(IEnumerable<RoomForUserDTO>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAvailableRoomsAsync(
+            Guid hotelId, [FromQuery] PaginationDTO pagination)
+        {
+            IEnumerable<RoomForUserDTO> rooms;
+            int roomsCount = 0;
+
+            try
+            {
+                rooms = await _hotelUserService.GetAvailableRoomsAsync(hotelId, pagination);
+                roomsCount = _hotelUserService.GetAvailableRoomsCount(hotelId);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.GetErrorsForClient());
+            }
+            catch(KeyNotFoundException)
+            {
+                return NotFound();
+            }
+
+            Response.Headers.AddPaginationMetadata(roomsCount, pagination);
+
+            return Ok(rooms);
         }
     }
 }
