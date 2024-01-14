@@ -1,6 +1,6 @@
 ﻿namespace HotelBooking.Db.Tables
 {
-    internal class VisitTable : DbEntity
+    internal class HotelVisitTable : DbEntity
     {
         public DateTime Date { get; set; }
         public Guid HotelId { get; set; }

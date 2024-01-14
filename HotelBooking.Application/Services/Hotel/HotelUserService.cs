@@ -16,6 +16,7 @@ namespace HotelBooking.Application.Services.Hotel
         private readonly IHotelReviewService _hotelReviewService;
         private readonly IHotelUserRepository _hotelUserRepository;
         private readonly IHotelDiscountRepository _hotelDiscountRepository;
+        private readonly IHotelVisitRepository _hotelVisitRepository;
 
         public HotelUserService(
             IValidator<PaginationDTO> paginationValidator,
@@ -23,7 +24,8 @@ namespace HotelBooking.Application.Services.Hotel
             IHotelService hotelService,
             IHotelReviewService hotelReviewService,
             IHotelUserRepository hotelUserRepository,
-            IHotelDiscountRepository hotelDiscountRepository)
+            IHotelDiscountRepository hotelDiscountRepository,
+            IHotelVisitRepository hotelVisitRepository)
         {
             _paginationValidator = paginationValidator;
             _hotelSearchValidator = hotelSearchValidator;
@@ -31,6 +33,7 @@ namespace HotelBooking.Application.Services.Hotel
             _hotelReviewService = hotelReviewService;
             _hotelUserRepository = hotelUserRepository;
             _hotelDiscountRepository = hotelDiscountRepository;
+            _hotelVisitRepository = hotelVisitRepository;
         }
 
         public async Task<IEnumerable<FeaturedHotelDTO>> GetFeaturedHotelsByPageAsync(
@@ -61,9 +64,15 @@ namespace HotelBooking.Application.Services.Hotel
         public int GetSearchCount(HotelSearchDTO hotelSearch) =>
             _hotelUserRepository.GetSearchForUserCount(hotelSearch);
 
-        public async Task<HotelPageDTO> GetHotelPageAsync(Guid id)
+        public async Task<HotelPageDTO> GetHotelPageAsync(Guid id, Guid userId)
         {
             await _hotelService.ValidateIdAsync(id);
+            await _hotelVisitRepository.AddAsync(new HotelVisitDTO
+            {
+                Date = DateTime.UtcNow,
+                HotelId = id,
+                UserId = userId
+            });
 
             return _hotelUserRepository.GetHotelPage(id);
         }

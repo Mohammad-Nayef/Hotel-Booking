@@ -16,7 +16,7 @@ namespace HotelBooking.Db
         public DbSet<ImageTable> Images { get; set; }
         public DbSet<RoomTable> Rooms { get; set; }
         public DbSet<DiscountTable> Discounts { get; set; }
-        public DbSet<VisitTable> Visits { get; set; }
+        public DbSet<HotelVisitTable> HotelVisits { get; set; }
         public DbSet<BookingTable> Bookings { get; set; }
         public DbSet<CartItemTable> CartItems { get; set; }
         public DbSet<HotelReviewTable> HotelReviews { get; set; }

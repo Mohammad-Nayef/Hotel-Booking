@@ -9,7 +9,7 @@
         public string Password { get; set; }
         public List<RoleTable> Roles { get; } = new();
         public List<HotelReviewTable> Reviews { get; } = new();
-        public List<VisitTable> Visits { get; } = new();
+        public List<HotelVisitTable> Visits { get; } = new();
         public List<CartItemTable> CartItems { get; } = new();
         public List<BookingTable> Bookings { get; } = new();
     }

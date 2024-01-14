@@ -11,7 +11,7 @@ namespace HotelBooking.Domain.Abstractions.Services.Hotel
             HotelSearchDTO hotelSearch, PaginationDTO pagination);
         int GetSearchCount(HotelSearchDTO hotelSearch);
         int GetFeaturedHotelsCount();
-        Task<HotelPageDTO> GetHotelPageAsync(Guid hotelId);
+        Task<HotelPageDTO> GetHotelPageAsync(Guid hotelId, Guid userId);
         Task<IEnumerable<ReviewForHotelPageDTO>> GetReviewsByPageAsync(
             Guid id, PaginationDTO pagination);
         Task<int> GetReviewsCountAsync(Guid id);

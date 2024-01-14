@@ -2,7 +2,7 @@
 
 namespace HotelBooking.Domain.Models
 {
-    public class VisitDTO : Entity
+    public class HotelVisitDTO : Entity
     {
         public DateTime Date { get; set; }
         public Guid HotelId { get; set; }

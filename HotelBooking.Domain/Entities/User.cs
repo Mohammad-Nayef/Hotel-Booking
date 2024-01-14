@@ -11,7 +11,7 @@ namespace HotelBooking.Domain.Entities
         public string Password { get; set; }
         public List<Role> Roles { get; set; }
         public List<HotelReview> Reviews { get; set; }
-        public List<Visit> Visits { get; set; }
+        public List<HotelVisit> Visits { get; set; }
         public List<CartItem> CartItems { get; set; }
         public List<Booking> Bookings { get; set; }
     }

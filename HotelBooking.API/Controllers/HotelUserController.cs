@@ -37,10 +37,11 @@ namespace HotelBooking.Api.Controllers
         public async Task<IActionResult> GetHotel(Guid hotelId)
         {
             HotelPageDTO hotel;
+            var userId = new Guid(HttpContext.User.Identity.Name);
 
             try
             {
-                hotel = await _hotelUserService.GetHotelPageAsync(hotelId);
+                hotel = await _hotelUserService.GetHotelPageAsync(hotelId, userId);
             }
             catch (KeyNotFoundException ex)
             {
@@ -64,7 +65,7 @@ namespace HotelBooking.Api.Controllers
             Guid hotelId, [FromQuery] PaginationDTO pagination)
         {
             IEnumerable<ReviewForHotelPageDTO> reviews;
-            int reviewsCount = 0;
+            int reviewsCount;
 
             try
             {
@@ -96,7 +97,7 @@ namespace HotelBooking.Api.Controllers
             [FromQuery] PaginationDTO pagination)
         {
             IEnumerable<FeaturedHotelDTO> featuredHotels;
-            int featuredHotelsCount = 0;
+            int featuredHotelsCount;
 
             try
             {
@@ -125,7 +126,7 @@ namespace HotelBooking.Api.Controllers
             [FromQuery] PaginationDTO pagination, HotelSearchDTO hotelSearch)
         {
             IEnumerable<HotelForUserDTO> hotels;
-            int hotelsCount = 0;
+            int hotelsCount;
 
             try
             {
@@ -155,7 +156,7 @@ namespace HotelBooking.Api.Controllers
             Guid hotelId, [FromQuery] PaginationDTO pagination)
         {
             IEnumerable<RoomForUserDTO> rooms;
-            int roomsCount = 0;
+            int roomsCount;
 
             try
             {

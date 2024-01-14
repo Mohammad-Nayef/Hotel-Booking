@@ -17,6 +17,6 @@ namespace HotelBooking.Domain.Entities
         public List<Image> Images { get; set; }
         public List<Room> Rooms { get; set; }
         public List<Discount> Discounts { get; set; }
-        public List<Visit> Visits { get; set; }
+        public List<HotelVisit> Visits { get; set; }
     }
 }
