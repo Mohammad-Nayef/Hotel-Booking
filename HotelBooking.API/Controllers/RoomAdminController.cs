@@ -83,7 +83,7 @@ namespace HotelBooking.Api.Controllers
 
             var roomsCount = await _roomAdminService.GetSearchCountAsync(search);
             Response.Headers.AddPaginationMetadata(roomsCount, pagination);
-
+            
             return Ok(rooms);
         }
 

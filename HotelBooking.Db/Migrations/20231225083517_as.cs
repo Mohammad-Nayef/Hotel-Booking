@@ -12,16 +12,19 @@ namespace HotelBooking.Db.Migrations
         {
             migrationBuilder.Sql("""
             CREATE VIEW vw_RoomsForAdmin AS
-            SELECT Id, Type, Number, AdultsCapacity, ChildrenCapacity, CreationDate, ModificationDate, 
-                CASE
-                    WHEN EXISTS (
-                        SELECT 1
-                        FROM Bookings
-                        WHERE Bookings.RoomId = Rooms.Id
-                            AND GETDATE() BETWEEN Bookings.StartingDate AND Bookings.EndingDate
-                    ) THEN 0
-                    ELSE 1
-                END AS IsAvailable
+            SELECT 
+                Id, Type, Number, AdultsCapacity, ChildrenCapacity, CreationDate, ModificationDate, 
+                CAST(
+                    CASE
+                        WHEN EXISTS (
+                            SELECT 1
+                            FROM Bookings
+                            WHERE Bookings.RoomId = Rooms.Id
+                              AND GETDATE() BETWEEN Bookings.StartingDate AND Bookings.EndingDate) 
+                            THEN 0
+                        ELSE 1
+                    END AS BIT
+                ) AS IsAvailable
             FROM Rooms;
             """);
         }
