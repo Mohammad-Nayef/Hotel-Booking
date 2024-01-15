@@ -26,6 +26,7 @@ namespace HotelBooking.Application.Validators.User
 
             RuleFor(user => user.Username)
                 .NotNull()
+                .Length(UserConstants.MinUsernameLength, UserConstants.MaxUsernameLength)
                 .Matches(UserConstants.UsernameRegex)
                 .WithMessage("{PropertyName} has invalid format.")
                 .MustAsync(async (username, cancellation) =>

@@ -1,4 +1,7 @@
-﻿using HotelBooking.Db.Tables;
+﻿using System.Linq.Expressions;
+using HotelBooking.Db.Extensions;
+using HotelBooking.Db.Tables;
+using HotelBooking.Domain.Constants;
 using HotelBooking.Domain.Models.City;
 using HotelBooking.Domain.Models.Hotel;
 using HotelBooking.Domain.Models.Room;
@@ -39,23 +42,8 @@ namespace HotelBooking.Db
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<HotelForAdminDTO>(entity =>
-            {
-                entity.HasNoKey()
-                    .ToView("vw_HotelsForAdmin");
-            });
-
-            modelBuilder.Entity<RoomForAdminDTO>(entity =>
-            {
-                entity.HasNoKey()
-                    .ToView("vw_RoomsForAdmin");
-            });
-
-            modelBuilder.Entity<CityForAdminDTO>(entity =>
-            {
-                entity.HasNoKey()
-                    .ToView("vw_CitiesForAdmin");
-            });
+            modelBuilder.MapViews();
+            modelBuilder.AddPropertiesLengthLimit();
         }
     }
 }

@@ -84,7 +84,8 @@ namespace HotelBooking.Db.Migrations
 
                     b.Property<string>("CountryName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
@@ -94,11 +95,13 @@ namespace HotelBooking.Db.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("PostOffice")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -318,21 +321,6 @@ namespace HotelBooking.Db.Migrations
                     b.HasIndex("HotelId");
 
                     b.ToTable("Rooms");
-                });
-
-            modelBuilder.Entity("HotelBooking.Db.Tables.UserRoleTable", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("UsersRoles");
                 });
 
             modelBuilder.Entity("HotelBooking.Db.Tables.UserTable", b =>
@@ -604,25 +592,6 @@ namespace HotelBooking.Db.Migrations
                     b.Navigation("Hotel");
                 });
 
-            modelBuilder.Entity("HotelBooking.Db.Tables.UserRoleTable", b =>
-                {
-                    b.HasOne("HotelBooking.Db.Tables.RoleTable", "Role")
-                        .WithMany("UsersRoles")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HotelBooking.Db.Tables.UserTable", "User")
-                        .WithMany("UsersRoles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("RoleTableUserTable", b =>
                 {
                     b.HasOne("HotelBooking.Db.Tables.RoleTable", null)
@@ -658,11 +627,6 @@ namespace HotelBooking.Db.Migrations
                     b.Navigation("Visits");
                 });
 
-            modelBuilder.Entity("HotelBooking.Db.Tables.RoleTable", b =>
-                {
-                    b.Navigation("UsersRoles");
-                });
-
             modelBuilder.Entity("HotelBooking.Db.Tables.RoomTable", b =>
                 {
                     b.Navigation("Bookings");
@@ -679,8 +643,6 @@ namespace HotelBooking.Db.Migrations
                     b.Navigation("CartItems");
 
                     b.Navigation("Reviews");
-
-                    b.Navigation("UsersRoles");
 
                     b.Navigation("Visits");
                 });
