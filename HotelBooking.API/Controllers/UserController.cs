@@ -134,8 +134,7 @@ namespace HotelBooking.Api.Controllers
         [HttpPost("current-user/hotel-reviews")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> PostHotelReviewAsync(
-            Guid userId, HotelReviewCreationDTO newReview)
+        public async Task<IActionResult> PostHotelReviewAsync(HotelReviewCreationDTO newReview)
         {
             newReview.UserId = new Guid(HttpContext.User.Identity.Name);
 

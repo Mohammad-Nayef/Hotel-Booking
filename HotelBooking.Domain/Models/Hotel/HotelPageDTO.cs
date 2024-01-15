@@ -10,7 +10,7 @@ namespace HotelBooking.Domain.Models.Hotel
         public string FullDescription { get; set; }
         public float StarRating { get; set; }
         public string Geolocation { get; set; }
-        public CityForHotelPageDTO City { get; set; }
+        public CityForUserDTO City { get; set; }
         public List<Guid> ImagesIds { get; set; }
         public DiscountDTO CurrentDiscount { get; set; }
     }

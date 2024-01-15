@@ -3,7 +3,6 @@ using HotelBooking.Domain.Abstractions.Repositories;
 using HotelBooking.Domain.Abstractions.Services;
 using HotelBooking.Domain.Constants;
 using HotelBooking.Domain.Exceptions;
-using HotelBooking.Domain.Models;
 using HotelBooking.Domain.Models.User;
 using Microsoft.AspNet.Identity;
 
@@ -16,19 +15,22 @@ namespace HotelBooking.Application.Services
         private readonly IValidator<UserDTO> _userValidator;
         private readonly IValidator<UserLoginDTO> _userLoginValidator;
         private readonly IAuthTokenProcessor _tokenGenerator;
+        private readonly IRoleRepository _roleRepository;
 
         public UserService(
             IUserRepository userRepository,
             IPasswordHasher passwordHasher,
             IValidator<UserDTO> userValidator,
             IValidator<UserLoginDTO> userLoginValidator,
-            IAuthTokenProcessor tokenGenerator)
+            IAuthTokenProcessor tokenGenerator,
+            IRoleRepository roleRepository)
         {
             _userRepository = userRepository;
             _passwordHasher = passwordHasher;
             _userValidator = userValidator;
             _userLoginValidator = userLoginValidator;
             _tokenGenerator = tokenGenerator;
+            _roleRepository = roleRepository;
         }
 
         public async Task<Guid> AddAsync(UserDTO newUser)
@@ -36,7 +38,8 @@ namespace HotelBooking.Application.Services
             await _userValidator.ValidateAndThrowAsync(newUser);
 
             newUser.Password = _passwordHasher.HashPassword(newUser.Password);
-            newUser.Roles.Add(new RoleDTO { Name = UserRoles.RegularUser });
+            var regularUserRole = await _roleRepository.GetByNameAsync(UserRoles.RegularUser);
+            newUser.Roles.Add(regularUserRole);
 
             return await _userRepository.AddAsync(newUser);
         }

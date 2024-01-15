@@ -262,7 +262,7 @@
             <param name="newBooking">Properties of the new booking.</param>
             <response code="201">The booking is created successfully.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.UserController.PostHotelReviewAsync(System.Guid,HotelBooking.Api.Models.Hotel.HotelReviewCreationDTO)">
+        <member name="M:HotelBooking.Api.Controllers.UserController.PostHotelReviewAsync(HotelBooking.Api.Models.Hotel.HotelReviewCreationDTO)">
             <summary>
             Create and store a new hotel review for a user.
             </summary>

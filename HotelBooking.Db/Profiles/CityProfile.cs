@@ -11,7 +11,7 @@ namespace HotelBooking.Db.Profiles
             CreateMap<CityDTO, CityTable>()
                 .ReverseMap();
 
-            CreateMap<CityTable, CityForHotelPageDTO>();
+            CreateMap<CityTable, CityForUserDTO>();
         }
     }
 }

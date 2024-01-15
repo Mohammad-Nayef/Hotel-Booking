@@ -19,7 +19,17 @@ namespace HotelBooking.Db.Repositories
 
         public async Task<Guid> AddAsync(UserDTO newUser)
         {
-            var entityEntry = await _dbContext.Users.AddAsync(_mapper.Map<UserTable>(newUser));
+            var user = _mapper.Map<UserTable>(newUser);
+
+            user.Roles.ForEach(role =>
+            {
+                if (_dbContext.Entry(role).State == EntityState.Detached)
+                {
+                    _dbContext.Roles.Attach(role);
+                }
+            });
+
+            var entityEntry = await _dbContext.Users.AddAsync(user);
             await _dbContext.SaveChangesAsync();
 
             return entityEntry.Entity.Id;
