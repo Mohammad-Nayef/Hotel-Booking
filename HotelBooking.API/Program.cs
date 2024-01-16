@@ -5,9 +5,21 @@ using HotelBooking.Api.Extensions;
 using HotelBooking.Application.Extensions.DependencyInjection;
 using HotelBooking.Db.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
+
+builder.Host.UseSerilog((context, config) =>
+    config
+        .WriteTo.Console()
+        .ReadFrom.Configuration(context.Configuration));
+
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json")
+            .AddJsonFile($"appsettings.Development.json", optional: true, reloadOnChange: true)
+            .Build();
 
 services.AddControllers()
     .AddJsonOptions(options =>
@@ -34,7 +46,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseSerilogRequestLogging();
 app.MapControllers();
 
 app.Run();

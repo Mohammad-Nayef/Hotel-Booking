@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Text.Json;
+using AutoMapper;
 using FluentValidation;
 using HotelBooking.Api.Extensions;
 using HotelBooking.Api.Models.User;
@@ -15,11 +16,14 @@ namespace HotelBooking.Api.Controllers
     {
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
+        private readonly ILogger<AuthenticationController> _logger;
 
-        public AuthenticationController(IUserService userService, IMapper mapper)
+        public AuthenticationController(
+            IUserService userService, IMapper mapper, ILogger<AuthenticationController> logger)
         {
             _userService = userService;
             _mapper = mapper;
+            _logger = logger;
         }
 
         /// <summary>
@@ -74,6 +78,7 @@ namespace HotelBooking.Api.Controllers
                 return Unauthorized();
             }
 
+            _logger.LogInformation("User with username: {username} logged in", userLogin.Username);
             return Ok(authenticationToken);
         }
     }

@@ -3,6 +3,7 @@ using HotelBooking.Db.Extensions;
 using HotelBooking.Db.Tables;
 using HotelBooking.Domain.Abstractions.Repositories;
 using HotelBooking.Domain.Models;
+using Microsoft.Extensions.Logging;
 
 namespace HotelBooking.Db.Repositories
 {
@@ -10,17 +11,22 @@ namespace HotelBooking.Db.Repositories
     {
         private readonly HotelsBookingDbContext _dbContext;
         private readonly IMapper _mapper;
+        private readonly ILogger<BookingRepository> _logger;
 
-        public BookingRepository(HotelsBookingDbContext dbContext, IMapper mapper)
+        public BookingRepository(
+            HotelsBookingDbContext dbContext, IMapper mapper, ILogger<BookingRepository> logger)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task AddAsync(BookingDTO newBooking)
         {
-            await _dbContext.Bookings.AddAsync(_mapper.Map<BookingTable>(newBooking));
+            var booking = _mapper.Map<BookingTable>(newBooking);
+            await _dbContext.Bookings.AddAsync(booking);
             await _dbContext.SaveChangesAsync();
+            _logger.LogInformation("Created booking with Id: {id}", booking.Id);
         }
 
         public bool RoomIsBookedBetween(Guid roomId, DateTime startingDate, DateTime endingDate)

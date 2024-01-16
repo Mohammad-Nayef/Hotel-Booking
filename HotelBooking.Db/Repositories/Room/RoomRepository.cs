@@ -3,6 +3,8 @@ using HotelBooking.Db.Tables;
 using HotelBooking.Domain.Abstractions.Repositories.Room;
 using HotelBooking.Domain.Models.Room;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Logging;
 
 namespace HotelBooking.Db.Repositories.Room
 {
@@ -10,11 +12,14 @@ namespace HotelBooking.Db.Repositories.Room
     {
         private readonly HotelsBookingDbContext _dbContext;
         private readonly IMapper _mapper;
+        private readonly ILogger<RoomRepository> _logger;
 
-        public RoomRepository(HotelsBookingDbContext dbContext, IMapper mapper)
+        public RoomRepository(
+            HotelsBookingDbContext dbContext, IMapper mapper, ILogger<RoomRepository> logger)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<Guid> AddAsync(RoomDTO newRoom)
@@ -22,6 +27,7 @@ namespace HotelBooking.Db.Repositories.Room
             var entityEntry = await _dbContext.Rooms.AddAsync(_mapper.Map<RoomTable>(newRoom));
             await _dbContext.SaveChangesAsync();
 
+            _logger.LogInformation("Created room with Id: {id}", entityEntry.Entity.Id);
             return entityEntry.Entity.Id;
         }
 
@@ -29,6 +35,7 @@ namespace HotelBooking.Db.Repositories.Room
         {
             _dbContext.Rooms.Remove(new RoomTable { Id = id });
             await _dbContext.SaveChangesAsync();
+            _logger.LogInformation("Deleted room with Id: {id}", id);
         }
 
         public Task<bool> ExistsAsync(Guid id) =>

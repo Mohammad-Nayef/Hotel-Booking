@@ -3,6 +3,8 @@ using HotelBooking.Db.Tables;
 using HotelBooking.Domain.Abstractions.Repositories.Hotel;
 using HotelBooking.Domain.Models.Hotel;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Logging;
 
 namespace HotelBooking.Db.Repositories.Hotel
 {
@@ -10,11 +12,14 @@ namespace HotelBooking.Db.Repositories.Hotel
     {
         private readonly HotelsBookingDbContext _dbContext;
         private readonly IMapper _mapper;
+        private readonly ILogger<HotelRepository> _logger;
 
-        public HotelRepository(HotelsBookingDbContext dbContext, IMapper mapper)
+        public HotelRepository(
+            HotelsBookingDbContext dbContext, IMapper mapper, ILogger<HotelRepository> logger)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<Guid> AddAsync(HotelDTO newHotel)
@@ -23,6 +28,7 @@ namespace HotelBooking.Db.Repositories.Hotel
                 _mapper.Map<HotelTable>(newHotel));
             await _dbContext.SaveChangesAsync();
 
+            _logger.LogInformation("Created hotel with Id: {id}", entityEntry.Entity.Id);
             return entityEntry.Entity.Id;
         }
 
@@ -30,6 +36,7 @@ namespace HotelBooking.Db.Repositories.Hotel
         {
             _dbContext.Hotels.Remove(new HotelTable { Id = id });
             await _dbContext.SaveChangesAsync();
+            _logger.LogInformation("Deleted hotel with Id: {id}", id);
         }
 
         public Task<bool> ExistsAsync(Guid id) =>
