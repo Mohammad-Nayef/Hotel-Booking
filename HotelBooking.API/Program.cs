@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using FluentValidation;
 using HotelBooking.Api.Extensions;
+using HotelBooking.Api.Middlewares;
 using HotelBooking.Application.Extensions.DependencyInjection;
 using HotelBooking.Db.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -43,6 +44,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
