@@ -16,12 +16,6 @@ builder.Host.UseSerilog((context, config) =>
         .WriteTo.Console()
         .ReadFrom.Configuration(context.Configuration));
 
-var configuration = new ConfigurationBuilder()
-    .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json")
-            .AddJsonFile($"appsettings.Development.json", optional: true, reloadOnChange: true)
-            .Build();
-
 services.AddControllers()
     .AddJsonOptions(options =>
         options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles)
