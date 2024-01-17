@@ -12,7 +12,7 @@ namespace HotelBooking.Architecture.Tests
         private const string ApiNamespace = "HotelBooking.Api";
 
         [Fact]
-        public void Domain_ShouldNot_HaveDependencyOnExternalExternalAssemblies()
+        public void Domain_ShouldNotHaveDependencyOn_ExternalAssemblies()
         {
             // Arrange
             var domain = Assembly.Load(DomainNamespace);
@@ -30,7 +30,7 @@ namespace HotelBooking.Architecture.Tests
         }
 
         [Fact]
-        public void Application_ShouldNot_HaveDependencyOnExternalExternalAssemblies()
+        public void Application_ShouldNotHaveDependencyOn_ExternalAssemblies()
         {
             // Arrange
             var domain = Assembly.Load(ApplicationNamespace);
@@ -48,7 +48,7 @@ namespace HotelBooking.Architecture.Tests
         }
 
         [Fact]
-        public void Db_ShouldNot_HaveDependencyOnExternalExternalAssemblies()
+        public void Db_ShouldNotHaveDependencyOn_ExternalAssemblies()
         {
             // Arrange
             var domain = Assembly.Load(DbNamespace);

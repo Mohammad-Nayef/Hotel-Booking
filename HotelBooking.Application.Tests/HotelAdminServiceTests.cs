@@ -31,7 +31,7 @@ namespace HotelBooking.Application.Tests
         [Theory]
         [InlineData(ImagesConstants.MaxNumberOfImagesPerEntity, 1)]
         [InlineData(1, ImagesConstants.MaxNumberOfImagesPerEntity)]
-        public async Task AddImages_InvalidNumberOfImages_ThrowEntityImagesLimitExceededException(
+        public async Task AddImagesAsync_ThrowsExceptionFor_InvalidNumberOfImages(
             int newImagesCount, int storedImagesCount)
         {
             // Arrange
@@ -50,7 +50,7 @@ namespace HotelBooking.Application.Tests
         [Theory]
         [InlineData(ImagesConstants.MaxNumberOfImagesPerEntity - 1, 1)]
         [InlineData(1, ImagesConstants.MaxNumberOfImagesPerEntity - 1)]
-        public async Task AddImages_ValidNumberOfImages_ShouldNotThrowEntityImagesLimitExceededException(
+        public async Task AddImagesAsync_ShouldNotThrowExceptionFor_ValidNumberOfImages(
             int newImagesCount, int storedImagesCount)
         {
             // Arrange

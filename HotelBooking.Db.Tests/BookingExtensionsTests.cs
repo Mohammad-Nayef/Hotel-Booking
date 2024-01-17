@@ -11,7 +11,7 @@ namespace HotelBooking.Db.Tests
         [InlineData("2000-01-10", "2000-01-12", "2000-01-11", "2000-01-13")]
         [InlineData("2000-01-10", "2000-01-12", "2000-01-10", "2000-01-12")]
         [InlineData("2000-01-10", "2000-01-13", "2000-01-11", "2000-01-12")]
-        public void IntersectsWith_IntersectingInterval_ReturnsTrue(
+        public void IntersectsWith_ReturnsTrueFor_IntersectingInterval(
             string bookingStartingDateString, 
             string bookingEndingDateString,
             string givenStartingDateString,
@@ -38,7 +38,7 @@ namespace HotelBooking.Db.Tests
         [Theory]
         [InlineData("2000-01-10", "2000-01-12", "2000-01-08", "2000-01-9")]
         [InlineData("2000-01-10", "2000-01-12", "2000-01-13", "2000-01-14")]
-        public void IntersectsWith_NotIntersectingInterval_ReturnsFalse(
+        public void IntersectsWith_ReturnsFalseFor_NotIntersectingInterval(
             string bookingStartingDateString,
             string bookingEndingDateString,
             string givenStartingDateString,
@@ -66,7 +66,7 @@ namespace HotelBooking.Db.Tests
         [InlineData("2000-01-10", "2000-01-12", "2000-01-10")]
         [InlineData("2000-01-10", "2000-01-12", "2000-01-11")]
         [InlineData("2000-01-10", "2000-01-12", "2000-01-12")]
-        public void IntersectsWith_IntersectingDate_ReturnsTrue(
+        public void IntersectsWith_ReturnsTrueFor_IntersectingDate(
             string bookingStartingDateString,
             string bookingEndingDateString,
             string givenDateString)
@@ -91,7 +91,7 @@ namespace HotelBooking.Db.Tests
         [Theory]
         [InlineData("2000-01-10", "2000-01-12", "2000-01-9")]
         [InlineData("2000-01-10", "2000-01-12", "2000-01-13")]
-        public void IntersectsWith_NotIntersectingDate_ReturnsFalse(
+        public void IntersectsWith_ReturnsFalseFor_NotIntersectingDate(
             string bookingStartingDateString,
             string bookingEndingDateString,
             string givenDateString)
