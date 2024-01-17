@@ -53,7 +53,7 @@ namespace HotelBooking.Db.Repositories.Hotel
                 .AsNoTracking()
                 .AsEnumerable()
                 .Where(HasValidRoom(hotelSearch, roomsType))
-                .Where(hotel => hotel.Rooms.Count() >= hotelSearch.NumberOfRooms);
+                .Where(hotel => hotel.Rooms.Count >= hotelSearch.NumberOfRooms);
 
             return hotels;
         }

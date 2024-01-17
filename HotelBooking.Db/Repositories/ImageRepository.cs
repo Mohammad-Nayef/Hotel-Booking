@@ -119,14 +119,18 @@ namespace HotelBooking.Db.Repositories
         private Image MakeThumbnail(Image image, out Image thumbnail)
         {
             thumbnail = image;
+            ReduceHeightAndWidth(thumbnail);
 
+            return thumbnail;
+        }
+
+        private static void ReduceHeightAndWidth(Image thumbnail)
+        {
             // 0 is used to maintain the aspect ration of the image.
             if (thumbnail.Width < thumbnail.Height)
                 thumbnail.Mutate(thumbnail => thumbnail.Resize(MinThumbnailLength, 0));
             else
                 thumbnail.Mutate(thumbnail => thumbnail.Resize(0, MinThumbnailLength));
-
-            return thumbnail;
         }
     }
 }
