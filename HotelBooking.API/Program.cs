@@ -4,7 +4,7 @@ using FluentValidation;
 using HotelBooking.Api.Extensions;
 using HotelBooking.Api.Middlewares;
 using HotelBooking.Application.Extensions.DependencyInjection;
-using HotelBooking.Db.Extensions.DependencyInjection;
+using HotelBooking.Infrastructure.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Serilog;
 
@@ -26,7 +26,7 @@ services.AddControllers();
 services.AddSwaggerUi();
 services.AddEndpointsApiExplorer();
 services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-services.AddDatabase();
+services.AddInfrastructure();
 services.AddDomainServices(builder.Configuration);
 services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

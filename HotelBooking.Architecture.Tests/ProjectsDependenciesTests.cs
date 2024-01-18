@@ -8,7 +8,7 @@ namespace HotelBooking.Architecture.Tests
     {
         private const string DomainNamespace = "HotelBooking.Domain";
         private const string ApplicationNamespace = "HotelBooking.Application";
-        private const string DbNamespace = "HotelBooking.Db";
+        private const string InfrastructureNamespace = "HotelBooking.Infrastructure";
         private const string ApiNamespace = "HotelBooking.Api";
 
         [Fact]
@@ -16,7 +16,7 @@ namespace HotelBooking.Architecture.Tests
         {
             // Arrange
             var domain = Assembly.Load(DomainNamespace);
-            var externalAssemblies = new[] { DbNamespace, ApiNamespace };
+            var externalAssemblies = new[] { InfrastructureNamespace, ApiNamespace };
 
             // Act
             var result = Types
@@ -34,7 +34,7 @@ namespace HotelBooking.Architecture.Tests
         {
             // Arrange
             var domain = Assembly.Load(ApplicationNamespace);
-            var externalAssemblies = new[] { DbNamespace, ApiNamespace };
+            var externalAssemblies = new[] { InfrastructureNamespace, ApiNamespace };
 
             // Act
             var result = Types
@@ -48,10 +48,10 @@ namespace HotelBooking.Architecture.Tests
         }
 
         [Fact]
-        public void Db_ShouldNotHaveDependencyOn_ExternalAssemblies()
+        public void Infrastructure_ShouldNotHaveDependencyOn_ExternalAssemblies()
         {
             // Arrange
-            var domain = Assembly.Load(DbNamespace);
+            var domain = Assembly.Load(InfrastructureNamespace);
 
             // Act
             var result = Types
