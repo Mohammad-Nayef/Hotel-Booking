@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace HotelBooking.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class axzxiuh : Migration
+    public partial class zxcwec : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,9 +16,9 @@ namespace HotelBooking.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CountryName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PostOffice = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    CountryName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    PostOffice = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModificationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -43,11 +44,11 @@ namespace HotelBooking.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Username = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -59,11 +60,11 @@ namespace HotelBooking.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BriefDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FullDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    BriefDescription = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    FullDescription = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
                     StarRating = table.Column<float>(type: "real", nullable: false),
-                    OwnerName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OwnerName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Geolocation = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModificationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -109,7 +110,7 @@ namespace HotelBooking.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Reason = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Reason = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     StartingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndingDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AmountPercent = table.Column<float>(type: "real", nullable: false),
@@ -131,7 +132,7 @@ namespace HotelBooking.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     HotelId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
@@ -154,15 +155,41 @@ namespace HotelBooking.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "HotelVisits",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    HotelId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HotelVisits", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_HotelVisits_Hotels_HotelId",
+                        column: x => x.HotelId,
+                        principalTable: "Hotels",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_HotelVisits_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Rooms",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Number = table.Column<double>(type: "float", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     AdultsCapacity = table.Column<int>(type: "int", nullable: false),
                     ChildrenCapacity = table.Column<int>(type: "int", nullable: false),
-                    BriefDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BriefDescription = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     PricePerNight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModificationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -180,32 +207,6 @@ namespace HotelBooking.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Visits",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    HotelId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Visits", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Visits_Hotels_HotelId",
-                        column: x => x.HotelId,
-                        principalTable: "Hotels",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Visits_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Bookings",
                 columns: table => new
                 {
@@ -213,6 +214,7 @@ namespace HotelBooking.Infrastructure.Migrations
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     StartingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     RoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
@@ -238,7 +240,7 @@ namespace HotelBooking.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AddingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     RoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
@@ -268,7 +270,6 @@ namespace HotelBooking.Infrastructure.Migrations
                     ThumbnailPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     HotelId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     RoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    LocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CityId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
@@ -332,6 +333,16 @@ namespace HotelBooking.Infrastructure.Migrations
                 column: "CityId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_HotelVisits_HotelId",
+                table: "HotelVisits",
+                column: "HotelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HotelVisits_UserId",
+                table: "HotelVisits",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Images_CityId",
                 table: "Images",
                 column: "CityId");
@@ -355,16 +366,6 @@ namespace HotelBooking.Infrastructure.Migrations
                 name: "IX_Rooms_HotelId",
                 table: "Rooms",
                 column: "HotelId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Visits_HotelId",
-                table: "Visits",
-                column: "HotelId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Visits_UserId",
-                table: "Visits",
-                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -383,13 +384,13 @@ namespace HotelBooking.Infrastructure.Migrations
                 name: "HotelReviews");
 
             migrationBuilder.DropTable(
+                name: "HotelVisits");
+
+            migrationBuilder.DropTable(
                 name: "Images");
 
             migrationBuilder.DropTable(
                 name: "RoleTableUserTable");
-
-            migrationBuilder.DropTable(
-                name: "Visits");
 
             migrationBuilder.DropTable(
                 name: "Rooms");

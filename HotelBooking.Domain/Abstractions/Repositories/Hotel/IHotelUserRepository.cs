@@ -6,7 +6,7 @@ namespace HotelBooking.Domain.Abstractions.Repositories.Hotel
     public interface IHotelUserRepository
     {
         int GetSearchForUserCount(HotelSearchDTO hotelSearch);
-        HotelPageDTO GetHotelPage(Guid id);
+        Task<HotelPageDTO> GetHotelPageAsync(Guid id);
         IEnumerable<HotelForUserDTO> SearchForUserByPage(
             HotelSearchDTO hotelSearch, int itemsToSkip, int itemsToTake);
         IEnumerable<RoomForUserDTO> GetAvailableRooms(

@@ -89,14 +89,14 @@ namespace HotelBooking.Infrastructure.Repositories.Hotel
                 hotel.City.CountryName.ToLower().Contains(searchString);
         }
 
-        public HotelPageDTO GetHotelPage(Guid id)
+        public async Task<HotelPageDTO> GetHotelPageAsync(Guid id)
         {
-            var hotelTable = _dbContext.Hotels
+            var hotelTable = await _dbContext.Hotels
                 .Include(hotel => hotel.City)
                 .Include(hotel => hotel.Images)
                 .Include(hotel => hotel.Discounts)
                 .AsNoTracking()
-                .SingleOrDefault(hotel => hotel.Id == id);
+                .SingleOrDefaultAsync(hotel => hotel.Id == id);
 
             return _mapper.Map<HotelPageDTO>(hotelTable);
         }

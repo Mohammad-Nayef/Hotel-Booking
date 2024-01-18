@@ -49,5 +49,16 @@ namespace HotelBooking.Db.Repositories.Hotel
                 .AsEnumerable()
                 .Where(hotel => hotel.Discounts.HasActiveDiscount());
         }
+
+        public async Task<DiscountDTO> GetHighestActiveDiscountAsync(Guid hotelId)
+        {
+            var discountTable = _dbContext.Hotels
+                .Include(hotel => hotel.Discounts)
+                .SingleOrDefault(hotel => hotel.Id == hotelId)?
+                .Discounts
+                .GetHighestActive();
+
+            return discountTable == null ? null : _mapper.Map<DiscountDTO>(discountTable);
+        }
     }
 }

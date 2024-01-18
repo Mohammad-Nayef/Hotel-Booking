@@ -74,7 +74,7 @@ namespace HotelBooking.Application.Services.Hotel
                 UserId = userId
             });
 
-            return _hotelUserRepository.GetHotelPage(id);
+            return await _hotelUserRepository.GetHotelPageAsync(id);
         }
 
         public async Task<IEnumerable<ReviewForHotelPageDTO>> GetReviewsByPageAsync(
