@@ -3,15 +3,17 @@ using HotelBooking.Domain.Abstractions.Repositories;
 using HotelBooking.Domain.Abstractions.Repositories.City;
 using HotelBooking.Domain.Abstractions.Repositories.Hotel;
 using HotelBooking.Domain.Abstractions.Repositories.Room;
+using HotelBooking.Domain.Abstractions.Utilities;
 using HotelBooking.Infrastructure.Repositories;
 using HotelBooking.Infrastructure.Repositories.City;
 using HotelBooking.Infrastructure.Repositories.Hotel;
 using HotelBooking.Infrastructure.Repositories.Room;
+using HotelBooking.Infrastructure.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HotelBooking.Infrastructure.Extensions.DependencyInjection
 {
-    public static class DbRegistration
+    public static class InfrastructureRegistration
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
@@ -25,6 +27,7 @@ namespace HotelBooking.Infrastructure.Extensions.DependencyInjection
             services.AddScoped<ICartItemRepository, CartItemRepository>();
             services.AddScoped<IBookingRepository, BookingRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IEmailService, EmailService>();
 
             return services;
         }
