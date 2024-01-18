@@ -44,8 +44,7 @@ namespace HotelBooking.Infrastructure.Repositories.City
         {
             return _mapper.Map<CityDTO>(
                 await _dbContext.Cities
-                .AsNoTracking()
-                .FirstOrDefaultAsync());
+                    .FindAsync(id));
         }
 
         public async Task<int> GetCountAsync()

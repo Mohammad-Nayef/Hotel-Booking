@@ -21,6 +21,13 @@ namespace HotelBooking.Infrastructure.Repositories
             _logger = logger;
         }
 
+        public async Task<UserDTO> GetByIdAsync(Guid id)
+        {
+            return _mapper.Map<UserDTO>(
+                await _dbContext.Users
+                    .FindAsync(id));
+        }
+
         public async Task<Guid> AddAsync(UserDTO newUser)
         {
             var user = _mapper.Map<UserTable>(newUser);
