@@ -1,19 +1,19 @@
 ﻿using System.Net;
 using AutoFixture;
 using FluentAssertions;
-using HotelBooking.Api.Models.City;
+using HotelBooking.Api.Models.Hotel;
 using Microsoft.AspNetCore.JsonPatch;
 
 namespace HotelBooking.Api.IntegrationTesting
 {
-    public class CityAdminControllerTests : IClassFixture<HotelBookingWebApplicationFactory>
+    public class HotelAdminControllerTests : IClassFixture<HotelBookingWebApplicationFactory>
     {
         private readonly HttpClient _guest;
         private readonly HttpClient _user;
         private readonly HttpClient _admin;
         private readonly Fixture _fixture = new();
 
-        public CityAdminControllerTests(HotelBookingWebApplicationFactory factory)
+        public HotelAdminControllerTests(HotelBookingWebApplicationFactory factory)
         {
             _guest = factory.GuestClient;
             _user = factory.GetUserClientAsync().Result;
@@ -36,22 +36,22 @@ namespace HotelBooking.Api.IntegrationTesting
         {
             // Arrange
             var searchString = string.Empty;
-            var newCity = new CityCreationDTO();
-            var cityId = new Guid();
-            var cityPatch = new JsonPatchDocument<CityUpdateDTO>();
+            var newHotel = new HotelCreationDTO();
+            var hotelId = new Guid();
+            var hotelPatch = new JsonPatchDocument<HotelUpdateDTO>();
 
             // Act
-            var getStatusCode = (await client.GetAsync("api/admin/cities")).StatusCode;
+            var getStatusCode = (await client.GetAsync("api/admin/hotels")).StatusCode;
             var searchStatusCode =
-                (await client.GetAsync($"api/admin/cities/search?query={searchString}"))
+                (await client.GetAsync($"api/admin/hotels/search?query={searchString}"))
                 .StatusCode;
             var postStatusCode =
-                (await client.PostAsJsonAsync("api/admin/cities", newCity))
+                (await client.PostAsJsonAsync("api/admin/hotels", newHotel))
                 .StatusCode;
-            var deleteStatusCode = (await client.DeleteAsync($"api/admin/cities/{cityId}"))
+            var deleteStatusCode = (await client.DeleteAsync($"api/admin/hotels/{hotelId}"))
                 .StatusCode;
             var patchStatusCode =
-                (await client.PatchAsJsonAsync($"api/admin/cities/{cityId}", cityPatch))
+                (await client.PatchAsJsonAsync($"api/admin/hotels/{hotelId}", hotelPatch))
                 .StatusCode;
 
             // Assert
@@ -67,22 +67,22 @@ namespace HotelBooking.Api.IntegrationTesting
         {
             // Arrange
             var searchString = string.Empty;
-            var newCity = new CityCreationDTO();
-            var cityId = new Guid();
-            var cityPatch = new JsonPatchDocument<CityUpdateDTO>();
+            var newHotel = new HotelCreationDTO();
+            var hotelId = new Guid();
+            var hotelPatch = new JsonPatchDocument<HotelUpdateDTO>();
 
             // Act
-            var getStatusCode = (await _admin.GetAsync("api/admin/cities")).StatusCode;
+            var getStatusCode = (await _admin.GetAsync("api/admin/hotels")).StatusCode;
             var searchStatusCode =
-                (await _admin.GetAsync($"api/admin/cities/search?query={searchString}"))
+                (await _admin.GetAsync($"api/admin/hotels/search?query={searchString}"))
                 .StatusCode;
             var postStatusCode =
-                (await _admin.PostAsJsonAsync("api/admin/cities", newCity))
+                (await _admin.PostAsJsonAsync("api/admin/hotels", newHotel))
                 .StatusCode;
-            var deleteStatusCode = (await _admin.DeleteAsync($"api/admin/cities/{cityId}"))
+            var deleteStatusCode = (await _admin.DeleteAsync($"api/admin/hotels/{hotelId}"))
                 .StatusCode;
             var patchStatusCode =
-                (await _admin.PatchAsJsonAsync($"api/admin/cities/{cityId}", cityPatch))
+                (await _admin.PatchAsJsonAsync($"api/admin/hotels/{hotelId}", hotelPatch))
                 .StatusCode;
 
             // Assert
@@ -100,24 +100,24 @@ namespace HotelBooking.Api.IntegrationTesting
         }
 
         [Fact]
-        public async Task CitiesGet_ReturnsOkFor_Admin()
+        public async Task HotelsGet_ReturnsOkFor_Admin()
         {
             // Act
-            var responseCode = (await _admin.GetAsync("api/admin/cities")).StatusCode;
+            var responseCode = (await _admin.GetAsync("api/admin/hotels")).StatusCode;
 
             // Assert
             responseCode.Should().Be(HttpStatusCode.OK);
         }
 
         [Fact]
-        public async Task CitiesSearch_ReturnsOkFor_Admin()
+        public async Task HotelsSearch_ReturnsOkFor_Admin()
         {
             // Arrange
             var searchString = _fixture.Create<string>();
 
             // Act
             var responseCode =
-                (await _admin.GetAsync($"api/admin/cities/search?query={searchString}"))
+                (await _admin.GetAsync($"api/admin/hotels/search?query={searchString}"))
                 .StatusCode;
 
             // Assert
