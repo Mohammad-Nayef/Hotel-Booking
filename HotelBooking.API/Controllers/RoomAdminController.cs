@@ -62,26 +62,26 @@ namespace HotelBooking.Api.Controllers
         /// Get Paginated list of rooms for an admin based on search query.
         /// </summary>
         /// <param name="pagination">Pagination parameters</param>
-        /// <param name="search">The search query</param>
+        /// <param name="query">The search query</param>
         /// <response code="200">The list of rooms is retrieved successfully.</response>
-        [HttpPost("search")]
+        [HttpGet("search")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(IEnumerable<RoomForAdminDTO>), StatusCodes.Status200OK)]
         public async Task<IActionResult> SearchRoomsForAdminAsync(
-            [FromQuery] PaginationDTO pagination, string search)
+            [FromQuery] PaginationDTO pagination, string query)
         {
             IEnumerable<RoomForAdminDTO> rooms;
 
             try
             {
-                rooms = await _roomAdminService.SearchByPageAsync(pagination, search);
+                rooms = await _roomAdminService.SearchByPageAsync(pagination, query);
             }
             catch (ValidationException ex)
             {
                 return BadRequest(ex.GetErrorsForClient());
             }
 
-            var roomsCount = await _roomAdminService.GetSearchCountAsync(search);
+            var roomsCount = await _roomAdminService.GetSearchCountAsync(query);
             Response.Headers.AddPaginationMetadata(roomsCount, pagination);
             
             return Ok(rooms);

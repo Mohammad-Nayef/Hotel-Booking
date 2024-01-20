@@ -27,7 +27,7 @@
             <summary>
             Get paginated list of cities for an admin based on search query.
             </summary>
-            <param name="search">The search query</param>
+            <param name="query">The search query</param>
             <response code="200">The list of cities is retrieved successfully.</response>
         </member>
         <member name="M:HotelBooking.Api.Controllers.CityAdminController.PostCityAsync(HotelBooking.Api.Models.City.CityCreationDTO)">
@@ -212,7 +212,7 @@
             Get Paginated list of rooms for an admin based on search query.
             </summary>
             <param name="pagination">Pagination parameters</param>
-            <param name="search">The search query</param>
+            <param name="query">The search query</param>
             <response code="200">The list of rooms is retrieved successfully.</response>
         </member>
         <member name="M:HotelBooking.Api.Controllers.RoomAdminController.PostAsync(HotelBooking.Api.Models.Room.RoomCreationDTO)">

@@ -1,3 +1,5 @@
+using HotelBooking.Api.Models.User;
+using HotelBooking.Domain.Models.User;
 using HotelBooking.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -5,23 +7,60 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace HotelBooking.Api.IntegrationTesting
 {
-    internal class HotelBookingWebApplicationFactory : IClassFixture<WebApplicationFactory<Program>>
+    public class HotelBookingWebApplicationFactory : 
+        IClassFixture<HotelBookingWebApplicationFactory>
     {
         private readonly WebApplicationFactory<Program> _factory;
 
-        internal HotelBookingWebApplicationFactory(WebApplicationFactory<Program> factory)
+        public HotelBookingWebApplicationFactory()
         {
-            factory = factory.WithWebHostBuilder(builder =>
-                builder.ConfigureServices(services =>
-                {
-                    services.RemoveAll(typeof(HotelsBookingDbContext));
-
-                    services.AddDbContext<HotelsBookingDbContext>(options =>
+            _factory = new WebApplicationFactory<Program>()
+                .WithWebHostBuilder(builder =>
+                    builder.ConfigureServices(services =>
                     {
-                        options.UseInMemoryDatabase("TestDb");
-                    });
-                }));
-            _factory = factory;
+                        services.AddDbContext<HotelsBookingDbContext>();
+                    }));
+        }
+
+        public HttpClient GuestClient => _factory.CreateClient();
+
+        public async Task<HttpClient> GetUserClientAsync()
+        {
+            var user = _factory.CreateClient();
+            var newUser = new UserCreationDTO
+            {
+                FirstName = "Regular",
+                LastName = "User",
+                Email = "test@test",
+                Username = "test",
+                Password = "test1234"
+            };
+            await user.PostAsJsonAsync("api/auth/user-register", newUser);
+            var userLogin = new UserLoginDTO
+            {
+                Username = "test",
+                Password = "test1234"
+            };
+            var response = await user.PostAsJsonAsync("api/auth/user-login", userLogin);
+            user.DefaultRequestHeaders.Authorization =
+                new("Bearer", await response.Content.ReadAsStringAsync());
+
+            return user;
+        }
+
+        public async Task<HttpClient> GetAdminClientAsync()
+        {
+            var admin = _factory.CreateClient();
+            var adminLogin = new UserLoginDTO
+            {
+                Username = "admin",
+                Password = "admin123"
+            };
+            var response = await admin.PostAsJsonAsync("api/auth/user-login", adminLogin);
+            admin.DefaultRequestHeaders.Authorization =
+                new("Bearer", await response.Content.ReadAsStringAsync());
+
+            return admin;
         }
     }
 }

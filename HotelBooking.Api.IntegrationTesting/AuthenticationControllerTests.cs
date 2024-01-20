@@ -1,0 +1,45 @@
+﻿using System.Net;
+using FluentAssertions;
+using HotelBooking.Api.Models.User;
+using HotelBooking.Domain.Models.User;
+
+namespace HotelBooking.Api.IntegrationTesting
+{
+    public class AuthenticationControllerTests : IClassFixture<HotelBookingWebApplicationFactory>
+    {
+        private readonly HttpClient _guest;
+
+        public AuthenticationControllerTests(HotelBookingWebApplicationFactory factory)
+        {
+            _guest = factory.GuestClient;
+        }
+
+        [Fact]
+        public async Task GuestClient_CanAccessRegister_ForInvalidRequestBody()
+        {
+            // Arrange
+            var user = new UserCreationDTO();
+
+            // Act
+            var response = await _guest.PostAsJsonAsync("api/auth/user-register", user);
+
+            // Assert
+            response.StatusCode.Should().NotBe(HttpStatusCode.Unauthorized)
+                .And.NotBe(HttpStatusCode.Forbidden);
+        }
+
+        [Fact]
+        public async Task GuestClient_CanAccessLogin_ForInvalidRequestBody()
+        {
+            // Arrange
+            var user = new UserLoginDTO();
+
+            // Act
+            var response = await _guest.PostAsJsonAsync("api/auth/user-login", user);
+
+            // Assert
+            response.StatusCode.Should().NotBe(HttpStatusCode.Unauthorized)
+                .And.NotBe(HttpStatusCode.Forbidden);
+        }
+    }
+}

@@ -61,26 +61,26 @@ namespace HotelBooking.Api.Controllers
         /// <summary>
         /// Get paginated list of cities for an admin based on search query.
         /// </summary>
-        /// <param name="search">The search query</param>
+        /// <param name="query">The search query</param>
         /// <response code="200">The list of cities is retrieved successfully.</response>
-        [HttpPost("search")]
+        [HttpGet("search")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(IEnumerable<CityForAdminDTO>), StatusCodes.Status200OK)]
         public async Task<IActionResult> SearchCitiesForAdminAsync(
-            [FromQuery] PaginationDTO pagination, string search)
+            [FromQuery] PaginationDTO pagination, string query)
         {
             IEnumerable<CityForAdminDTO> cities;
 
             try
             {
-                cities = await _cityAdminService.SearchByPageAsync(pagination, search);
+                cities = await _cityAdminService.SearchByPageAsync(pagination, query);
             }
             catch (ValidationException ex)
             {
                 return BadRequest(ex.GetErrorsForClient());
             }
 
-            var citiesCount = await _cityAdminService.GetSearchCountAsync(search);
+            var citiesCount = await _cityAdminService.GetSearchCountAsync(query);
             Response.Headers.AddPaginationMetadata(citiesCount, pagination);
 
             return Ok(cities);

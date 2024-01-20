@@ -106,8 +106,6 @@ namespace HotelBooking.Infrastructure.Extensions
                 user => user.LastName, UserConstants.MaxNameLength);
             modelBuilder.ConfigureStringLength<UserTable>(
                 user => user.Username, UserConstants.MaxUsernameLength);
-            modelBuilder.ConfigureStringLength<UserTable>(
-                user => user.Password, UserConstants.MaxPasswordLength);
 
             return modelBuilder;
         }

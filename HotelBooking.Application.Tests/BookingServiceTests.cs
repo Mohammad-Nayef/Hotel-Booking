@@ -7,6 +7,10 @@ using HotelBooking.Domain.Models;
 using Moq;
 using HotelBooking.Domain.Models.Room;
 using FluentAssertions;
+using HotelBooking.Domain.Abstractions.Utilities;
+using AutoFixture;
+using HotelBooking.Domain.Models.Hotel;
+using HotelBooking.Domain.Models.User;
 
 namespace HotelBooking.Application.Tests
 {
@@ -16,15 +20,22 @@ namespace HotelBooking.Application.Tests
         private readonly Mock<IValidator<BookingDTO>> _bookingValidatorMock = new();
         private readonly Mock<IHotelDiscountRepository> _hotelDiscountRepositoryMock = new();
         private readonly Mock<IRoomRepository> _roomRepositoryMock = new();
+        private readonly Mock<IEmailService> _emailServiceMock = new();
+        private readonly Mock<IHotelRepository> _hotelRepositoryMock = new();
+        private readonly Mock<IUserRepository> _userRepositoryMock = new();
         private readonly BookingService _bookingService;
+        private readonly Fixture _fixture = new();
 
         public BookingServiceTests()
         {
             _bookingService = new(
-                _bookingRepositoryMock.Object, 
-                _bookingValidatorMock.Object, 
-                _hotelDiscountRepositoryMock.Object, 
-                _roomRepositoryMock.Object);
+                _bookingRepositoryMock.Object,
+                _bookingValidatorMock.Object,
+                _hotelDiscountRepositoryMock.Object,
+                _roomRepositoryMock.Object,
+                _emailServiceMock.Object,
+                _userRepositoryMock.Object,
+                _hotelRepositoryMock.Object);
         }
 
         [Theory]
@@ -35,10 +46,13 @@ namespace HotelBooking.Application.Tests
             decimal roomPrice, int days, float discountPercentage, decimal finalPrice)
         {
             // Arrange
-            var booking = GetBooking(roomPrice, days);
-            var discount = new DiscountDTO { AmountPercent = discountPercentage };
+            var booking = GetBooking(days);
+            var discount = _fixture.Build<DiscountDTO>()
+                .With(x => x.AmountPercent, discountPercentage)
+                .Create();
             _hotelDiscountRepositoryMock.Setup(x =>
                 x.GetHighestActiveDiscountAsync(It.IsAny<Guid>())).ReturnsAsync(discount);
+            SetupMocks(roomPrice);
 
             // Act
             await _bookingService.AddAsync(booking);
@@ -53,9 +67,10 @@ namespace HotelBooking.Application.Tests
             decimal roomPrice, int days, decimal finalPrice)
         {
             // Arrange
-            var booking = GetBooking(roomPrice, days);
+            var booking = GetBooking(days);
             _hotelDiscountRepositoryMock.Setup(x =>
                 x.GetHighestActiveDiscountAsync(It.IsAny<Guid>())).ReturnsAsync((DiscountDTO)null);
+            SetupMocks(roomPrice);
 
             // Act
             await _bookingService.AddAsync(booking);
@@ -64,15 +79,25 @@ namespace HotelBooking.Application.Tests
             booking.Price.Should().Be(finalPrice);
         }
 
-        private BookingDTO GetBooking(decimal roomPrice, int days)
+        private void SetupMocks(decimal roomPrice)
         {
-            var room = new RoomDTO { PricePerNight = roomPrice };
+            var room = _fixture.Build<RoomDTO>()
+                .With(x => x.PricePerNight, roomPrice)
+                .Create();
             _roomRepositoryMock.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(room);
-            var booking = new BookingDTO
-            {
-                StartingDate = DateTime.Now,
-                EndingDate = DateTime.Now.AddDays(days - 1)
-            };
+            _hotelRepositoryMock.Setup(x =>
+                x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(_fixture.Create<HotelDTO>());
+            _userRepositoryMock.Setup(x =>
+                x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(_fixture.Create<UserDTO>);
+        }
+
+        private BookingDTO GetBooking(int days)
+        {
+            var booking = _fixture.Build<BookingDTO>()
+                .With(x => x.StartingDate, DateTime.Now)
+                .With(x => x.EndingDate, DateTime.Now.AddDays(days - 1))
+                .Create();
+
             return booking;
         }
     }

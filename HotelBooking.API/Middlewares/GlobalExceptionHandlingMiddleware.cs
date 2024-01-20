@@ -20,7 +20,7 @@
             }
             catch (Exception ex)
             {
-                _logger.LogError("Unhandled exception: {message}", ex.Message);
+                _logger.LogError("Unhandled exception: {message}", ex);
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;
             }
         }

@@ -70,24 +70,24 @@ namespace HotelBooking.Api.Controllers
         /// </summary>
         /// <param name="search">The search query</param>
         /// <response code="200">The list of hotels is retrieved successfully.</response>
-        [HttpPost("search")]
+        [HttpGet("search")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(IEnumerable<HotelForAdminDTO>), StatusCodes.Status200OK)]
         public async Task<IActionResult> SearchHotelsForAdminAsync(
-            [FromQuery] PaginationDTO pagination, string search)
+            [FromQuery] PaginationDTO pagination, string query)
         {
             IEnumerable<HotelForAdminDTO> hotels;
 
             try
             {
-                hotels = await _hotelAdminService.SearchByPageAsync(pagination, search);
+                hotels = await _hotelAdminService.SearchByPageAsync(pagination, query);
             }
             catch (ValidationException ex)
             {
                 return BadRequest(ex.GetErrorsForClient());
             }
 
-            var hotelsCount = await _hotelAdminService.GetSearchCountAsync(search);
+            var hotelsCount = await _hotelAdminService.GetSearchCountAsync(query);
             Response.Headers.AddPaginationMetadata(hotelsCount, pagination);
 
             return Ok(hotels);
