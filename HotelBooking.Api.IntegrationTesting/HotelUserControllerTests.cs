@@ -5,15 +5,15 @@ using HotelBooking.Domain.Models.Hotel;
 
 namespace HotelBooking.Api.IntegrationTesting
 {
-    public class HotelUserControllerTests : IClassFixture<HotelBookingWebApplicationFactory>
+    public class HotelUserControllerTests : IClassFixture<HotelsBookingFactory>
     {
         private readonly HttpClient _guest;
         private readonly HttpClient _user;
         private readonly Fixture _fixture = new();
 
-        public HotelUserControllerTests(HotelBookingWebApplicationFactory factory)
+        public HotelUserControllerTests(HotelsBookingFactory factory)
         {
-            _guest = factory.GuestClient;
+            _guest = factory.GetGuestClient();
             _user = factory.GetUserClientAsync().Result;
         }
 

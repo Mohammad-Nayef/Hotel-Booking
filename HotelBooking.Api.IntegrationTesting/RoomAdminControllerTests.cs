@@ -8,16 +8,16 @@ using Microsoft.AspNetCore.JsonPatch;
 
 namespace HotelBooking.Api.IntegrationTesting
 {
-    public class RoomAdminControllerTests : IClassFixture<HotelBookingWebApplicationFactory>
+    public class RoomAdminControllerTests : IClassFixture<HotelsBookingFactory>
     {
         private readonly HttpClient _guest;
         private readonly HttpClient _user;
         private readonly HttpClient _admin;
         private readonly Fixture _fixture = new();
 
-        public RoomAdminControllerTests(HotelBookingWebApplicationFactory factory)
+        public RoomAdminControllerTests(HotelsBookingFactory factory)
         {
-            _guest = factory.GuestClient;
+            _guest = factory.GetGuestClient();
             _user = factory.GetUserClientAsync().Result;
             _admin = factory.GetAdminClientAsync().Result;
         }
