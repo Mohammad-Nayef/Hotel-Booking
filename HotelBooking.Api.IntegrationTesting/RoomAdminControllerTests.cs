@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 using AutoFixture;
 using FluentAssertions;
 using HotelBooking.Api.Models.Room;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 
 namespace HotelBooking.Api.IntegrationTesting
