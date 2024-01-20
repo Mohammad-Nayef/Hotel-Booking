@@ -39,6 +39,7 @@ namespace HotelBooking.Api.IntegrationTesting
             var newHotel = new HotelCreationDTO();
             var hotelId = new Guid();
             var hotelPatch = new JsonPatchDocument<HotelUpdateDTO>();
+            var statusCodes = new List<HttpStatusCode>();
 
             // Act
             var getStatusCode = (await client.GetAsync("api/admin/hotels")).StatusCode;
@@ -53,13 +54,11 @@ namespace HotelBooking.Api.IntegrationTesting
             var patchStatusCode =
                 (await client.PatchAsJsonAsync($"api/admin/hotels/{hotelId}", hotelPatch))
                 .StatusCode;
+            statusCodes.AddRange(
+                [getStatusCode, searchStatusCode, postStatusCode, deleteStatusCode, patchStatusCode]);
 
             // Assert
-            getStatusCode.Should().Be(expectedStatusCode);
-            searchStatusCode.Should().Be(expectedStatusCode);
-            postStatusCode.Should().Be(expectedStatusCode);
-            deleteStatusCode.Should().Be(expectedStatusCode);
-            patchStatusCode.Should().Be(expectedStatusCode);
+            statusCodes.ForEach(statusCode => statusCode.Should().Be(expectedStatusCode));
         }
 
         [Fact]
@@ -70,6 +69,7 @@ namespace HotelBooking.Api.IntegrationTesting
             var newHotel = new HotelCreationDTO();
             var hotelId = new Guid();
             var hotelPatch = new JsonPatchDocument<HotelUpdateDTO>();
+            var statusCodes = new List<HttpStatusCode>();
 
             // Act
             var getStatusCode = (await _admin.GetAsync("api/admin/hotels")).StatusCode;
@@ -84,23 +84,17 @@ namespace HotelBooking.Api.IntegrationTesting
             var patchStatusCode =
                 (await _admin.PatchAsJsonAsync($"api/admin/hotels/{hotelId}", hotelPatch))
                 .StatusCode;
+            statusCodes.AddRange(
+                [getStatusCode, searchStatusCode, postStatusCode, deleteStatusCode, patchStatusCode]);
 
             // Assert
-            getStatusCode.Should().NotBe(HttpStatusCode.Unauthorized);
-            searchStatusCode.Should().NotBe(HttpStatusCode.Unauthorized);
-            postStatusCode.Should().NotBe(HttpStatusCode.Unauthorized);
-            deleteStatusCode.Should().NotBe(HttpStatusCode.Unauthorized);
-            patchStatusCode.Should().NotBe(HttpStatusCode.Unauthorized);
-
-            getStatusCode.Should().NotBe(HttpStatusCode.Forbidden);
-            searchStatusCode.Should().NotBe(HttpStatusCode.Forbidden);
-            postStatusCode.Should().NotBe(HttpStatusCode.Forbidden);
-            deleteStatusCode.Should().NotBe(HttpStatusCode.Forbidden);
-            patchStatusCode.Should().NotBe(HttpStatusCode.Forbidden);
+            statusCodes.ForEach(statusCode =>
+                statusCode.Should().NotBe(HttpStatusCode.Unauthorized)
+                .And.NotBe(HttpStatusCode.Forbidden));
         }
 
         [Fact]
-        public async Task HotelsGet_ReturnsOkFor_Admin()
+        public async Task GetHotels_ReturnsOkFor_Admin()
         {
             // Act
             var responseCode = (await _admin.GetAsync("api/admin/hotels")).StatusCode;
@@ -110,7 +104,7 @@ namespace HotelBooking.Api.IntegrationTesting
         }
 
         [Fact]
-        public async Task HotelsSearch_ReturnsOkFor_Admin()
+        public async Task SearchHotels_ReturnsOkFor_Admin()
         {
             // Arrange
             var searchString = _fixture.Create<string>();
