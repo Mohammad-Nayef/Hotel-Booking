@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelBooking.Infrastructure.Migrations
 {
     [DbContext(typeof(HotelsBookingDbContext))]
-    [Migration("20240119070932_zxc")]
-    partial class zxc
+    [Migration("20240120143149_Views")]
+    partial class Views
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -464,7 +464,7 @@ namespace HotelBooking.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("RoleTableUserTable", b =>
+            modelBuilder.Entity("UsersRoles", b =>
                 {
                     b.Property<Guid>("RolesId")
                         .HasColumnType("uniqueidentifier");
@@ -476,7 +476,7 @@ namespace HotelBooking.Infrastructure.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("RoleTableUserTable");
+                    b.ToTable("UsersRoles");
                 });
 
             modelBuilder.Entity("HotelBooking.Infrastructure.Tables.BookingTable", b =>
@@ -609,7 +609,7 @@ namespace HotelBooking.Infrastructure.Migrations
                     b.Navigation("Hotel");
                 });
 
-            modelBuilder.Entity("RoleTableUserTable", b =>
+            modelBuilder.Entity("UsersRoles", b =>
                 {
                     b.HasOne("HotelBooking.Infrastructure.Tables.RoleTable", null)
                         .WithMany()

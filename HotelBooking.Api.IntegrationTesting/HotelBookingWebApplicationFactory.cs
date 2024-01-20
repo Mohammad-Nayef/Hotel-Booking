@@ -2,12 +2,12 @@ using HotelBooking.Api.Models.User;
 using HotelBooking.Domain.Models.User;
 using HotelBooking.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace HotelBooking.Api.IntegrationTesting
 {
-    public class HotelBookingWebApplicationFactory : 
+    public class HotelBookingWebApplicationFactory :
         IClassFixture<HotelBookingWebApplicationFactory>
     {
         private readonly WebApplicationFactory<Program> _factory;
@@ -16,8 +16,9 @@ namespace HotelBooking.Api.IntegrationTesting
         {
             _factory = new WebApplicationFactory<Program>()
                 .WithWebHostBuilder(builder =>
-                    builder.ConfigureServices(services =>
+                    builder.ConfigureTestServices(services =>
                     {
+                        services.RemoveAll<HotelsBookingDbContext>();
                         services.AddDbContext<HotelsBookingDbContext>();
                     }));
         }

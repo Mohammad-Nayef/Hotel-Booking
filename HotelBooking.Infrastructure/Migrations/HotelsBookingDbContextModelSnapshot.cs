@@ -461,7 +461,7 @@ namespace HotelBooking.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("RoleTableUserTable", b =>
+            modelBuilder.Entity("UsersRoles", b =>
                 {
                     b.Property<Guid>("RolesId")
                         .HasColumnType("uniqueidentifier");
@@ -473,7 +473,7 @@ namespace HotelBooking.Infrastructure.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("RoleTableUserTable");
+                    b.ToTable("UsersRoles");
                 });
 
             modelBuilder.Entity("HotelBooking.Infrastructure.Tables.BookingTable", b =>
@@ -606,7 +606,7 @@ namespace HotelBooking.Infrastructure.Migrations
                     b.Navigation("Hotel");
                 });
 
-            modelBuilder.Entity("RoleTableUserTable", b =>
+            modelBuilder.Entity("UsersRoles", b =>
                 {
                     b.HasOne("HotelBooking.Infrastructure.Tables.RoleTable", null)
                         .WithMany()

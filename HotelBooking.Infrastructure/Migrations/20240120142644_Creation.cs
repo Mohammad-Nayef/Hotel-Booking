@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HotelBooking.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class zxcwec : Migration
+    public partial class Creation : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -48,7 +48,7 @@ namespace HotelBooking.Infrastructure.Migrations
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Username = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -82,7 +82,7 @@ namespace HotelBooking.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RoleTableUserTable",
+                name: "UsersRoles",
                 columns: table => new
                 {
                     RolesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -90,15 +90,15 @@ namespace HotelBooking.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoleTableUserTable", x => new { x.RolesId, x.UsersId });
+                    table.PrimaryKey("PK_UsersRoles", x => new { x.RolesId, x.UsersId });
                     table.ForeignKey(
-                        name: "FK_RoleTableUserTable_Roles_RolesId",
+                        name: "FK_UsersRoles_Roles_RolesId",
                         column: x => x.RolesId,
                         principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RoleTableUserTable_Users_UsersId",
+                        name: "FK_UsersRoles_Users_UsersId",
                         column: x => x.UsersId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -358,14 +358,14 @@ namespace HotelBooking.Infrastructure.Migrations
                 column: "RoomId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RoleTableUserTable_UsersId",
-                table: "RoleTableUserTable",
-                column: "UsersId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Rooms_HotelId",
                 table: "Rooms",
                 column: "HotelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UsersRoles_UsersId",
+                table: "UsersRoles",
+                column: "UsersId");
         }
 
         /// <inheritdoc />
@@ -390,7 +390,7 @@ namespace HotelBooking.Infrastructure.Migrations
                 name: "Images");
 
             migrationBuilder.DropTable(
-                name: "RoleTableUserTable");
+                name: "UsersRoles");
 
             migrationBuilder.DropTable(
                 name: "Rooms");

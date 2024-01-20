@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelBooking.Infrastructure.Migrations
 {
     [DbContext(typeof(HotelsBookingDbContext))]
-    [Migration("20240118162921_zxcwec")]
-    partial class zxcwec
+    [Migration("20240120143453_Seeding")]
+    partial class Seeding
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -452,8 +452,7 @@ namespace HotelBooking.Infrastructure.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -465,7 +464,7 @@ namespace HotelBooking.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("RoleTableUserTable", b =>
+            modelBuilder.Entity("UsersRoles", b =>
                 {
                     b.Property<Guid>("RolesId")
                         .HasColumnType("uniqueidentifier");
@@ -477,7 +476,7 @@ namespace HotelBooking.Infrastructure.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("RoleTableUserTable");
+                    b.ToTable("UsersRoles");
                 });
 
             modelBuilder.Entity("HotelBooking.Infrastructure.Tables.BookingTable", b =>
@@ -610,7 +609,7 @@ namespace HotelBooking.Infrastructure.Migrations
                     b.Navigation("Hotel");
                 });
 
-            modelBuilder.Entity("RoleTableUserTable", b =>
+            modelBuilder.Entity("UsersRoles", b =>
                 {
                     b.HasOne("HotelBooking.Infrastructure.Tables.RoleTable", null)
                         .WithMany()

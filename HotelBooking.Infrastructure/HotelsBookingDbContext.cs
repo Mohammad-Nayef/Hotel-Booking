@@ -34,14 +34,15 @@ namespace HotelBooking.Infrastructure
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_config.GetConnectionString("SqlServer"))
-                .LogTo(Console.Write);
+            optionsBuilder.UseSqlServer(_config.GetConnectionString("SqlServer"));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.MapViews();
-            modelBuilder.AddPropertiesLengthLimit();
+            modelBuilder
+                .MapViews()
+                .AddPropertiesLengthLimit()
+                .ConfigureRelations();
         }
     }
 }

@@ -5,7 +5,7 @@
 namespace HotelBooking.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class views : Migration
+    public partial class Views : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,19 +18,19 @@ namespace HotelBooking.Infrastructure.Migrations
                         WHERE Rooms.HotelId = Hotels.Id
                     ) As NumberOfRooms
                 FROM Hotels
+                """);
 
-                GO
-
+            migrationBuilder.Sql("""
                 CREATE VIEW vw_CitiesForAdmin AS
                 SELECT Id, Name, CountryName, PostOffice, CreationDate, ModificationDate,
                     (SELECT COUNT(*) FROM Hotels
                     WHERE Hotels.CityId = Cities.Id)
                     AS NumberOfHotels
                 FROM Cities
+                """);
 
-                GO
-
-                CREATE VIEW vw_RoomsForAdmin AS
+            migrationBuilder.Sql("""
+                                CREATE VIEW vw_RoomsForAdmin AS
                 SELECT 
                     Id, Type, Number, AdultsCapacity, ChildrenCapacity, CreationDate, ModificationDate, 
                     CAST(
@@ -44,16 +44,14 @@ namespace HotelBooking.Infrastructure.Migrations
                             ELSE 1
                         END AS BIT
                     ) AS IsAvailable
-                FROM Rooms;
+                FROM Rooms
                 """);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("""
-                DROP VIEW HotelsForAdmin, RoomsForAdmin, CitiesForAdmin
-                """);
+            migrationBuilder.Sql("DROP VIEW vw_RoomsForAdmin, vw_CitiesForAdmin, vw_HotelsForAdmin");
         }
     }
 }

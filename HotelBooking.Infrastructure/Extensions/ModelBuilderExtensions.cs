@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using HotelBooking.Domain.Constants;
+using HotelBooking.Domain.Entities;
 using HotelBooking.Domain.Models.City;
 using HotelBooking.Domain.Models.Hotel;
 using HotelBooking.Domain.Models.Room;
@@ -119,6 +120,16 @@ namespace HotelBooking.Infrastructure.Extensions
             modelBuilder.Entity<TEntity>()
                 .Property(property)
                 .HasMaxLength(maxLength);
+
+            return modelBuilder;
+        }
+
+        public static ModelBuilder ConfigureRelations(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserTable>()
+                .HasMany(x => x.Roles)
+                .WithMany(x => x.Users)
+                .UsingEntity(UserRoleTable.Name);
 
             return modelBuilder;
         }

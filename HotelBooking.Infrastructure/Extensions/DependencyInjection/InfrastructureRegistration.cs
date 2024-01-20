@@ -9,8 +9,6 @@ using HotelBooking.Infrastructure.Repositories.City;
 using HotelBooking.Infrastructure.Repositories.Hotel;
 using HotelBooking.Infrastructure.Repositories.Room;
 using HotelBooking.Infrastructure.Utilities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HotelBooking.Infrastructure.Extensions.DependencyInjection
