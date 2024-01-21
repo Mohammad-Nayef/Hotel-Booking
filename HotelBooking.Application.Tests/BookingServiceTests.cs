@@ -51,7 +51,7 @@ namespace HotelBooking.Application.Tests
                 .With(x => x.AmountPercent, discountPercentage)
                 .Create();
             _hotelDiscountRepositoryMock.Setup(x =>
-                x.GetHighestActiveDiscountAsync(It.IsAny<Guid>())).ReturnsAsync(discount);
+                x.GetHighestActiveDiscount(It.IsAny<Guid>())).ReturnsAsync(discount);
             SetupMocks(roomPrice);
 
             // Act
@@ -69,7 +69,7 @@ namespace HotelBooking.Application.Tests
             // Arrange
             var booking = GetBooking(days);
             _hotelDiscountRepositoryMock.Setup(x =>
-                x.GetHighestActiveDiscountAsync(It.IsAny<Guid>())).ReturnsAsync((DiscountDTO)null);
+                x.GetHighestActiveDiscount(It.IsAny<Guid>())).ReturnsAsync((DiscountDTO)null);
             SetupMocks(roomPrice);
 
             // Act

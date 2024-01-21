@@ -55,6 +55,23 @@ namespace HotelBooking.Infrastructure.Repositories.City
             return await _dbContext.Cities.CountAsync();
         }
 
+        public IEnumerable<PopularCityDTO> GetPopularCitiesByPage(
+            int itemsToSkip, int itemsToTake)
+        {
+            var cities = _dbContext.Cities
+                .Include(city => city.Images)
+                .Include(city => city.Hotels)
+                .ThenInclude(hotel => hotel.Visits)
+                .AsNoTracking()
+                .AsEnumerable()
+                .OrderByDescending(city =>
+                    city.Hotels.Sum(hotel => hotel.Visits.Count))
+                .Skip(itemsToSkip)
+                .Take(itemsToTake);
+
+            return _mapper.Map<IEnumerable<PopularCityDTO>>(cities);
+        }
+
         public async Task UpdateAsync(CityDTO city)
         {
             _dbContext.Cities.Update(_mapper.Map<CityTable>(city));

@@ -10,8 +10,10 @@ namespace HotelBooking.Infrastructure.Profiles
         {
             CreateMap<CityDTO, CityTable>()
                 .ReverseMap();
-
             CreateMap<CityTable, CityForUserDTO>();
+            CreateMap<CityTable, PopularCityDTO>()
+                .ForMember(dest => dest.ThumbnailId, opt =>
+                opt.MapFrom(src => src.Images.FirstOrDefault().Id));
         }
     }
 }

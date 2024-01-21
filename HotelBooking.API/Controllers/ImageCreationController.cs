@@ -72,7 +72,7 @@ namespace HotelBooking.Api.Controllers
         /// <param name="roomId">Id of the room to add images for.</param>        
         /// <response code="404">The room with the given Id doesn't exist.</response>
         /// <response code="204">The images are successfully added.</response>
-        [HttpPost("{roomId}/images")]
+        [HttpPost("rooms/{roomId}/images")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status201Created)]

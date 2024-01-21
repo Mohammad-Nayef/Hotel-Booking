@@ -50,7 +50,7 @@ namespace HotelBooking.Db.Repositories.Hotel
                 .Where(hotel => hotel.Discounts.HasActiveDiscount());
         }
 
-        public async Task<DiscountDTO> GetHighestActiveDiscountAsync(Guid hotelId)
+        public  DiscountDTO GetHighestActiveDiscount(Guid hotelId)
         {
             var discountTable = _dbContext.Hotels
                 .Include(hotel => hotel.Discounts)

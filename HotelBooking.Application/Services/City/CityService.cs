@@ -1,6 +1,9 @@
 ﻿using FluentValidation;
+using HotelBooking.Application.Validators;
 using HotelBooking.Domain.Abstractions.Repositories.City;
+using HotelBooking.Domain.Abstractions.Repositories.Hotel;
 using HotelBooking.Domain.Abstractions.Services.City;
+using HotelBooking.Domain.Models;
 using HotelBooking.Domain.Models.City;
 
 namespace HotelBooking.Application.Services.City
@@ -9,12 +12,16 @@ namespace HotelBooking.Application.Services.City
     {
         private readonly ICityRepository _cityRepository;
         private readonly IValidator<CityDTO> _cityValidator;
+        private readonly IValidator<PaginationDTO> _paginationValidator;
 
         public CityService(
-            ICityRepository cityRepository, IValidator<CityDTO> cityValidator)
+            ICityRepository cityRepository, 
+            IValidator<CityDTO> cityValidator,
+            IValidator<PaginationDTO> paginationValidator)
         {
             _cityRepository = cityRepository;
             _cityValidator = cityValidator;
+            _paginationValidator = paginationValidator;
         }
 
         public async Task<Guid> AddAsync(CityDTO city)
@@ -44,6 +51,16 @@ namespace HotelBooking.Application.Services.City
         }
 
         public Task<int> GetCountAsync() => _cityRepository.GetCountAsync();
+
+        public async Task<IEnumerable<PopularCityDTO>> GetPopularCitiesByPageAsync(
+            PaginationDTO pagination)
+        {
+            await _paginationValidator.ValidateAndThrowAsync(pagination);
+
+            return _cityRepository.GetPopularCitiesByPage(
+                (pagination.PageNumber - 1) * pagination.PageSize,
+                pagination.PageSize);
+        }
 
         public async Task UpdateAsync(CityDTO city)
         {

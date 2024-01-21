@@ -46,14 +46,14 @@ namespace HotelBooking.Application.Services
             newBooking.CreationDate = DateTime.UtcNow;
             var room = await _roomRepository.GetByIdAsync(newBooking.RoomId);
             var discount =
-                await _hotelDiscountRepository.GetHighestActiveDiscountAsync(room.HotelId);
-            await AddPriceAsync(newBooking, room, discount);
+                _hotelDiscountRepository.GetHighestActiveDiscount(room.HotelId);
+            AddPrice(newBooking, room, discount);
 
             await _bookingRepository.AddAsync(newBooking);
             await SendBookingDetailsEmailAsync(newBooking, room);
         }
 
-        private async Task AddPriceAsync(
+        private void AddPrice(
             BookingDTO newBooking, RoomDTO room, DiscountDTO discount)
         {
             var discountPercentage = discount?.AmountPercent ?? 0;

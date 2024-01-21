@@ -10,5 +10,7 @@ namespace HotelBooking.Domain.Abstractions.Repositories.City
         Task DeleteAsync(Guid id);
         Task<CityDTO> GetByIdAsync(Guid id);
         Task UpdateAsync(CityDTO city);
+        IEnumerable<PopularCityDTO> GetPopularCitiesByPage(
+            int itemsToSkip, int itemsToTake);
     }
 }
