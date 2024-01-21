@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HotelBooking.Domain.Abstractions.Repositories.City;
+using HotelBooking.Domain.Constants;
 using HotelBooking.Domain.Models.City;
 using HotelBooking.Infrastructure.Tables;
 using Microsoft.EntityFrameworkCore;
@@ -61,7 +62,8 @@ namespace HotelBooking.Infrastructure.Repositories.City
             var cities = _dbContext.Cities
                 .Include(city => city.Images)
                 .Include(city => city.Hotels)
-                .ThenInclude(hotel => hotel.Visits)
+                .ThenInclude(hotel => hotel.Visits
+                    .Where(visit => visit.Date > HotelVisitConstants.LeastRecentVisitDate))
                 .AsNoTracking()
                 .AsEnumerable()
                 .OrderByDescending(city =>

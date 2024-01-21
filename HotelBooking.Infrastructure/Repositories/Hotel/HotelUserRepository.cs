@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using AutoMapper;
 using HotelBooking.Domain.Abstractions.Repositories.Hotel;
+using HotelBooking.Domain.Constants;
 using HotelBooking.Domain.Models.Hotel;
 using HotelBooking.Domain.Models.Room;
 using HotelBooking.Infrastructure.Extensions;
@@ -142,7 +143,8 @@ namespace HotelBooking.Infrastructure.Repositories.Hotel
                 .GroupBy(visit => visit.HotelId)
                 .Select(group => group.OrderByDescending(visit => visit.Date).FirstOrDefault())
                 .AsNoTracking()
-                .AsEnumerable()
+            .AsEnumerable()
+                .Where(visit => visit.Date > HotelVisitConstants.LeastRecentVisitDate)
                 .OrderByDescending(visit => visit.Date)
                 .Select(visit => visit.Hotel)
                 .Distinct()
