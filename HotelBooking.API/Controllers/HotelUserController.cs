@@ -167,7 +167,7 @@ namespace HotelBooking.Api.Controllers
             {
                 return BadRequest(ex.GetErrorsForClient());
             }
-            catch(KeyNotFoundException)
+            catch (KeyNotFoundException)
             {
                 return NotFound();
             }
@@ -175,6 +175,36 @@ namespace HotelBooking.Api.Controllers
             Response.Headers.AddPaginationMetadata(roomsCount, pagination);
 
             return Ok(rooms);
+        }
+
+        /// <summary>
+        /// Get paginated list of recently visited hotels.
+        /// </summary>
+        /// <response code="200">Returns the list of visited hotels.</response>
+        [HttpGet("recently-visited/current-user")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(IEnumerable<VisitedHotelDTO>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetRecentlyVisitedHotelsAsync(
+            [FromQuery] PaginationDTO pagination)
+        {
+            var userId = new Guid(HttpContext.User.Identity.Name);
+            IEnumerable<VisitedHotelDTO> visitedHotels;
+            int visitedHotelsCount = 0;
+
+            try
+            {
+                visitedHotels = await _hotelUserService.GetRecentlyVisitedByPageAsync(
+                    userId, pagination);
+                visitedHotelsCount = await _hotelUserService.GetRecentlyVisitedCountAsync(userId);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.GetErrorsForClient());
+            }
+
+            Response.Headers.AddPaginationMetadata(visitedHotelsCount, pagination);
+
+            return Ok(visitedHotels);
         }
     }
 }

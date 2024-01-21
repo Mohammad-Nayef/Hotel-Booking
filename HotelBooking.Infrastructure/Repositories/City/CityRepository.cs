@@ -67,7 +67,7 @@ namespace HotelBooking.Infrastructure.Repositories.City
                 .OrderByDescending(city =>
                     city.Hotels.Sum(hotel => hotel.Visits.Count))
                 .Skip(itemsToSkip)
-                .Take(itemsToTake);
+                .Take(itemsToTake).ToList();
 
             return _mapper.Map<IEnumerable<PopularCityDTO>>(cities);
         }

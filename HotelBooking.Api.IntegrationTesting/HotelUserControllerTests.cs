@@ -39,13 +39,17 @@ namespace HotelBooking.Api.IntegrationTesting
             var roomsStatusCode =
                 (await _guest.GetAsync($"api/hotels/{hotelId}/rooms/available"))
                 .StatusCode;
+            var visitedHotelsStatusCode =
+                (await _guest.GetAsync($"api/hotels/recently-visited/current-user"))
+                .StatusCode;
             statusCodes.AddRange(
                 [
                     getHotelStatusCode, 
                     getReviewsStatusCode, 
                     getFeaturedStatusCode, 
                     searchStatusCode, 
-                    roomsStatusCode
+                    roomsStatusCode,
+                    visitedHotelsStatusCode
                 ]);
 
             // Assert
@@ -75,6 +79,18 @@ namespace HotelBooking.Api.IntegrationTesting
 
             // Assert
             searchStatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Fact]
+        public async Task GetRecentlyVisitedHotels_ReturnsOkFor_User()
+        {
+            // Act
+            var getFeaturedStatusCode = 
+                (await _user.GetAsync("api/hotels/recently-visited/current-user"))
+                .StatusCode;
+
+            // Assert
+            getFeaturedStatusCode.Should().Be(HttpStatusCode.OK);
         }
     }
 }

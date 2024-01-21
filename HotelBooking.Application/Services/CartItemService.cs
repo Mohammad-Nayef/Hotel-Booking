@@ -33,7 +33,7 @@ namespace HotelBooking.Application.Services
             return await _cartItemRepository.AddAsync(newCartItem);
         }
 
-        public async Task<IEnumerable<CartItemDTO>> GetAllForUserByPage(
+        public async Task<IEnumerable<CartItemDTO>> GetAllForUserByPageAsync(
             Guid userId, PaginationDTO pagination)
         {
             await _paginationValidator.ValidateAndThrowAsync(pagination);

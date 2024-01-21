@@ -103,5 +103,19 @@ namespace HotelBooking.Application.Services.Hotel
 
         public int GetAvailableRoomsCount(Guid id) =>
             _hotelUserRepository.GetAvailableRoomsCount(id);
+
+        public async Task<IEnumerable<VisitedHotelDTO>> GetRecentlyVisitedByPageAsync(
+            Guid userId, PaginationDTO pagination)
+        {
+            await _paginationValidator.ValidateAndThrowAsync(pagination);
+
+            return _hotelUserRepository.GetRecentlyVisitedByPage(
+                userId,
+                (pagination.PageNumber - 1) * pagination.PageSize,
+                pagination.PageSize);
+        }
+
+        public Task<int> GetRecentlyVisitedCountAsync(Guid userId) => 
+            _hotelUserRepository.GetVisitedCountAsync(userId);
     }
 }

@@ -18,5 +18,8 @@ namespace HotelBooking.Domain.Abstractions.Services.Hotel
         Task<IEnumerable<RoomForUserDTO>> GetAvailableRoomsAsync(
             Guid id, PaginationDTO pagination);
         int GetAvailableRoomsCount(Guid id);
+        Task<IEnumerable<VisitedHotelDTO>> GetRecentlyVisitedByPageAsync(
+            Guid userId, PaginationDTO pagination);
+        Task<int> GetRecentlyVisitedCountAsync(Guid userId);
     }
 }

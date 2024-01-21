@@ -32,6 +32,10 @@ namespace HotelBooking.Infrastructure.Profiles
                     opt.MapFrom(src => src.Images.Select(image => image.Id)))
                 .ForMember(dest => dest.CurrentDiscount, opt =>
                     opt.MapFrom(src => src.Discounts.GetHighestActive()));
+
+            CreateMap<HotelTable, VisitedHotelDTO>()
+                .ForMember(dest => dest.ThumbnailId, opt =>
+                    opt.MapFrom(src => src.Images.FirstOrDefault().Id));
         }
     }
 }

@@ -130,5 +130,41 @@ namespace HotelBooking.Infrastructure.Repositories.Hotel
                     .Any(booking => booking.IntersectsWith(DateTime.UtcNow)))
                 .Count();
         }
+
+        public IEnumerable<VisitedHotelDTO> GetRecentlyVisitedByPage(
+            Guid userId, int itemsToSkip, int itemsToTake)
+        {
+            var recentlyVisitedHotels = _dbContext.HotelVisits
+                .Where(hv => hv.UserId == userId)
+                .Include(visit => visit.Hotel)
+                .ThenInclude(hotel => hotel.City)
+                .Include(visit => visit.Hotel.Images)
+                .GroupBy(visit => visit.HotelId)
+                .Select(group => group.OrderByDescending(visit => visit.Date).FirstOrDefault())
+                .AsNoTracking()
+                .AsEnumerable()
+                .OrderByDescending(visit => visit.Date)
+                .Select(visit => visit.Hotel)
+                .Distinct()
+                .Skip(itemsToSkip)
+                .Take(itemsToTake);
+
+            return _mapper.Map<IEnumerable<VisitedHotelDTO>>(recentlyVisitedHotels);
+        }
+
+        public async Task<int> GetVisitedCountAsync(Guid userId)
+        {
+            var recentlyVisitedHotelsCount = _dbContext.HotelVisits
+                .Where(visit => visit.UserId == userId)
+                .Include(visit => visit.Hotel)
+                .GroupBy(visit => visit.Hotel)
+                .Select(group => group.First())
+                .AsNoTracking();
+
+            if (recentlyVisitedHotelsCount.TryGetNonEnumeratedCount(out int count))
+                return count;
+
+            return await recentlyVisitedHotelsCount.CountAsync();
+        }
     }
 }

@@ -7,6 +7,7 @@ using HotelBooking.Api.Models.Hotel;
 using HotelBooking.Domain.Abstractions.Services;
 using HotelBooking.Domain.Constants;
 using HotelBooking.Domain.Models;
+using HotelBooking.Domain.Models.Hotel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -83,7 +84,7 @@ namespace HotelBooking.Api.Controllers
 
             try
             {
-                cartItems = await _cartItemService.GetAllForUserByPage(userId, pagination);
+                cartItems = await _cartItemService.GetAllForUserByPageAsync(userId, pagination);
                 citiesCount = await _cartItemService.GetCountForUserAsync(userId);
             }
             catch (ValidationException ex)

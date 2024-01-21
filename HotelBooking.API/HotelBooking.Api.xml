@@ -141,6 +141,12 @@
             <param name="hotelId">Id of the hotel to get its available rooms.</param>
             <response code="200">Returns the list of available rooms.</response>
         </member>
+        <member name="M:HotelBooking.Api.Controllers.HotelUserController.GetRecentlyVisitedHotelsAsync(HotelBooking.Domain.Models.PaginationDTO)">
+            <summary>
+            Get paginated list of recently visited hotels.
+            </summary>
+            <response code="200">Returns the list of visited hotels.</response>
+        </member>
         <member name="M:HotelBooking.Api.Controllers.ImageCreationController.PostCityImagesAsync(System.Guid,System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
             <summary>
             Add images for a city.
