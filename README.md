@@ -1,5 +1,6 @@
-# Hotel Booking System
-### ASP.NET WEB API project for booking hotels with Clean Architecture.
+# Hotel Booking System 
+### The final project of my backend internship at Foothill Technology Solutions.
+### ASP.NET WEB API project for booking hotels.
 
 ## Features:
 - User login and register functionalities.
