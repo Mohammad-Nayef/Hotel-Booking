@@ -100,7 +100,7 @@ namespace HotelBooking.Api.Controllers
         /// <response code="201">Returns the hotel with a new Id and its URI in response headers.</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(HotelCreationDTO), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(HotelCreationResponseDTO), StatusCodes.Status201Created)]
         public async Task<IActionResult> PostAsync(HotelCreationDTO newHotel)
         {
             Guid newId;
@@ -206,7 +206,7 @@ namespace HotelBooking.Api.Controllers
         /// <response code="201">Returns the discount with a new Id and its URI in response headers.</response>
         [HttpPost("{hotelId}/discounts")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(DiscountCreationDTO), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(DiscountCreationResponseDTO), StatusCodes.Status201Created)]
         public async Task<IActionResult> PostDiscountAsync(
             Guid hotelId, DiscountCreationDTO newDiscount)
         {

@@ -5,6 +5,7 @@ using SixLabors.ImageSharp;
 
 namespace HotelBooking.Application.Services.City
 {
+    /// <inheritdoc cref="ICityImageService"/>
     internal class CityImageService : ICityImageService
     {
         private readonly IValidator<IEnumerable<Image>> _imagesValidator;

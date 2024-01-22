@@ -8,6 +8,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace HotelBooking.Infrastructure
 {
+    /// <summary>
+    /// Main DbContext of the project.
+    /// </summary>
     internal class HotelsBookingDbContext : DbContext
     {
         private readonly IConfiguration _config;

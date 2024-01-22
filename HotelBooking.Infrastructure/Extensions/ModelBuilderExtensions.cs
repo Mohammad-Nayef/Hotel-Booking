@@ -1,6 +1,5 @@
 ﻿using System.Linq.Expressions;
 using HotelBooking.Domain.Constants;
-using HotelBooking.Domain.Entities;
 using HotelBooking.Domain.Models.City;
 using HotelBooking.Domain.Models.Hotel;
 using HotelBooking.Domain.Models.Room;
@@ -11,6 +10,9 @@ namespace HotelBooking.Infrastructure.Extensions
 {
     internal static class ModelBuilderExtensions
     {
+        /// <summary>
+        /// Map the database views with its relevant models.
+        /// </summary>
         public static ModelBuilder MapViews(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<HotelForAdminDTO>(entity =>
@@ -34,6 +36,11 @@ namespace HotelBooking.Infrastructure.Extensions
             return modelBuilder;
         }
 
+        /// <summary>
+        /// Add database-level limits for lengths of string properties.
+        /// </summary>
+        /// <param name="modelBuilder"></param>
+        /// <returns></returns>
         public static ModelBuilder AddPropertiesLengthLimit(this ModelBuilder modelBuilder)
         {
             modelBuilder
@@ -74,7 +81,7 @@ namespace HotelBooking.Infrastructure.Extensions
             modelBuilder.ConfigureStringLength<HotelTable>(
                 hotel => hotel.BriefDescription, HotelConstants.MaxBriefDescriptionLength);
             modelBuilder.ConfigureStringLength<HotelTable>(
-                hotel => hotel.FullDescription, HotelConstants.MaxLengthFullDescription);
+                hotel => hotel.FullDescription, HotelConstants.MaxFullDescriptionLength);
             modelBuilder.ConfigureStringLength<HotelTable>(
                 hotel => hotel.OwnerName, HotelConstants.MaxNameLength);
 

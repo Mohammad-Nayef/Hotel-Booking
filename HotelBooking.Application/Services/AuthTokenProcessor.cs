@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace HotelBooking.Application.Services
 {
+    /// <inheritdoc cref="IAuthTokenProcessor"/>
     internal class AuthTokenProcessor : IAuthTokenProcessor
     {
         private readonly IConfiguration _config;
@@ -15,6 +16,22 @@ namespace HotelBooking.Application.Services
         public AuthTokenProcessor(IConfiguration config)
         {
             _config = config;
+        }
+
+        internal TokenValidationParameters TokenValidationParameters 
+        { 
+            get => new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidAudience = _config["Jwt:Audience"],
+                ValidIssuer = _config["Jwt:Issuer"],
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(_config["Jwt:Key"])),
+                ClockSkew = TimeSpan.Zero
+            };
         }
 
         public string GenerateToken(UserDTO user)

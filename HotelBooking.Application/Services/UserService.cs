@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity;
 
 namespace HotelBooking.Application.Services
 {
+    /// <inheritdoc cref="IUserService"/>
     internal class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;

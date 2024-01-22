@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace HotelBooking.Infrastructure.Repositories
 {
+    /// <inheritdoc cref="IDiscountRepository"/>
     internal class DiscountRepository : IDiscountRepository
     {
         private readonly HotelsBookingDbContext _dbContext;

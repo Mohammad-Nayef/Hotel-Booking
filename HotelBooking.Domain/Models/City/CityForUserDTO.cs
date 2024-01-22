@@ -1,10 +1,19 @@
-﻿namespace HotelBooking.Domain.Models.City
+﻿using HotelBooking.Domain.Abstractions;
+
+namespace HotelBooking.Domain.Models.City
 {
-    public class CityForUserDTO
+    /// <summary>
+    /// City model to view for user.
+    /// </summary>
+    public class CityForUserDTO : Entity
     {
-        public Guid Id { get; set; }
+        /// <inheritdoc cref="CityDTO.Name"/>
         public string Name { get; set; }
+
+        /// <inheritdoc cref="CityDTO.CountryName"/>
         public string CountryName { get; set; }
+
+        /// <inheritdoc cref="CityDTO.PostOffice"/>
         public string PostOffice { get; set; }
     }
 }

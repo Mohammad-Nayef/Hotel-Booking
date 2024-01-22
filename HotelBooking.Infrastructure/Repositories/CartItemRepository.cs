@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HotelBooking.Infrastructure.Repositories
 {
+    /// <inheritdoc cref="ICartItemRepository"/>
     internal class CartItemRepository : ICartItemRepository
     {
         private readonly HotelsBookingDbContext _dbContext;

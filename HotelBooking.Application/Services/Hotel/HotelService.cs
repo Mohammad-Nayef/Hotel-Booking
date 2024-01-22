@@ -5,6 +5,7 @@ using HotelBooking.Domain.Models.Hotel;
 
 namespace HotelBooking.Application.Services.Hotel
 {
+    /// <inheritdoc cref="IHotelService"/>
     internal class HotelService : IHotelService
     {
         private readonly IHotelRepository _hotelRepository;

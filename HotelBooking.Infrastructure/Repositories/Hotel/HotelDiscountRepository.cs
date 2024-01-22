@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HotelBooking.Domain.Abstractions.Repositories.Hotel;
 using HotelBooking.Domain.Models;
+using HotelBooking.Domain.Models.Hotel;
 using HotelBooking.Infrastructure;
 using HotelBooking.Infrastructure.Extensions;
 using HotelBooking.Infrastructure.Tables;
@@ -8,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HotelBooking.Db.Repositories.Hotel
 {
+    /// <inheritdoc cref="IHotelDiscountRepository"/>
     internal class HotelDiscountRepository : IHotelDiscountRepository
     {
         private readonly HotelsBookingDbContext _dbContext;

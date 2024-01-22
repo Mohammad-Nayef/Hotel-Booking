@@ -1,10 +1,25 @@
-﻿namespace HotelBooking.Api.Models.City
+﻿using HotelBooking.Domain.Abstractions;
+
+namespace HotelBooking.Api.Models.City
 {
-    public class CityCreationResponseDTO
+    /// <summary>
+    /// Properties of response for creating new city.
+    /// </summary>
+    public class CityCreationResponseDTO : Entity
     {
-        public Guid Id { get; set; }
+        /// <summary>
+        /// Name of the city.
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Name of the country that contains the city.
+        /// </summary>
         public string CountryName { get; set; }
+
+        /// <summary>
+        /// Post office of the city.
+        /// </summary>
         public string PostOffice { get; set; }
     }
 }

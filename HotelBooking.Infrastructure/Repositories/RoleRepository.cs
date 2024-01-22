@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HotelBooking.Infrastructure.Repositories
 {
+    /// <inheritdoc cref="IRoleRepository"/>
     internal class RoleRepository : IRoleRepository
     {
         private readonly HotelsBookingDbContext _dbContext;

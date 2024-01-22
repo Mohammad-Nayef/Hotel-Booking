@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using AutoMapper;
+﻿using AutoMapper;
 using FluentValidation;
 using HotelBooking.Api.Extensions;
 using HotelBooking.Api.Models.User;
@@ -73,7 +72,7 @@ namespace HotelBooking.Api.Controllers
             {
                 return BadRequest(ex.GetErrorsForClient());
             }
-            catch(InvalidUserCredentialsException)
+            catch (InvalidUserCredentialsException)
             {
                 return Unauthorized();
             }

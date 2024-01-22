@@ -23,12 +23,12 @@ namespace HotelBooking.Application.Validators.Hotel
                 .NotNull()
                 .NotEmpty()
                 .Length(
-                    HotelConstants.MinLengthFullDescription,
-                    HotelConstants.MaxLengthFullDescription);
+                    HotelConstants.MinFullDescriptionLength,
+                    HotelConstants.MaxFullDescriptionLength);
 
             RuleFor(hotel => hotel.StarRating)
                 .NotNull()
-                .InclusiveBetween(1, 5);
+                .InclusiveBetween(HotelConstants.MinStarRating, HotelConstants.MaxStarRating);
 
             RuleFor(hotel => hotel.Geolocation)
                 .NotNull()

@@ -227,7 +227,7 @@
             <param name="query">The search query</param>
             <response code="200">The list of rooms is retrieved successfully.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.RoomAdminController.PostAsync(HotelBooking.Api.Models.Room.RoomCreationDTO)">
+        <member name="M:HotelBooking.Api.Controllers.RoomAdminController.PostAsync(HotelBooking.Api.Models.Room.RoomCreationResponseDTO)">
             <summary>
             Create and store a new room.
             </summary>
@@ -274,13 +274,525 @@
             <param name="newBooking">Properties of the new booking.</param>
             <response code="201">The booking is created successfully.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.UserController.PostHotelReviewAsync(HotelBooking.Api.Models.Hotel.HotelReviewCreationDTO)">
+        <member name="M:HotelBooking.Api.Controllers.UserController.PostHotelReviewAsync(HotelBooking.Api.Models.HotelReviewCreationDTO)">
             <summary>
             Create and store a new hotel review for a user.
             </summary>
             <param name="userId">The Id of the user creating the review.</param>
             <param name="newReview">Properties of the new review.</param>
             <response code="201">The review is created successfully.</response>
+        </member>
+        <member name="M:HotelBooking.Api.Extensions.ImagesExtensions.ToImages(System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
+            <summary>
+            Get list of images from list of files.
+            </summary>
+        </member>
+        <member name="M:HotelBooking.Api.Extensions.ResponseHeadersExtensions.AddPaginationMetadata(Microsoft.AspNetCore.Http.IHeaderDictionary,System.Int32,HotelBooking.Domain.Models.PaginationDTO)">
+            <summary>
+            Add pagination metadata to the response headers.
+            </summary>
+        </member>
+        <member name="M:HotelBooking.Api.Extensions.SwaggerDependencyInjection.AddSwaggerUi(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Register SwaggerUI for documentation.
+            </summary>
+        </member>
+        <member name="M:HotelBooking.Api.Extensions.ValidationExceptionExtensions.GetErrorsForClient(FluentValidation.ValidationException)">
+            <summary>
+            Get only the necessary errors for the client.
+            </summary>
+        </member>
+        <member name="T:HotelBooking.Api.Middlewares.GlobalExceptionHandlingMiddleware">
+            <summary>
+            Handle any unhandled exception by returning 
+            <see cref="F:Microsoft.AspNetCore.Http.StatusCodes.Status500InternalServerError"/> without message.
+            </summary>
+        </member>
+        <member name="T:HotelBooking.Api.Models.BookingCreationDTO">
+            <summary>
+            Model to create new booking.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.BookingCreationDTO.StartingDate">
+            <summary>
+            Starting time for the booking interval.
+            Can't be in the past.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.BookingCreationDTO.EndingDate">
+            <summary>
+            Ending time for the booking interval.
+            Cannot be in the past and must be after StartingDate.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.BookingCreationDTO.RoomId">
+            <summary>
+            Id of the room for the booking.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.BookingCreationDTO.UserId">
+            <summary>
+            Id of the user who created the booking.
+            </summary>
+        </member>
+        <member name="T:HotelBooking.Api.Models.CartItem.CartItemCreationDTO">
+            <summary>
+            Properties for creating new cart item.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.CartItem.CartItemCreationDTO.RoomId">
+            <summary>
+            Id of the room in the cart.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.CartItem.CartItemCreationDTO.UserId">
+            <summary>
+            User who added the room to the cart.
+            </summary>
+        </member>
+        <member name="T:HotelBooking.Api.Models.CartItem.CartItemCreationResponseDTO">
+            <summary>
+            Properties of response for creating new cart item.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.CartItem.CartItemCreationResponseDTO.RoomId">
+            <summary>
+            Id of the room in the cart.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.CartItem.CartItemCreationResponseDTO.UserId">
+            <summary>
+            User who added the room to the cart.
+            </summary>
+        </member>
+        <member name="T:HotelBooking.Api.Models.City.CityCreationDTO">
+            <summary>
+            Properties for creating new city.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.City.CityCreationDTO.Name">
+            <summary>
+            Name of the city.
+            Must be of length between 1 and 100.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.City.CityCreationDTO.CountryName">
+            <summary>
+            Name of the country that contains the city.
+            Must be of length between 1 and 100.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.City.CityCreationDTO.PostOffice">
+            <summary>
+            Post office of the city.
+            Must be of length between 1 and 100.
+            </summary>
+        </member>
+        <member name="T:HotelBooking.Api.Models.City.CityCreationResponseDTO">
+            <summary>
+            Properties of response for creating new city.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.City.CityCreationResponseDTO.Name">
+            <summary>
+            Name of the city.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.City.CityCreationResponseDTO.CountryName">
+            <summary>
+            Name of the country that contains the city.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.City.CityCreationResponseDTO.PostOffice">
+            <summary>
+            Post office of the city.
+            </summary>
+        </member>
+        <member name="T:HotelBooking.Api.Models.City.CityUpdateDTO">
+            <summary>
+            Model to update city.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.City.CityUpdateDTO.Name">
+            <inheritdoc cref="P:HotelBooking.Domain.Models.City.CityDTO.Name"/>
+        </member>
+        <member name="P:HotelBooking.Api.Models.City.CityUpdateDTO.CountryName">
+            <inheritdoc cref="P:HotelBooking.Domain.Models.City.CityDTO.CountryName"/>
+        </member>
+        <member name="P:HotelBooking.Api.Models.City.CityUpdateDTO.PostOffice">
+            <inheritdoc cref="P:HotelBooking.Domain.Models.City.CityDTO.PostOffice"/>
+        </member>
+        <member name="T:HotelBooking.Api.Models.Discount.DiscountCreationDTO">
+            <summary>
+            Model to create new discount.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Discount.DiscountCreationDTO.Reason">
+            <summary>
+            Reason of the discount.
+            Must be of length between 0 and 200.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Discount.DiscountCreationDTO.StartingDate">
+            <summary>
+            Starting time for the discount to be applied.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Discount.DiscountCreationDTO.EndingDate">
+            <summary>
+            Ending time for the discount to be applied.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Discount.DiscountCreationDTO.AmountPercent">
+            <summary>
+            Amount of the discount.
+            Must be between 0 and 100.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Discount.DiscountCreationDTO.HotelId">
+            <summary>
+            Id of the hotel that has the discount.
+            </summary>
+        </member>
+        <member name="T:HotelBooking.Api.Models.Discount.DiscountCreationResponseDTO">
+            <summary>
+            Response for creating new discount.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Discount.DiscountCreationResponseDTO.Reason">
+            <summary>
+            Reason of the discount.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Discount.DiscountCreationResponseDTO.StartingDate">
+            <summary>
+            Starting time for the discount to be applied.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Discount.DiscountCreationResponseDTO.EndingDate">
+            <summary>
+            Ending time for the discount to be applied.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Discount.DiscountCreationResponseDTO.AmountPercent">
+            <summary>
+            Amount of the discount.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Discount.DiscountCreationResponseDTO.HotelId">
+            <summary>
+            Id of the hotel that has the discount.
+            </summary>
+        </member>
+        <member name="T:HotelBooking.Api.Models.HotelReviewCreationDTO">
+            <summary>
+            Model for creating new hotel review.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.HotelReviewCreationDTO.Content">
+            <summary>
+            Textual content of the review.
+            Must be of length between 1 and 300.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.HotelReviewCreationDTO.HotelId">
+            <summary>
+            Id of the hotel that contains the review.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.HotelReviewCreationDTO.UserId">
+            <summary>
+            Id of the user who created the review.
+            </summary>
+        </member>
+        <member name="T:HotelBooking.Api.Models.Hotel.HotelCreationDTO">
+            <summary>
+            Model for creating new hotel.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Hotel.HotelCreationDTO.Name">
+            <summary>
+            Name of the hotel.
+            Must be of length between 1 and 100.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Hotel.HotelCreationDTO.BriefDescription">
+            <summary>
+            Small summary about the hotel.
+            Must be of length between 1 and 150
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Hotel.HotelCreationDTO.FullDescription">
+            <summary>
+            Detailed description about the hotel.
+            Must be of length between 1 and 2000.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Hotel.HotelCreationDTO.StarRating">
+            <summary>
+            Star rating of the hotel.
+            Must be of length between 1 and 5.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Hotel.HotelCreationDTO.OwnerName">
+            <summary>
+            Name of the owner of the hotel.
+            Can contain multiple separated names in case of multiple owners.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Hotel.HotelCreationDTO.Geolocation">
+            <summary>
+            Geolocation coordinates of the hotel in the format "latitude, longitude".
+            Latitude and longitude are expressed as decimal numbers separated by a comma. 
+            Example: "37.7749, -122.4194". It must match: 
+            ^((\-?|\+?)?\d+(\.\d+)?),\s*((\-?|\+?)?\d+(\.\d+)?)$
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Hotel.HotelCreationDTO.CityId">
+            <summary>
+            Id of the city that contains the hotel.
+            </summary>
+        </member>
+        <member name="T:HotelBooking.Api.Models.Hotel.HotelCreationResponseDTO">
+            <summary>
+            Response for creating new hotel.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Hotel.HotelCreationResponseDTO.Name">
+            <summary>
+            Name of the hotel.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Hotel.HotelCreationResponseDTO.BriefDescription">
+            <summary>
+            Small summary about the hotel.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Hotel.HotelCreationResponseDTO.FullDescription">
+            <summary>
+            Detailed description about the hotel.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Hotel.HotelCreationResponseDTO.StarRating">
+            <summary>
+            Star rating of the hotel.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Hotel.HotelCreationResponseDTO.OwnerName">
+            <summary>
+            Name of the owner of the hotel.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Hotel.HotelCreationResponseDTO.Geolocation">
+            <summary>
+            Geolocation coordinates of the hotel in the format "latitude, longitude".
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Hotel.HotelCreationResponseDTO.CityId">
+            <summary>
+            Id of the city that contains the hotel.
+            </summary>
+        </member>
+        <member name="T:HotelBooking.Api.Models.Hotel.HotelUpdateDTO">
+            <summary>
+            Model to update hotel.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Hotel.HotelUpdateDTO.Name">
+            <summary>
+            Name of the hotel.
+            Must be of length between 1 and 100.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Hotel.HotelUpdateDTO.OwnerName">
+            <summary>
+            Name of the owner of the hotel.
+            Can contain multiple separated names in case of multiple owners.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Hotel.HotelUpdateDTO.Geolocation">
+            <summary>
+            Geolocation coordinates of the hotel in the format "latitude, longitude".
+            Latitude and longitude are expressed as decimal numbers separated by a comma. 
+            Example: "37.7749, -122.4194". It must match: 
+            ^((\-?|\+?)?\d+(\.\d+)?),\s*((\-?|\+?)?\d+(\.\d+)?)$
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Hotel.HotelUpdateDTO.CityId">
+            <summary>
+            Id of the city that contains the hotel.
+            </summary>
+        </member>
+        <member name="T:HotelBooking.Api.Models.PaginationMetadataDTO">
+            <summary>
+            Metadata of an applied pagination.
+            </summary>
+        </member>
+        <member name="T:HotelBooking.Api.Models.Room.RoomCreationDTO">
+            <summary>
+            Model for creating new room.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Room.RoomCreationDTO.Number">
+            <summary>
+            Number of the room which is identified by the hotel.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Room.RoomCreationDTO.Type">
+            <summary>
+            Type of the room.
+            Must be of length between 1 and 50.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Room.RoomCreationDTO.AdultsCapacity">
+            <summary>
+            Maximum number of adults the room can accommodate.
+            Must be between 0 and 50.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Room.RoomCreationDTO.ChildrenCapacity">
+            <summary>
+            Maximum number of children the room can accommodate.
+            Must be between 0 and 50
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Room.RoomCreationDTO.BriefDescription">
+            <summary>
+            Small summary about the room.
+            Must be of length between 1 and 150.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Room.RoomCreationDTO.PricePerNight">
+            <summary>
+            Price of booking the room for a single day.
+            Must not be negative.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Room.RoomCreationDTO.HotelId">
+            <summary>
+            Id of the hotel that contains the room.
+            </summary>
+        </member>
+        <member name="T:HotelBooking.Api.Models.Room.RoomCreationResponseDTO">
+            <summary>
+            Response for creating new room.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Room.RoomCreationResponseDTO.Number">
+            <summary>
+            Number of the room which is identified by the hotel.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Room.RoomCreationResponseDTO.Type">
+            <summary>
+            Type of the room.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Room.RoomCreationResponseDTO.AdultsCapacity">
+            <summary>
+            Maximum number of adults the room can accommodate.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Room.RoomCreationResponseDTO.ChildrenCapacity">
+            <summary>
+            Maximum number of children the room can accommodate.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Room.RoomCreationResponseDTO.BriefDescription">
+            <summary>
+            Small summary about the room.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Room.RoomCreationResponseDTO.PricePerNight">
+            <summary>
+            Price of booking the room for a single day.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Room.RoomCreationResponseDTO.HotelId">
+            <summary>
+            Id of the hotel that contains the room.
+            </summary>
+        </member>
+        <member name="T:HotelBooking.Api.Models.Room.RoomUpdateDTO">
+            <summary>
+            Model to update room.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Room.RoomUpdateDTO.Number">
+            <summary>
+            Number of the room which is identified by the hotel.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Room.RoomUpdateDTO.AdultsCapacity">
+            <summary>
+            Maximum number of adults the room can accommodate.
+            Must be between 0 and 50.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.Room.RoomUpdateDTO.ChildrenCapacity">
+            <summary>
+            Maximum number of children the room can accommodate.
+            Must be between 0 and 50
+            </summary>
+        </member>
+        <member name="T:HotelBooking.Api.Models.User.UserCreationDTO">
+            <summary>
+            Model to create new user.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.User.UserCreationDTO.FirstName">
+            <summary>
+            First name of the user.
+            Must be of length between 3 and 50. It must match: ^[A-Za-z\s]+$
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.User.UserCreationDTO.LastName">
+            <summary>
+            Last name of the user.
+            Must be of length between 3 and 50. It must match: ^[A-Za-z\s]+$
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.User.UserCreationDTO.Email">
+            <summary>
+            Email of the user.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.User.UserCreationDTO.Username">
+            <summary>
+            Username of the user.
+            Must be unique and of length between 3 and 50. It must match: ^[\w]+$
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.User.UserCreationDTO.Password">
+            <summary>
+            Password of the user.
+            Must be of length between 8 and 50.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.User.UserCreationResponseDTO.FirstName">
+            <summary>
+            First name of the user.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.User.UserCreationResponseDTO.LastName">
+            <summary>
+            Last name of the user.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.User.UserCreationResponseDTO.Email">
+            <summary>
+            Email of the user.
+            </summary>
+        </member>
+        <member name="P:HotelBooking.Api.Models.User.UserCreationResponseDTO.Username">
+            <summary>
+            Username of the user.
+            </summary>
+        </member>
+        <member name="T:HotelBooking.Api.Models.ValidationResultDTO">
+            <summary>
+            Hold properties to show for the client.
+            </summary>
         </member>
     </members>
 </doc>

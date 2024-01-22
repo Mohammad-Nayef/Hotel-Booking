@@ -1,5 +1,9 @@
 ﻿namespace HotelBooking.Api.Middlewares
 {
+    /// <summary>
+    /// Handle any unhandled exception by returning 
+    /// <see cref="StatusCodes.Status500InternalServerError"/> without message.
+    /// </summary>
     public class GlobalExceptionHandlingMiddleware
     {
         private readonly RequestDelegate _next;

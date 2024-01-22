@@ -94,8 +94,8 @@ namespace HotelBooking.Api.Controllers
         /// <response code="201">Returns the room with a new Id and its URI in response headers.</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(RoomCreationDTO), StatusCodes.Status201Created)]
-        public async Task<IActionResult> PostAsync(RoomCreationDTO newRoom)
+        [ProducesResponseType(typeof(RoomCreationResponseDTO), StatusCodes.Status201Created)]
+        public async Task<IActionResult> PostAsync(RoomCreationResponseDTO newRoom)
         {
             Guid newId;
 

@@ -1,13 +1,12 @@
 ﻿using FluentValidation;
-using HotelBooking.Application.Validators;
 using HotelBooking.Domain.Abstractions.Repositories.City;
-using HotelBooking.Domain.Abstractions.Repositories.Hotel;
 using HotelBooking.Domain.Abstractions.Services.City;
 using HotelBooking.Domain.Models;
 using HotelBooking.Domain.Models.City;
 
 namespace HotelBooking.Application.Services.City
 {
+    /// <inheritdoc cref="ICityService"/>
     internal class CityService : ICityService
     {
         private readonly ICityRepository _cityRepository;
@@ -15,7 +14,7 @@ namespace HotelBooking.Application.Services.City
         private readonly IValidator<PaginationDTO> _paginationValidator;
 
         public CityService(
-            ICityRepository cityRepository, 
+            ICityRepository cityRepository,
             IValidator<CityDTO> cityValidator,
             IValidator<PaginationDTO> paginationValidator)
         {

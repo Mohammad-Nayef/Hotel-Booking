@@ -6,6 +6,7 @@ using SixLabors.ImageSharp.Processing;
 
 namespace HotelBooking.Infrastructure.Repositories
 {
+    /// <inheritdoc cref="IImageRepository"/>
     internal abstract class ImageRepository : IImageRepository
     {
         private readonly string _mainDirectory = $"{AppDomain.CurrentDomain.BaseDirectory}\\Images";
@@ -38,6 +39,9 @@ namespace HotelBooking.Infrastructure.Repositories
             await PersistAsync(imagesTable);
         }
 
+        /// <summary>
+        /// Create new <see cref="ImageTable"/> for a specific entity based on the given parameters.
+        /// </summary>
         protected abstract ImageTable CreateImageTable(
             Guid entityId, Guid imageId, string imagePath, string thumbnailPath);
 
@@ -126,7 +130,7 @@ namespace HotelBooking.Infrastructure.Repositories
 
         private static void ReduceHeightAndWidth(Image thumbnail)
         {
-            // 0 is used to maintain the aspect ration of the image.
+            // 0 is used to maintain the aspect ratio of the image.
             if (thumbnail.Width < thumbnail.Height)
                 thumbnail.Mutate(thumbnail => thumbnail.Resize(MinThumbnailLength, 0));
             else

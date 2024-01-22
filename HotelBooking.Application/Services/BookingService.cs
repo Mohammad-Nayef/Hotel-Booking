@@ -11,6 +11,7 @@ using HotelBooking.Domain.Models.User;
 
 namespace HotelBooking.Application.Services
 {
+    /// <inheritdoc cref="IBookingService"/>
     internal class BookingService : IBookingService
     {
         private readonly IBookingRepository _bookingRepository;

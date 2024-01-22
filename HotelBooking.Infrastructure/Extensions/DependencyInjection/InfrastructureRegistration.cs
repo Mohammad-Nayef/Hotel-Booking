@@ -15,6 +15,9 @@ namespace HotelBooking.Infrastructure.Extensions.DependencyInjection
 {
     public static class InfrastructureRegistration
     {
+        /// <summary>
+        /// Register all services related to Infrastructure layer.
+        /// </summary>
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
             services.AddDbContext<HotelsBookingDbContext>();

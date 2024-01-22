@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HotelBooking.Infrastructure.Repositories.Room
 {
+    /// <summary>
+    /// <inheritdoc cref="IRoomImageRepository"/>
+    /// </summary>
     internal class RoomImageRepository : ImageRepository, IRoomImageRepository
     {
         private readonly HotelsBookingDbContext _dbContext;

@@ -1,12 +1,19 @@
-﻿using HotelBooking.Domain.Models.User;
+﻿using HotelBooking.Domain.Abstractions;
+using HotelBooking.Domain.Models.User;
 
 namespace HotelBooking.Domain.Models
 {
-    public class ReviewForHotelPageDTO
+    /// <summary>
+    /// Model of hotel review to view in hotel page.
+    /// </summary>
+    public class ReviewForHotelPageDTO : Entity
     {
-        public Guid Id { get; set; }
+        /// <inheritdoc cref="HotelReviewDTO.Content"/>
         public string Content { get; set; }
+
+        /// <inheritdoc cref="HotelReviewDTO.CreationDate"/>
         public DateTime CreationDate { get; set; }
+
         public UserForHotelReviewDTO User { get; set; }
     }
 }

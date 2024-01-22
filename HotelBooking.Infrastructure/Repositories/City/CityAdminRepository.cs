@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HotelBooking.Infrastructure.Repositories.City
 {
+    /// <inheritdoc cref="ICityAdminRepository"/>
     internal class CityAdminRepository : ICityAdminRepository
     {
         private readonly HotelsBookingDbContext _dbContext;

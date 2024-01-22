@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HotelBooking.Infrastructure.Repositories.Hotel
 {
+    /// <inheritdoc cref="IHotelUserRepository"/>
     internal class HotelUserRepository : IHotelUserRepository
     {
         private readonly HotelsBookingDbContext _dbContext;
@@ -159,6 +160,7 @@ namespace HotelBooking.Infrastructure.Repositories.Hotel
             var recentlyVisitedHotelsCount = _dbContext.HotelVisits
                 .Where(visit => visit.UserId == userId)
                 .Include(visit => visit.Hotel)
+                .Where(visit => visit.Date > HotelVisitConstants.LeastRecentVisitDate)
                 .GroupBy(visit => visit.Hotel)
                 .Select(group => group.First())
                 .AsNoTracking();

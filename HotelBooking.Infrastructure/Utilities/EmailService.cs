@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace HotelBooking.Infrastructure.Utilities
 {
+    /// <inheritdoc cref="IEmailService"/>
     internal class EmailService : IEmailService
     {
         private readonly SmtpClient _smtpClient;

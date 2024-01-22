@@ -1,5 +1,4 @@
-﻿using System.Text;
-using FluentValidation;
+﻿using FluentValidation;
 using HotelBooking.Application.Services;
 using HotelBooking.Application.Services.City;
 using HotelBooking.Application.Services.Hotel;
@@ -20,13 +19,15 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using SixLabors.ImageSharp;
 
 namespace HotelBooking.Application.Extensions.DependencyInjection
 {
     public static class DomainServicesRegistration
     {
+        /// <summary>
+        /// Register all the services of the domain.
+        /// </summary>
         public static IServiceCollection AddDomainServices(
             this IServiceCollection services, IConfiguration config)
         {
@@ -89,18 +90,8 @@ namespace HotelBooking.Application.Extensions.DependencyInjection
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidAudience = config["Jwt:Audience"],
-                        ValidIssuer = config["Jwt:Issuer"],
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(config["Jwt:Key"])),
-                        ClockSkew = TimeSpan.Zero
-                    };
+                    var tokenProcessor = new AuthTokenProcessor(config);
+                    options.TokenValidationParameters = tokenProcessor.TokenValidationParameters;
                 });
         }
     }

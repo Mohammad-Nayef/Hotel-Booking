@@ -10,6 +10,7 @@ using SixLabors.ImageSharp;
 
 namespace HotelBooking.Application.Services.Room
 {
+    /// <inheritdoc cref="IRoomAdminService"/>
     internal class RoomAdminService : IRoomAdminService
     {
         private readonly IValidator<PaginationDTO> _paginationValidator;

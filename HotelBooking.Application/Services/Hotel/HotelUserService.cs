@@ -8,6 +8,7 @@ using HotelBooking.Domain.Models.Room;
 
 namespace HotelBooking.Application.Services.Hotel
 {
+    /// <inheritdoc cref="IHotelUserService"/>
     internal class HotelUserService : IHotelUserService
     {
         private readonly IValidator<PaginationDTO> _paginationValidator;

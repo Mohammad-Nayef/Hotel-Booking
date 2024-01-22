@@ -1,13 +1,24 @@
-﻿using HotelBooking.Domain.Models.City;
+﻿using HotelBooking.Domain.Abstractions;
+using HotelBooking.Domain.Models.City;
 
 namespace HotelBooking.Domain.Models.Hotel
 {
-    public class VisitedHotelDTO
+    /// <summary>
+    /// Model to view visited hotel for user.
+    /// </summary>
+    public class VisitedHotelDTO : Entity
     {
-        public Guid Id { get; set; }
+        /// <inheritdoc cref="HotelDTO.Name"/>
         public string Name { get; set; }
+
+        /// <inheritdoc cref="HotelDTO.StarRating"/>
         public float StarRating { get; set; }
+
         public CityForUserDTO City { get; set; }
+
+        /// <summary>
+        /// Id of the thumbnail of the image that represents the room.
+        /// </summary>
         public Guid? ThumbnailId { get; set; }
     }
 }

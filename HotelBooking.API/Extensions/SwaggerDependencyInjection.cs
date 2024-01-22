@@ -6,6 +6,9 @@ namespace HotelBooking.Api.Extensions
 {
     public static class SwaggerDependencyInjection
     {
+        /// <summary>
+        /// Register SwaggerUI for documentation.
+        /// </summary>
         public static IServiceCollection AddSwaggerUi(this IServiceCollection services)
         {
             services.AddSwaggerGen(setup =>

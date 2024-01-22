@@ -1,9 +1,20 @@
-﻿namespace HotelBooking.Api.Models.CartItem
+﻿using HotelBooking.Domain.Abstractions;
+
+namespace HotelBooking.Api.Models.CartItem
 {
-    public class CartItemCreationResponseDTO
+    /// <summary>
+    /// Properties of response for creating new cart item.
+    /// </summary>
+    public class CartItemCreationResponseDTO : Entity
     {
-        public Guid Id { get; set; }
+        /// <summary>
+        /// Id of the room in the cart.
+        /// </summary>
         public Guid RoomId { get; set; }
+
+        /// <summary>
+        /// User who added the room to the cart.
+        /// </summary>
         public Guid UserId { get; set; }
     }
 }

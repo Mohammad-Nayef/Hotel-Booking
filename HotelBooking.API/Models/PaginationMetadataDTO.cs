@@ -2,6 +2,9 @@
 
 namespace HotelBooking.Api.Models
 {
+    /// <summary>
+    /// Metadata of an applied pagination.
+    /// </summary>
     public class PaginationMetadataDTO
     {
         public int TotalItems { get; set; }

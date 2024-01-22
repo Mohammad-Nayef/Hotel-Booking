@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using HotelBooking.Domain.Models;
 using HotelBooking.Domain.Models.Hotel;
 using HotelBooking.Infrastructure.Extensions;
 using HotelBooking.Infrastructure.Tables;

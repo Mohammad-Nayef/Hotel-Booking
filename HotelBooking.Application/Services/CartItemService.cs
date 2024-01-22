@@ -5,6 +5,7 @@ using HotelBooking.Domain.Models;
 
 namespace HotelBooking.Application.Services
 {
+    /// <inheritdoc cref="ICartItemService"/>
     internal class CartItemService : ICartItemService
     {
         private readonly ICartItemRepository _cartItemRepository;

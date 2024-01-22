@@ -5,6 +5,7 @@ using HotelBooking.Infrastructure.Tables;
 
 namespace HotelBooking.Infrastructure.Repositories.Hotel
 {
+    /// <inheritdoc cref="IHotelVisitRepository"/>
     internal class HotelVisitRepository : IHotelVisitRepository
     {
         private readonly HotelsBookingDbContext _dbContext;

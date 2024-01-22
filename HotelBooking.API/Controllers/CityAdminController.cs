@@ -93,7 +93,7 @@ namespace HotelBooking.Api.Controllers
         /// <response code="201">Returns the city with a new Id and its URI in response headers.</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(CityCreationDTO), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(CityCreationResponseDTO), StatusCodes.Status201Created)]
         public async Task<IActionResult> PostCityAsync(CityCreationDTO newCity)
         {
             Guid newId;

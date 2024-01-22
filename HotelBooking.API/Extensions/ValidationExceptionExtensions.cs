@@ -5,6 +5,9 @@ namespace HotelBooking.Api.Extensions
 {
     internal static class ValidationExceptionExtensions
     {
+        /// <summary>
+        /// Get only the necessary errors for the client.
+        /// </summary>
         public static IEnumerable<ValidationResultDTO> GetErrorsForClient(
             this ValidationException validationException)
         {

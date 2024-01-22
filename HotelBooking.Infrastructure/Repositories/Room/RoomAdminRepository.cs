@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HotelBooking.Infrastructure.Repositories.Room
 {
+    /// <inheritdoc cref="IRoomAdminRepository"/>
     internal class RoomAdminRepository : IRoomAdminRepository
     {
 
