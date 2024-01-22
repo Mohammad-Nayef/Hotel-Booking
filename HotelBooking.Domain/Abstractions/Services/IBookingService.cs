@@ -8,7 +8,8 @@ namespace HotelBooking.Domain.Abstractions.Services
     public interface IBookingService
     {
         /// <summary>
-        /// Add new booking to the system.
+        /// Add new booking to the system and send an email for the user who created it 
+        /// containing the booking's details.
         /// </summary>
         Task AddAsync(BookingDTO bookingDTO);
     }
