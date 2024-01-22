@@ -227,7 +227,7 @@
             <param name="query">The search query</param>
             <response code="200">The list of rooms is retrieved successfully.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.RoomAdminController.PostAsync(HotelBooking.Api.Models.Room.RoomCreationResponseDTO)">
+        <member name="M:HotelBooking.Api.Controllers.RoomAdminController.PostAsync(HotelBooking.Api.Models.Room.RoomCreationDTO)">
             <summary>
             Create and store a new room.
             </summary>
