@@ -30,7 +30,7 @@ The system has 4 main layers:
      
 ## Technical features:
 - Secure APIs with JWT for authentication and Role-Based Access Control (RBAC) for regular users and admins.
-- Passwords are securely stored in the database using [Microsoft.AspNet.Identity.IPasswordHasher](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.identity.ipasswordhasher-1?view=aspnetcore-7.0) which stores hasheds password using [Password Salting](https://en.wikipedia.org/wiki/Salt_(cryptography)).
+- Passwords are securely stored in the database using [Microsoft.AspNet.Identity.IPasswordHasher](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.identity.ipasswordhasher-1?view=aspnetcore-7.0) which stores hashed passwords using [Password Salting](https://en.wikipedia.org/wiki/Salt_(cryptography)).
 - Used SQL Server as a database using the help of EF Core as an ORM.
 - Unit testing for units that contains testable logic, architecture testing to make sure that Clean Architecture principles aren't violated and integration testing for the APIs.
 - Well-documented clean codes and APIs with best-practices.
