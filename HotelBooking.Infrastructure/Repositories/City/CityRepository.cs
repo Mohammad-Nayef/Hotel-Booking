@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Data;
+using AutoMapper;
 using HotelBooking.Domain.Abstractions.Repositories.City;
 using HotelBooking.Domain.Constants;
 using HotelBooking.Domain.Models.City;
@@ -65,7 +66,6 @@ namespace HotelBooking.Infrastructure.Repositories.City
                 .Include(city => city.Hotels)
                 .ThenInclude(hotel => hotel.Visits
                     .Where(visit => visit.Date > HotelVisitConstants.LeastRecentVisitDate))
-                .AsNoTracking()
                 .AsEnumerable()
                 .OrderByDescending(city =>
                     city.Hotels.Sum(hotel => hotel.Visits.Count))
@@ -77,7 +77,8 @@ namespace HotelBooking.Infrastructure.Repositories.City
 
         public async Task UpdateAsync(CityDTO city)
         {
-            _dbContext.Cities.Update(_mapper.Map<CityTable>(city));
+            var cityTable = _mapper.Map<CityTable>(city);
+            _dbContext.Cities.Update(cityTable);
             await _dbContext.SaveChangesAsync();
         }
     }

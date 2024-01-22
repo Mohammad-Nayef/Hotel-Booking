@@ -20,8 +20,7 @@ namespace HotelBooking.Infrastructure.Repositories.Hotel
             return _dbContext.HotelsForAdmin
                 .OrderBy(hotel => hotel.Name)
                 .Skip(itemsToSkip)
-                .Take(itemsToTake)
-                .AsNoTracking();
+                .Take(itemsToTake);
         }
 
         public IEnumerable<HotelForAdminDTO> SearchByPage(
@@ -33,8 +32,7 @@ namespace HotelBooking.Infrastructure.Repositories.Hotel
                 .Where(searchExpression)
                 .OrderBy(hotel => hotel.Name)
                 .Skip(itemsToSkip)
-                .Take(itemsToTake)
-                .AsNoTracking();
+                .Take(itemsToTake);
         }
 
         public Task<int> GetSearchCountAsync(

@@ -38,8 +38,7 @@ namespace HotelBooking.Infrastructure.Repositories
                 .Where(review => review.HotelId == hotelId)
                 .Include(review => review.User)
                 .Skip(itemsToSkip)
-                .Take(itemsToTake)
-                .AsNoTracking();
+                .Take(itemsToTake);
 
             return _mapper.Map<IEnumerable<ReviewForHotelPageDTO>>(reviews);
         }
@@ -47,8 +46,7 @@ namespace HotelBooking.Infrastructure.Repositories
         public async Task<int> GetReviewsByHotelCountAsync(Guid hotelId)
         {
             var reviews = _dbContext.HotelReviews
-                .Where(review => review.HotelId == hotelId)
-                .AsNoTracking();
+                .Where(review => review.HotelId == hotelId);
 
             if (reviews.TryGetNonEnumeratedCount(out int count))
                 return count;

@@ -21,7 +21,6 @@ namespace HotelBooking.Infrastructure.Repositories
         public async Task<RoleDTO> GetByNameAsync(string roleName)
         {
             var role = _dbContext.Roles
-                .AsNoTracking()
                 .FirstOrDefault(role => role.Name == roleName);
 
             if (role == null)

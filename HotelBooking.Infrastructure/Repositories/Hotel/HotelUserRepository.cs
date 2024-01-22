@@ -52,7 +52,6 @@ namespace HotelBooking.Infrastructure.Repositories.Hotel
                 .Include(hotel => hotel.Images)
                 .Include(hotel => hotel.Rooms)
                 .Where(HasTextSimilarity(searchString))
-                .AsNoTracking()
                 .AsEnumerable()
                 .Where(HasValidRoom(hotelSearch, roomsType))
                 .Where(hotel => hotel.Rooms.Count >= hotelSearch.NumberOfRooms);
@@ -97,7 +96,6 @@ namespace HotelBooking.Infrastructure.Repositories.Hotel
                 .Include(hotel => hotel.City)
                 .Include(hotel => hotel.Images)
                 .Include(hotel => hotel.Discounts)
-                .AsNoTracking()
                 .SingleOrDefaultAsync(hotel => hotel.Id == id);
 
             return _mapper.Map<HotelPageDTO>(hotelTable);
@@ -112,7 +110,6 @@ namespace HotelBooking.Infrastructure.Repositories.Hotel
                 .Include(room => room.Images)
                 .Include(room => room.Bookings)
                 .Include(room => room.Hotel.Discounts)
-                .AsNoTracking()
                 .AsEnumerable()
                 .Where(room => !room.Bookings
                     .Any(booking => booking.IntersectsWith(DateTime.UtcNow)))
@@ -142,9 +139,10 @@ namespace HotelBooking.Infrastructure.Repositories.Hotel
                 .ThenInclude(hotel => hotel.City)
                 .Include(visit => visit.Hotel.Images)
                 .GroupBy(visit => visit.HotelId)
-                .Select(group => group.OrderByDescending(visit => visit.Date).FirstOrDefault())
-                .AsNoTracking()
-            .AsEnumerable()
+                .Select(group => group
+                    .OrderByDescending(visit => visit.Date)
+                    .FirstOrDefault())
+                .AsEnumerable()
                 .Where(visit => visit.Date > HotelVisitConstants.LeastRecentVisitDate)
                 .OrderByDescending(visit => visit.Date)
                 .Select(visit => visit.Hotel)
@@ -162,8 +160,7 @@ namespace HotelBooking.Infrastructure.Repositories.Hotel
                 .Include(visit => visit.Hotel)
                 .Where(visit => visit.Date > HotelVisitConstants.LeastRecentVisitDate)
                 .GroupBy(visit => visit.Hotel)
-                .Select(group => group.First())
-                .AsNoTracking();
+                .Select(group => group.First());
 
             if (recentlyVisitedHotelsCount.TryGetNonEnumeratedCount(out int count))
                 return count;
