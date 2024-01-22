@@ -37,6 +37,10 @@ The system has 4 main layers:
 - Robust validations for creating and updating entities.
 - Logging using [Serilog](https://serilog.net/).
 
+## Database Schema:
+![Database Schema](https://github.com/Mohammad-Nayef/Hotel-Booking/blob/main/Database%20Diagram.svg)
+
+
 ## API documentation:
 - Comprehensive dynamic and up-to-date documentation using SwaggerUI which is available when running the application in development environment.
 - Documentation using Postman: https://documenter.getpostman.com/view/30810910/2s9YymHQTP
