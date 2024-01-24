@@ -11,8 +11,12 @@
 - Admin page to search, add, update and delete entities.
   
 ## System architecture:
-Used Clean Architecture which provides great separation of concerns between business logic and external layers and minimal changes for replacing external frameworks like ASP.Net or EF Core.
+Used Clean Architecture which provides great separation of concerns between business logic and external layers and minimal changes for replacing external frameworks like ASP.NET or EF Core.
 The system has 4 main layers:
+<p align="center">
+  <img src="https://github.com/Mohammad-Nayef/Hotel-Booking/blob/main/Clean%20Architecture.png" width="400" height="400" />
+</p>
+
 ### Core layers:
 1. **Domain layer**:
    - Contains the shared models and abstractions for business logic.
@@ -27,7 +31,7 @@ The system has 4 main layers:
 4. **Presentation (API) layer**:
    - Contains the implementation of the APIs using the help of business logic abstractions in the domain layer.
    - Depends on the domain layer and has no direct interactions with data repositories.
-     
+
 ## Technical features:
 - Secure APIs with JWT for authentication and Role-Based Access Control (RBAC) for regular users and admins.
 - Passwords are securely stored in the database using [Microsoft.AspNet.Identity.IPasswordHasher](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.identity.ipasswordhasher-1?view=aspnetcore-7.0) which stores hashed passwords using [Password Salting](https://en.wikipedia.org/wiki/Salt_(cryptography)).
@@ -39,7 +43,6 @@ The system has 4 main layers:
 
 ## Database Schema:
 ![Database Schema](https://github.com/Mohammad-Nayef/Hotel-Booking/blob/main/Database%20Diagram.svg)
-
 
 ## API documentation:
 - Comprehensive dynamic and up-to-date documentation using SwaggerUI which is available when running the application in development environment.
