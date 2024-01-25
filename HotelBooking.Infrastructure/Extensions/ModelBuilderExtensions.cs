@@ -41,7 +41,7 @@ namespace HotelBooking.Infrastructure.Extensions
         /// </summary>
         /// <param name="modelBuilder"></param>
         /// <returns></returns>
-        public static ModelBuilder AddPropertiesLengthLimit(this ModelBuilder modelBuilder)
+        public static ModelBuilder ConfigureTables(this ModelBuilder modelBuilder)
         {
             modelBuilder
                 .ConfigureCityTable()
@@ -49,7 +49,25 @@ namespace HotelBooking.Infrastructure.Extensions
                 .ConfigureHotelTable()
                 .ConfigureHotelReviewTable()
                 .ConfigureRoomTable()
-                .ConfigureUserTable();
+                .ConfigureUserTable()
+                .ConfigureHotelVisitTable()
+                .ConfigureCartItemTable();
+
+            return modelBuilder;
+        }
+
+        private static ModelBuilder ConfigureCartItemTable(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CartItemTable>()
+                .HasIndex(item => item.UserId);
+
+            return modelBuilder;
+        }
+
+        private static ModelBuilder ConfigureHotelVisitTable(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<HotelVisitTable>()
+                .HasIndex(visit => visit.Date);
 
             return modelBuilder;
         }
@@ -70,6 +88,12 @@ namespace HotelBooking.Infrastructure.Extensions
         {
             modelBuilder.ConfigureStringLength<DiscountTable>(
                 discount => discount.Reason, DiscountConstants.MaxReasonLength);
+            modelBuilder.Entity<DiscountTable>(discount =>
+            {
+                discount.HasIndex(discount => discount.StartingDate);
+                discount.HasIndex(discount => discount.EndingDate);
+            });
+                
 
             return modelBuilder;
         }
@@ -92,6 +116,8 @@ namespace HotelBooking.Infrastructure.Extensions
         {
             modelBuilder.ConfigureStringLength<HotelReviewTable>(
                 review => review.Content, HotelReviewConstants.MaxContentLength);
+            modelBuilder.Entity<HotelReviewTable>()
+                .HasIndex(review => review.HotelId);
 
             return modelBuilder;
         }
@@ -114,6 +140,8 @@ namespace HotelBooking.Infrastructure.Extensions
                 user => user.LastName, UserConstants.MaxNameLength);
             modelBuilder.ConfigureStringLength<UserTable>(
                 user => user.Username, UserConstants.MaxUsernameLength);
+            modelBuilder.Entity<UserTable>()
+                .HasIndex(user => user.Username);
 
             return modelBuilder;
         }

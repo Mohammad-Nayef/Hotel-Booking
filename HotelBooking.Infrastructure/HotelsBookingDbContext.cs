@@ -45,7 +45,7 @@ namespace HotelBooking.Infrastructure
         {
             modelBuilder
                 .MapViews()
-                .AddPropertiesLengthLimit()
+                .ConfigureTables()
                 .ConfigureRelations();
         }
     }

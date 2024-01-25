@@ -144,7 +144,7 @@ namespace HotelBooking.Infrastructure.Repositories.Hotel
                 .GroupBy(visit => visit.HotelId)
                 .Select(group => group.OrderByDescending(visit => visit.Date).FirstOrDefault())
                 .AsNoTracking()
-            .AsEnumerable()
+                .AsEnumerable()
                 .Where(visit => visit.Date > HotelVisitConstants.LeastRecentVisitDate)
                 .OrderByDescending(visit => visit.Date)
                 .Select(visit => visit.Hotel)
