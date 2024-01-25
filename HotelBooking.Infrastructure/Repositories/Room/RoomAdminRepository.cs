@@ -20,8 +20,7 @@ namespace HotelBooking.Infrastructure.Repositories.Room
         {
             return _dbContext.RoomsForAdmin
                 .Skip(itemsToSkip)
-                .Take(itemsToTake)
-                .AsNoTracking();
+                .Take(itemsToTake);
         }
 
         public IEnumerable<RoomForAdminDTO> SearchByPage(
@@ -32,8 +31,7 @@ namespace HotelBooking.Infrastructure.Repositories.Room
             return _dbContext.RoomsForAdmin
                 .Where(searchExpression)
                 .Skip(itemsToSkip)
-                .Take(itemsToTake)
-                .AsNoTracking();
+                .Take(itemsToTake);
         }
 
         public Task<int> GetSearchCountAsync(

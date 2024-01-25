@@ -47,7 +47,6 @@ namespace HotelBooking.Db.Repositories.Hotel
                 .Include(hotel => hotel.City)
                 .Include(hotel => hotel.Discounts)
                 .Include(hotel => hotel.Images)
-                .AsNoTracking()
                 .AsEnumerable()
                 .Where(hotel => hotel.Discounts.HasActiveDiscount());
         }

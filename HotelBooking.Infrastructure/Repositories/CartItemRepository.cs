@@ -40,8 +40,7 @@ namespace HotelBooking.Infrastructure.Repositories
             var items = _dbContext.CartItems
                 .Where(item => item.UserId == userId)
                 .Skip(itemsToSkip)
-                .Take(itemsToTake)
-                .AsNoTracking();
+                .Take(itemsToTake);
 
             return _mapper.Map<IEnumerable<CartItemDTO>>(items);
         }
@@ -49,8 +48,7 @@ namespace HotelBooking.Infrastructure.Repositories
         public async Task<int> GetCountForUserAsync(Guid userId)
         {
             var cartItems = _dbContext.CartItems
-                .Where(item => item.UserId == userId)
-                .AsNoTracking();
+                .Where(item => item.UserId == userId);
 
             if (cartItems.TryGetNonEnumeratedCount(out var count))
                 return count;

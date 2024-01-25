@@ -55,7 +55,6 @@ namespace HotelBooking.Infrastructure.Repositories
         {
             var neededUser = await _dbContext.Users
                 .Include(user => user.Roles)
-                .AsNoTracking()
                 .FirstOrDefaultAsync(user => user.Username == username);
 
             return neededUser == null ? null : _mapper.Map<UserDTO>(neededUser);

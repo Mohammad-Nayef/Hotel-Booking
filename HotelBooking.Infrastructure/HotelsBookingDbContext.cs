@@ -37,8 +37,9 @@ namespace HotelBooking.Infrastructure
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_config.GetConnectionString("SqlServer"))
-                .LogTo(Console.Write);
+            optionsBuilder
+                .UseSqlServer(_config.GetConnectionString("SqlServer"))
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

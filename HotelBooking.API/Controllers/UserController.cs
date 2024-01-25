@@ -37,7 +37,6 @@ namespace HotelBooking.Api.Controllers
         /// <summary>
         /// Create and store a new cart item for a user.
         /// </summary>
-        /// <param name="userId">The Id of the user that has the cart item.</param>
         /// <param name="newCartItem">Properties of the new cart item.</param>
         [HttpPost("current-user/cart-items")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -62,7 +61,6 @@ namespace HotelBooking.Api.Controllers
         /// <summary>
         /// Get a paginated list of cart items for a user.
         /// </summary>
-        /// <param name="userId">The Id of the user to get his cart items.</param>
         /// <response code="200">The list of cart items is retrieved successfully.</response>
         [HttpGet("current-user/cart-items")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -93,9 +91,8 @@ namespace HotelBooking.Api.Controllers
         }
 
         /// <summary>
-        /// Create and store a new booking for a user.
+        /// Create, store a new booking for a user and send an email of its details to the user.
         /// </summary>
-        /// <param name="userId">The Id of the user that has the booking.</param>
         /// <param name="newBooking">Properties of the new booking.</param>
         [HttpPost("current-user/bookings")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -119,7 +116,6 @@ namespace HotelBooking.Api.Controllers
         /// <summary>
         /// Create and store a new hotel review for a user.
         /// </summary>
-        /// <param name="userId">The Id of the user creating the review.</param>
         /// <param name="newReview">Properties of the new review.</param>
         /// <response code="201">The review is created successfully.</response>
         [HttpPost("current-user/hotel-reviews")]
