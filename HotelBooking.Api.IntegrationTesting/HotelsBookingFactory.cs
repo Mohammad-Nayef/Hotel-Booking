@@ -1,4 +1,4 @@
-using HotelBooking.Api.Models.User;
+using HotelBooking.Api.Models;
 using HotelBooking.Domain.Models.User;
 using HotelBooking.Infrastructure;
 using Microsoft.AspNetCore;

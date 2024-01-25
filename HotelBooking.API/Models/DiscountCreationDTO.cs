@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using HotelBooking.Domain.Constants;
 
-namespace HotelBooking.Api.Models.Discount
+namespace HotelBooking.Api.Models
 {
     /// <summary>
     /// Model to create new discount.

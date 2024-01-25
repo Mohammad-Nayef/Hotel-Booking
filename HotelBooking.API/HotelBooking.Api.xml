@@ -4,12 +4,11 @@
         <name>HotelBooking.Api</name>
     </assembly>
     <members>
-        <member name="M:HotelBooking.Api.Controllers.AuthenticationController.PostUserAsync(HotelBooking.Api.Models.User.UserCreationDTO)">
+        <member name="M:HotelBooking.Api.Controllers.AuthenticationController.PostUserAsync(HotelBooking.Api.Models.UserCreationDTO)">
             <summary>
             Create and store a new user.
             </summary>
             <param name="newUser">Properties of the new user.</param>
-            <response code="201">Returns the user with a new Id and its URI in response headers.</response>
         </member>
         <member name="M:HotelBooking.Api.Controllers.AuthenticationController.LoginAsync(HotelBooking.Domain.Models.User.UserLoginDTO)">
             <summary>
@@ -35,7 +34,6 @@
             Create and store a new city.
             </summary>
             <param name="newCity">Properties of the new city.</param>
-            <response code="201">Returns the city with a new Id and its URI in response headers.</response>
         </member>
         <member name="M:HotelBooking.Api.Controllers.CityAdminController.DeleteAsync(System.Guid)">
             <summary>
@@ -78,7 +76,6 @@
             Create and store a new hotel.
             </summary>
             <param name="newHotel">Properties of the new hotel.</param>
-            <response code="201">Returns the hotel with a new Id and its URI in response headers.</response>
         </member>
         <member name="M:HotelBooking.Api.Controllers.HotelAdminController.DeleteAsync(System.Guid)">
             <summary>
@@ -97,13 +94,12 @@
             <response code="404">The hotel with the given Id doesn't exist.</response>
             <response code="204">The hotel is updated successfully.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.HotelAdminController.PostDiscountAsync(System.Guid,HotelBooking.Api.Models.Discount.DiscountCreationDTO)">
+        <member name="M:HotelBooking.Api.Controllers.HotelAdminController.PostDiscountAsync(System.Guid,HotelBooking.Api.Models.DiscountCreationDTO)">
             <summary>
             Create and store a new discount.
             </summary>
             <param name="hotelId">The Id of the hotel that has the discount.</param>
             <param name="newDiscount">Properties of the new discount.</param>
-            <response code="201">Returns the discount with a new Id and its URI in response headers.</response>
         </member>
         <member name="M:HotelBooking.Api.Controllers.HotelUserController.GetHotel(System.Guid)">
             <summary>
@@ -227,12 +223,11 @@
             <param name="query">The search query</param>
             <response code="200">The list of rooms is retrieved successfully.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.RoomAdminController.PostAsync(HotelBooking.Api.Models.Room.RoomCreationResponseDTO)">
+        <member name="M:HotelBooking.Api.Controllers.RoomAdminController.PostAsync(HotelBooking.Api.Models.Room.RoomCreationDTO)">
             <summary>
             Create and store a new room.
             </summary>
             <param name="newRoom">Properties of the new room.</param>
-            <response code="201">Returns the room with a new Id and its URI in response headers.</response>
         </member>
         <member name="M:HotelBooking.Api.Controllers.RoomAdminController.DeleteAsync(System.Guid)">
             <summary>
@@ -251,13 +246,12 @@
             <response code="404">The room with the given Id doesn't exist.</response>
             <response code="204">The room is updated successfully.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.UserController.PostCartItemAsync(HotelBooking.Api.Models.CartItem.CartItemCreationDTO)">
+        <member name="M:HotelBooking.Api.Controllers.UserController.PostCartItemAsync(HotelBooking.Api.Models.CartItemCreationDTO)">
             <summary>
             Create and store a new cart item for a user.
             </summary>
             <param name="userId">The Id of the user that has the cart item.</param>
             <param name="newCartItem">Properties of the new cart item.</param>
-            <response code="201">Returns the cart item with a new Id and its URI in response headers.</response>
         </member>
         <member name="M:HotelBooking.Api.Controllers.UserController.GetCartItemsAsync(HotelBooking.Domain.Models.PaginationDTO)">
             <summary>
@@ -272,7 +266,6 @@
             </summary>
             <param name="userId">The Id of the user that has the booking.</param>
             <param name="newBooking">Properties of the new booking.</param>
-            <response code="201">The booking is created successfully.</response>
         </member>
         <member name="M:HotelBooking.Api.Controllers.UserController.PostHotelReviewAsync(HotelBooking.Api.Models.HotelReviewCreationDTO)">
             <summary>
@@ -335,32 +328,17 @@
             Id of the user who created the booking.
             </summary>
         </member>
-        <member name="T:HotelBooking.Api.Models.CartItem.CartItemCreationDTO">
+        <member name="T:HotelBooking.Api.Models.CartItemCreationDTO">
             <summary>
             Properties for creating new cart item.
             </summary>
         </member>
-        <member name="P:HotelBooking.Api.Models.CartItem.CartItemCreationDTO.RoomId">
+        <member name="P:HotelBooking.Api.Models.CartItemCreationDTO.RoomId">
             <summary>
             Id of the room in the cart.
             </summary>
         </member>
-        <member name="P:HotelBooking.Api.Models.CartItem.CartItemCreationDTO.UserId">
-            <summary>
-            User who added the room to the cart.
-            </summary>
-        </member>
-        <member name="T:HotelBooking.Api.Models.CartItem.CartItemCreationResponseDTO">
-            <summary>
-            Properties of response for creating new cart item.
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.CartItem.CartItemCreationResponseDTO.RoomId">
-            <summary>
-            Id of the room in the cart.
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.CartItem.CartItemCreationResponseDTO.UserId">
+        <member name="P:HotelBooking.Api.Models.CartItemCreationDTO.UserId">
             <summary>
             User who added the room to the cart.
             </summary>
@@ -388,26 +366,6 @@
             Must be of length between 1 and 100.
             </summary>
         </member>
-        <member name="T:HotelBooking.Api.Models.City.CityCreationResponseDTO">
-            <summary>
-            Properties of response for creating new city.
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.City.CityCreationResponseDTO.Name">
-            <summary>
-            Name of the city.
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.City.CityCreationResponseDTO.CountryName">
-            <summary>
-            Name of the country that contains the city.
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.City.CityCreationResponseDTO.PostOffice">
-            <summary>
-            Post office of the city.
-            </summary>
-        </member>
         <member name="T:HotelBooking.Api.Models.City.CityUpdateDTO">
             <summary>
             Model to update city.
@@ -422,64 +380,34 @@
         <member name="P:HotelBooking.Api.Models.City.CityUpdateDTO.PostOffice">
             <inheritdoc cref="P:HotelBooking.Domain.Models.City.CityDTO.PostOffice"/>
         </member>
-        <member name="T:HotelBooking.Api.Models.Discount.DiscountCreationDTO">
+        <member name="T:HotelBooking.Api.Models.DiscountCreationDTO">
             <summary>
             Model to create new discount.
             </summary>
         </member>
-        <member name="P:HotelBooking.Api.Models.Discount.DiscountCreationDTO.Reason">
+        <member name="P:HotelBooking.Api.Models.DiscountCreationDTO.Reason">
             <summary>
             Reason of the discount.
             Must be of length between 0 and 200.
             </summary>
         </member>
-        <member name="P:HotelBooking.Api.Models.Discount.DiscountCreationDTO.StartingDate">
+        <member name="P:HotelBooking.Api.Models.DiscountCreationDTO.StartingDate">
             <summary>
             Starting time for the discount to be applied.
             </summary>
         </member>
-        <member name="P:HotelBooking.Api.Models.Discount.DiscountCreationDTO.EndingDate">
+        <member name="P:HotelBooking.Api.Models.DiscountCreationDTO.EndingDate">
             <summary>
             Ending time for the discount to be applied.
             </summary>
         </member>
-        <member name="P:HotelBooking.Api.Models.Discount.DiscountCreationDTO.AmountPercent">
+        <member name="P:HotelBooking.Api.Models.DiscountCreationDTO.AmountPercent">
             <summary>
             Amount of the discount.
             Must be between 0 and 100.
             </summary>
         </member>
-        <member name="P:HotelBooking.Api.Models.Discount.DiscountCreationDTO.HotelId">
-            <summary>
-            Id of the hotel that has the discount.
-            </summary>
-        </member>
-        <member name="T:HotelBooking.Api.Models.Discount.DiscountCreationResponseDTO">
-            <summary>
-            Response for creating new discount.
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.Discount.DiscountCreationResponseDTO.Reason">
-            <summary>
-            Reason of the discount.
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.Discount.DiscountCreationResponseDTO.StartingDate">
-            <summary>
-            Starting time for the discount to be applied.
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.Discount.DiscountCreationResponseDTO.EndingDate">
-            <summary>
-            Ending time for the discount to be applied.
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.Discount.DiscountCreationResponseDTO.AmountPercent">
-            <summary>
-            Amount of the discount.
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.Discount.DiscountCreationResponseDTO.HotelId">
+        <member name="P:HotelBooking.Api.Models.DiscountCreationDTO.HotelId">
             <summary>
             Id of the hotel that has the discount.
             </summary>
@@ -549,46 +477,6 @@
             </summary>
         </member>
         <member name="P:HotelBooking.Api.Models.Hotel.HotelCreationDTO.CityId">
-            <summary>
-            Id of the city that contains the hotel.
-            </summary>
-        </member>
-        <member name="T:HotelBooking.Api.Models.Hotel.HotelCreationResponseDTO">
-            <summary>
-            Response for creating new hotel.
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.Hotel.HotelCreationResponseDTO.Name">
-            <summary>
-            Name of the hotel.
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.Hotel.HotelCreationResponseDTO.BriefDescription">
-            <summary>
-            Small summary about the hotel.
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.Hotel.HotelCreationResponseDTO.FullDescription">
-            <summary>
-            Detailed description about the hotel.
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.Hotel.HotelCreationResponseDTO.StarRating">
-            <summary>
-            Star rating of the hotel.
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.Hotel.HotelCreationResponseDTO.OwnerName">
-            <summary>
-            Name of the owner of the hotel.
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.Hotel.HotelCreationResponseDTO.Geolocation">
-            <summary>
-            Geolocation coordinates of the hotel in the format "latitude, longitude".
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.Hotel.HotelCreationResponseDTO.CityId">
             <summary>
             Id of the city that contains the hotel.
             </summary>
@@ -673,46 +561,6 @@
             Id of the hotel that contains the room.
             </summary>
         </member>
-        <member name="T:HotelBooking.Api.Models.Room.RoomCreationResponseDTO">
-            <summary>
-            Response for creating new room.
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.Room.RoomCreationResponseDTO.Number">
-            <summary>
-            Number of the room which is identified by the hotel.
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.Room.RoomCreationResponseDTO.Type">
-            <summary>
-            Type of the room.
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.Room.RoomCreationResponseDTO.AdultsCapacity">
-            <summary>
-            Maximum number of adults the room can accommodate.
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.Room.RoomCreationResponseDTO.ChildrenCapacity">
-            <summary>
-            Maximum number of children the room can accommodate.
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.Room.RoomCreationResponseDTO.BriefDescription">
-            <summary>
-            Small summary about the room.
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.Room.RoomCreationResponseDTO.PricePerNight">
-            <summary>
-            Price of booking the room for a single day.
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.Room.RoomCreationResponseDTO.HotelId">
-            <summary>
-            Id of the hotel that contains the room.
-            </summary>
-        </member>
         <member name="T:HotelBooking.Api.Models.Room.RoomUpdateDTO">
             <summary>
             Model to update room.
@@ -735,58 +583,38 @@
             Must be between 0 and 50
             </summary>
         </member>
-        <member name="T:HotelBooking.Api.Models.User.UserCreationDTO">
+        <member name="T:HotelBooking.Api.Models.UserCreationDTO">
             <summary>
             Model to create new user.
             </summary>
         </member>
-        <member name="P:HotelBooking.Api.Models.User.UserCreationDTO.FirstName">
+        <member name="P:HotelBooking.Api.Models.UserCreationDTO.FirstName">
             <summary>
             First name of the user.
             Must be of length between 3 and 50. It must match: ^[A-Za-z\s]+$
             </summary>
         </member>
-        <member name="P:HotelBooking.Api.Models.User.UserCreationDTO.LastName">
+        <member name="P:HotelBooking.Api.Models.UserCreationDTO.LastName">
             <summary>
             Last name of the user.
             Must be of length between 3 and 50. It must match: ^[A-Za-z\s]+$
             </summary>
         </member>
-        <member name="P:HotelBooking.Api.Models.User.UserCreationDTO.Email">
+        <member name="P:HotelBooking.Api.Models.UserCreationDTO.Email">
             <summary>
             Email of the user.
             </summary>
         </member>
-        <member name="P:HotelBooking.Api.Models.User.UserCreationDTO.Username">
+        <member name="P:HotelBooking.Api.Models.UserCreationDTO.Username">
             <summary>
             Username of the user.
             Must be unique and of length between 3 and 50. It must match: ^[\w]+$
             </summary>
         </member>
-        <member name="P:HotelBooking.Api.Models.User.UserCreationDTO.Password">
+        <member name="P:HotelBooking.Api.Models.UserCreationDTO.Password">
             <summary>
             Password of the user.
             Must be of length between 8 and 50.
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.User.UserCreationResponseDTO.FirstName">
-            <summary>
-            First name of the user.
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.User.UserCreationResponseDTO.LastName">
-            <summary>
-            Last name of the user.
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.User.UserCreationResponseDTO.Email">
-            <summary>
-            Email of the user.
-            </summary>
-        </member>
-        <member name="P:HotelBooking.Api.Models.User.UserCreationResponseDTO.Username">
-            <summary>
-            Username of the user.
             </summary>
         </member>
         <member name="T:HotelBooking.Api.Models.ValidationResultDTO">

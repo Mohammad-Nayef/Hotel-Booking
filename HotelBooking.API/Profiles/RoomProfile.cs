@@ -9,7 +9,6 @@ namespace HotelBooking.Api.Profiles
         public RoomProfile()
         {
             CreateMap<RoomCreationDTO, RoomDTO>();
-            CreateMap<RoomCreationDTO, RoomCreationResponseDTO>();
             CreateMap<RoomDTO, RoomUpdateDTO>()
                 .ReverseMap();
         }

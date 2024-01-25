@@ -91,27 +91,21 @@ namespace HotelBooking.Api.Controllers
         /// Create and store a new room.
         /// </summary>
         /// <param name="newRoom">Properties of the new room.</param>
-        /// <response code="201">Returns the room with a new Id and its URI in response headers.</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(RoomCreationResponseDTO), StatusCodes.Status201Created)]
-        public async Task<IActionResult> PostAsync(RoomCreationResponseDTO newRoom)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<IActionResult> PostAsync(RoomCreationDTO newRoom)
         {
-            Guid newId;
-
             try
             {
-                newId = await _roomService.AddAsync(_mapper.Map<RoomDTO>(newRoom));
+                await _roomService.AddAsync(_mapper.Map<RoomDTO>(newRoom));
             }
             catch (ValidationException ex)
             {
                 return BadRequest(ex.GetErrorsForClient());
             }
 
-            var createdRoom = _mapper.Map<RoomCreationResponseDTO>(newRoom);
-            createdRoom.Id = newId;
-
-            return Created($"api/rooms/{newId}", createdRoom);
+            return Created();
         }
 
         /// <summary>

@@ -2,7 +2,6 @@
 using FluentValidation;
 using HotelBooking.Api.Extensions;
 using HotelBooking.Api.Models;
-using HotelBooking.Api.Models.CartItem;
 using HotelBooking.Domain.Abstractions.Services;
 using HotelBooking.Domain.Constants;
 using HotelBooking.Domain.Models;
@@ -40,30 +39,24 @@ namespace HotelBooking.Api.Controllers
         /// </summary>
         /// <param name="userId">The Id of the user that has the cart item.</param>
         /// <param name="newCartItem">Properties of the new cart item.</param>
-        /// <response code="201">Returns the cart item with a new Id and its URI in response headers.</response>
         [HttpPost("current-user/cart-items")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(CartItemCreationDTO), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> PostCartItemAsync(CartItemCreationDTO newCartItem)
         {
             var userId = new Guid(HttpContext.User.Identity.Name);
-            Guid newId;
             newCartItem.UserId = userId;
 
             try
             {
-                newId = await _cartItemService.AddAsync(_mapper.Map<CartItemDTO>(newCartItem));
+                await _cartItemService.AddAsync(_mapper.Map<CartItemDTO>(newCartItem));
             }
             catch (ValidationException ex)
             {
                 return BadRequest(ex.GetErrorsForClient());
             }
 
-            var createdCartItem = _mapper.Map<CartItemCreationResponseDTO>(newCartItem);
-            createdCartItem.Id = newId;
-
-            return Created(
-                $"api/users/{createdCartItem.UserId}/cart-items/{newId}", createdCartItem);
+            return Created();
         }
 
         /// <summary>
@@ -104,7 +97,6 @@ namespace HotelBooking.Api.Controllers
         /// </summary>
         /// <param name="userId">The Id of the user that has the booking.</param>
         /// <param name="newBooking">Properties of the new booking.</param>
-        /// <response code="201">The booking is created successfully.</response>
         [HttpPost("current-user/bookings")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status201Created)]

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using HotelBooking.Api.Models.Discount;
+using HotelBooking.Api.Models;
 using HotelBooking.Domain.Models;
 
 namespace HotelBooking.Api.Profiles
@@ -9,7 +9,6 @@ namespace HotelBooking.Api.Profiles
         public DiscountProfile()
         {
             CreateMap<DiscountCreationDTO, DiscountDTO>();
-            CreateMap<DiscountCreationDTO, DiscountCreationResponseDTO>();
         }
     }
 }

@@ -1,8 +1,6 @@
 ﻿using System.Net;
 using FluentAssertions;
 using HotelBooking.Api.Models;
-using HotelBooking.Api.Models.CartItem;
-using HotelBooking.Api.Models.Hotel;
 
 namespace HotelBooking.Api.IntegrationTesting
 {
@@ -55,7 +53,7 @@ namespace HotelBooking.Api.IntegrationTesting
         public async Task GetCartItems_ReturnsOkFor_User()
         {
             // Act
-            var getFeaturedStatusCode = 
+            var getFeaturedStatusCode =
                 (await _user.GetAsync("api/users/current-user/cart-items"))
                 .StatusCode;
 

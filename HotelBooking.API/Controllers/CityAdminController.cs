@@ -90,27 +90,21 @@ namespace HotelBooking.Api.Controllers
         /// Create and store a new city.
         /// </summary>
         /// <param name="newCity">Properties of the new city.</param>
-        /// <response code="201">Returns the city with a new Id and its URI in response headers.</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(CityCreationResponseDTO), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> PostCityAsync(CityCreationDTO newCity)
         {
-            Guid newId;
-
             try
             {
-                newId = await _cityService.AddAsync(_mapper.Map<CityDTO>(newCity));
+                await _cityService.AddAsync(_mapper.Map<CityDTO>(newCity));
             }
             catch (ValidationException ex)
             {
                 return BadRequest(ex.GetErrorsForClient());
             }
 
-            var createdCity = _mapper.Map<CityCreationResponseDTO>(newCity);
-            createdCity.Id = newId;
-
-            return Created($"api/cities/{newId}", createdCity);
+            return Created();
         }
 
         /// <summary>

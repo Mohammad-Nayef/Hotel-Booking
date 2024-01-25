@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using HotelBooking.Api.Models.CartItem;
+using HotelBooking.Api.Models;
 using HotelBooking.Domain.Models;
 
 namespace HotelBooking.Api.Profiles
@@ -9,7 +9,6 @@ namespace HotelBooking.Api.Profiles
         public CartItemProfile()
         {
             CreateMap<CartItemCreationDTO, CartItemDTO>();
-            CreateMap<CartItemCreationDTO, CartItemCreationResponseDTO>();
         }
     }
 }

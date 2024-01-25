@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using FluentAssertions;
-using HotelBooking.Api.Models.User;
+using HotelBooking.Api.Models;
 using HotelBooking.Domain.Models.User;
 
 namespace HotelBooking.Api.IntegrationTesting

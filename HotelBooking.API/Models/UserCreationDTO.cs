@@ -1,6 +1,6 @@
 ﻿using HotelBooking.Domain.Constants;
 
-namespace HotelBooking.Api.Models.User
+namespace HotelBooking.Api.Models
 {
     /// <summary>
     /// Model to create new user.

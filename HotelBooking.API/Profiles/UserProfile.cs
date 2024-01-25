@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using HotelBooking.Api.Models.User;
+using HotelBooking.Api.Models;
 using HotelBooking.Domain.Models.User;
 
 namespace HotelBooking.Api.Profiles
@@ -9,7 +9,6 @@ namespace HotelBooking.Api.Profiles
         public UserProfile()
         {
             CreateMap<UserCreationDTO, UserDTO>();
-            CreateMap<UserCreationDTO, UserCreationResponseDTO>();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using HotelBooking.Api.Extensions;
-using HotelBooking.Api.Models.Discount;
+using HotelBooking.Api.Models;
 using HotelBooking.Api.Models.Hotel;
 using HotelBooking.Domain.Abstractions.Services;
 using HotelBooking.Domain.Abstractions.Services.Hotel;
@@ -97,27 +97,21 @@ namespace HotelBooking.Api.Controllers
         /// Create and store a new hotel.
         /// </summary>
         /// <param name="newHotel">Properties of the new hotel.</param>
-        /// <response code="201">Returns the hotel with a new Id and its URI in response headers.</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(HotelCreationResponseDTO), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> PostAsync(HotelCreationDTO newHotel)
         {
-            Guid newId;
-
             try
             {
-                newId = await _hotelService.AddAsync(_mapper.Map<HotelDTO>(newHotel));
+                await _hotelService.AddAsync(_mapper.Map<HotelDTO>(newHotel));
             }
             catch (ValidationException ex)
             {
                 return BadRequest(ex.GetErrorsForClient());
             }
 
-            var createdHotel = _mapper.Map<HotelCreationResponseDTO>(newHotel);
-            createdHotel.Id = newId;
-
-            return Created($"api/hotels/{newId}", createdHotel);
+            return Created();
         }
 
         /// <summary>
@@ -203,30 +197,24 @@ namespace HotelBooking.Api.Controllers
         /// </summary>
         /// <param name="hotelId">The Id of the hotel that has the discount.</param>
         /// <param name="newDiscount">Properties of the new discount.</param>
-        /// <response code="201">Returns the discount with a new Id and its URI in response headers.</response>
         [HttpPost("{hotelId}/discounts")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(DiscountCreationResponseDTO), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> PostDiscountAsync(
             Guid hotelId, DiscountCreationDTO newDiscount)
         {
-            Guid newId;
             newDiscount.HotelId = hotelId;
 
             try
             {
-                newId = await _discountService.AddAsync(_mapper.Map<DiscountDTO>(newDiscount));
+                await _discountService.AddAsync(_mapper.Map<DiscountDTO>(newDiscount));
             }
             catch (ValidationException ex)
             {
                 return BadRequest(ex.GetErrorsForClient());
             }
 
-            var createdDiscount = _mapper.Map<DiscountCreationResponseDTO>(newDiscount);
-            createdDiscount.Id = newId;
-
-            return Created(
-                $"api/hotels/{createdDiscount.HotelId}/discounts/{newId}", createdDiscount);
+            return Created();
         }
     }
 }

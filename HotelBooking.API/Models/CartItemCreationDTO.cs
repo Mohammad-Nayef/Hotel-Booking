@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace HotelBooking.Api.Models.CartItem
+namespace HotelBooking.Api.Models
 {
     /// <summary>
     /// Properties for creating new cart item.
