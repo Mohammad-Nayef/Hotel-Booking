@@ -4,7 +4,7 @@ using HotelBooking.Domain.Constants;
 namespace HotelBooking.Domain.Entities
 {
     /// <summary>
-    /// Details about an image that can be for an hotel, room or a city.
+    /// Details about an image of an entity.
     /// </summary>
     /// <remarks>
     /// Height of the image must be between <see cref="ImagesConstants.MinHeight"/> and 
@@ -22,11 +22,5 @@ namespace HotelBooking.Domain.Entities
         /// Path of the thumbnail of the image in file system.
         /// </summary>
         public string ThumbnailPath { get; set; }
-
-        public Hotel? Hotel { get; set; }
-
-        public Room? Room { get; set; }
-
-        public City? City { get; set; }
     }
 }

@@ -14,9 +14,7 @@ namespace HotelBooking.Infrastructure.Profiles
 
             CreateMap<RoomTable, RoomForUserDTO>()
                 .ForMember(dest => dest.CurrentDiscount, opt =>
-                    opt.MapFrom(src => src.Hotel.Discounts.GetHighestActive()))
-                .ForMember(dest => dest.ImagesIds, opt =>
-                    opt.MapFrom(src => src.Images.Select(image => image.Id)));
+                    opt.MapFrom(src => src.Hotel.Discounts.GetHighestActive()));
         }
     }
 }

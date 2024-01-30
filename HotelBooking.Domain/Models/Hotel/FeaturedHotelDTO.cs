@@ -21,11 +21,6 @@ namespace HotelBooking.Domain.Models.Hotel
         public float? StarRating { get; set; }
 
         /// <summary>
-        /// Id of the thumbnail of the image that represents the hotel.
-        /// </summary>
-        public Guid? ThumbnailId { get; set; }
-
-        /// <summary>
         /// The highest available discount at the moment.
         /// </summary>
         public DiscountDTO CurrentDiscount { get; set; }

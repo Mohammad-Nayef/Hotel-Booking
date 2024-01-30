@@ -30,6 +30,7 @@ namespace HotelBooking.Infrastructure.Extensions.DependencyInjection
             services.AddScoped<ICartItemRepository, CartItemRepository>();
             services.AddScoped<IBookingRepository, BookingRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IImageRepository, ImageRepository>();
             services.AddScoped<IEmailService, EmailService>();
 
             return services;
@@ -38,7 +39,6 @@ namespace HotelBooking.Infrastructure.Extensions.DependencyInjection
         private static void AddRoom(IServiceCollection services)
         {
             services.AddScoped<IRoomRepository, RoomRepository>();
-            services.AddScoped<IRoomImageRepository, RoomImageRepository>();
             services.AddScoped<IRoomAdminRepository, RoomAdminRepository>();
         }
 
@@ -46,14 +46,12 @@ namespace HotelBooking.Infrastructure.Extensions.DependencyInjection
         {
             services.AddScoped<ICityAdminRepository, CityAdminRepository>();
             services.AddScoped<ICityRepository, CityRepository>();
-            services.AddScoped<ICityImageRepository, CityImageRepository>();
         }
 
         private static void AddHotel(IServiceCollection services)
         {
             services.AddScoped<IHotelRepository, HotelRepository>();
             services.AddScoped<IHotelUserRepository, HotelUserRepository>();
-            services.AddScoped<IHotelImageRepository, HotelImageRepository>();
             services.AddScoped<IHotelAdminRepository, HotelAdminRepository>();
             services.AddScoped<IHotelDiscountRepository, HotelDiscountRepository>();
             services.AddScoped<IHotelVisitRepository, HotelVisitRepository>();

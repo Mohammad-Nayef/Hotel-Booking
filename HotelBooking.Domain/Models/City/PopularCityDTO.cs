@@ -12,10 +12,5 @@ namespace HotelBooking.Domain.Models.City
 
         /// <inheritdoc cref="CityDTO.CountryName"/>
         public string CountryName { get; set; }
-
-        /// <summary>
-        /// Id of a thumbnail of an image to represent the city.
-        /// </summary>
-        public Guid? ThumbnailId { get; set; }
     }
 }

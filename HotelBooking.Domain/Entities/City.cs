@@ -46,7 +46,5 @@ namespace HotelBooking.Domain.Entities
         public DateTime ModificationDate { get; set; }
 
         public List<Hotel> Hotels { get; set; }
-
-        public List<Image> Images { get; set; }
     }
 }

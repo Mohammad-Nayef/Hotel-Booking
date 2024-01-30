@@ -44,5 +44,10 @@ namespace HotelBooking.Domain.Abstractions.Repositories
         /// <param name="entityId">Id of the entity.</param>
         /// <returns></returns>
         Task<int> GetCountAsync(Guid entityId);
+
+        /// <summary>
+        /// Get list of images IDs for an entity.
+        /// </summary>
+        IEnumerable<Guid> GetImagesIds(Guid entityId);
     }
 }

@@ -13,8 +13,6 @@ namespace HotelBooking.Infrastructure.Profiles
                 .ReverseMap();
 
             CreateMap<HotelTable, FeaturedHotelDTO>()
-                .ForMember(dest => dest.ThumbnailId, opt =>
-                    opt.MapFrom(src => src.Images.FirstOrDefault().Id))
                 .ForMember(dest => dest.CurrentDiscount, opt =>
                     opt.MapFrom(src => src.Discounts.GetHighestActive()))
                 .ForMember(dest => dest.CityName, opt =>
@@ -22,19 +20,13 @@ namespace HotelBooking.Infrastructure.Profiles
                 .ForMember(dest => dest.CountryName, opt =>
                     opt.MapFrom(src => src.City.CountryName));
 
-            CreateMap<HotelTable, HotelForUserDTO>()
-                .ForMember(dest => dest.ThumbnailId, opt =>
-                    opt.MapFrom(src => src.Images.FirstOrDefault().Id));
+            CreateMap<HotelTable, HotelForUserDTO>();
 
             CreateMap<HotelTable, HotelPageDTO>()
-                .ForMember(dest => dest.ImagesIds, opt =>
-                    opt.MapFrom(src => src.Images.Select(image => image.Id)))
                 .ForMember(dest => dest.CurrentDiscount, opt =>
                     opt.MapFrom(src => src.Discounts.GetHighestActive()));
 
-            CreateMap<HotelTable, VisitedHotelDTO>()
-                .ForMember(dest => dest.ThumbnailId, opt =>
-                    opt.MapFrom(src => src.Images.FirstOrDefault().Id));
+            CreateMap<HotelTable, VisitedHotelDTO>();
         }
     }
 }

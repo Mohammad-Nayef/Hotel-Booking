@@ -26,11 +26,6 @@ namespace HotelBooking.Domain.Models.Hotel
         public CityForUserDTO City { get; set; }
 
         /// <summary>
-        /// IDs of images for the hotels.
-        /// </summary>
-        public List<Guid> ImagesIds { get; set; }
-
-        /// <summary>
         /// The highest available discount at the moment.
         /// </summary>
         public DiscountDTO CurrentDiscount { get; set; }

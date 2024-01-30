@@ -67,8 +67,6 @@ namespace HotelBooking.Domain.Entities
 
         public Hotel Hotel { get; set; }
 
-        public List<Image> Images { get; set; }
-
         public List<CartItem> CartItems { get; set; }
 
         public List<Booking> Bookings { get; set; }

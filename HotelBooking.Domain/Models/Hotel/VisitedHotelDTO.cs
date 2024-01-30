@@ -15,10 +15,5 @@ namespace HotelBooking.Domain.Models.Hotel
         public float StarRating { get; set; }
 
         public CityForUserDTO City { get; set; }
-
-        /// <summary>
-        /// Id of the thumbnail of the image that represents the room.
-        /// </summary>
-        public Guid? ThumbnailId { get; set; }
     }
 }

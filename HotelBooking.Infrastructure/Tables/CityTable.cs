@@ -21,7 +21,5 @@ namespace HotelBooking.Infrastructure.Tables
         public DateTime ModificationDate { get; set; }
 
         public List<HotelTable> Hotels { get; } = new();
-
-        public List<ImageTable> Images { get; } = new();
     }
 }

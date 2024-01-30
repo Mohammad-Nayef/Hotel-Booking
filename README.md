@@ -4,7 +4,7 @@
 
 ## Features:
 - User login and register functionalities.
-- Global search funtionality for finding hotels by hotel name, hotel description, room type, city name and other properties with text fields.
+- Global search functionality for finding hotels by hotel name, hotel description, room type, city name and other properties with text fields.
 - Managing images and thumbnails for cities, hotels and rooms.
 - Show popular cities which are the most visited ones.
 - Email sending service that sends an email to the user when the user creates a booking containing all of the needed information like total price, exact location for the hotel on the map and other details.
@@ -46,7 +46,7 @@ The system has 4 main layers:
 
 ## API documentation:
 - Comprehensive dynamic and up-to-date documentation using SwaggerUI which is available when running the application in development environment.
-- Documentation using Postman: https://documenter.getpostman.com/view/30810910/2s9YymHQTP
+- Documentation using Postman: https://documenter.getpostman.com/view/30810910/2s9YysDhHs
 
 ## Getting started:
 - The project is built on .NET 8.0

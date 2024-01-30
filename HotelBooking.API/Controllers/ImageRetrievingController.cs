@@ -65,42 +65,6 @@ namespace HotelBooking.Api.Controllers
         public Task<IActionResult> GetRoomImageAsync(Guid imageId) =>
             GetEntityImageAsync(imageId, _roomImageService.GetImageAsync);
 
-        /// <summary>
-        /// Gets a thumbnail of an image for a room by an image Id.
-        /// </summary>
-        /// <param name="thumbnailId">Id of the image thumbnail to return.</param>
-        ///<response code="200">The thumbnail is returned successfully.</response>
-        [HttpGet("rooms/thumbnails/{thumbnailId}")]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public Task<IActionResult> GetThumbnailOfRoomImageAsync(Guid thumbnailId) =>
-            GetEntityImageAsync(thumbnailId, _roomImageService.GetThumbnailOfImageAsync);
-
-        /// <summary>
-        /// Gets a thumbnail of an image for a hotel by a thumbnail Id.
-        /// </summary>
-        /// <param name="thumbnailId">Id of the image thumbnail to return.</param>
-        ///<response code="200">The thumbnail is returned successfully.</response>
-        [HttpGet("hotels/thumbnails/{thumbnailId}")]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public Task<IActionResult> GetThumbnailOfHotelImageAsync(Guid thumbnailId) =>
-            GetEntityImageAsync(thumbnailId, _hotelImageService.GetThumbnailOfImageAsync);
-
-        /// <summary>
-        /// Gets a thumbnail of an image for a city by a thumbnail Id.
-        /// </summary>
-        /// <param name="thumbnailId">Id of the image thumbnail to return.</param>
-        ///<response code="200">The thumbnail is returned successfully.</response>
-        [HttpGet("cities/thumbnails/{thumbnailId}")]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public Task<IActionResult> GetThumbnailOfCityImageAsync(Guid thumbnailId) =>
-            GetEntityImageAsync(thumbnailId, _cityImageService.GetThumbnailOfImageAsync);
-
         private async Task<IActionResult> GetEntityImageAsync(
             Guid imageId, Func<Guid, Task<FileStream>> entityImageGetterAsync)
         {
@@ -118,6 +82,81 @@ namespace HotelBooking.Api.Controllers
             var imageFormat = await Image.DetectFormatAsync(imageStream);
 
             return File(imageStream, imageFormat.DefaultMimeType);
+        }
+
+        /// <summary>
+        /// Get list of images IDs for a city.
+        /// </summary>
+        /// <param name="cityId">Id of the city.</param>
+        ///<response code="200">The thumbnail is returned successfully.</response>
+        [HttpGet("cities/{cityId}/imagesIds")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(IEnumerable<Guid>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetCityImagesIdsAsync(Guid cityId)
+        {
+            IEnumerable<Guid> imagesIds;
+
+            try
+            {
+                imagesIds = await _cityImageService.GetImagesIdsAsync(cityId);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+
+            return Ok(imagesIds);
+        }
+
+        /// <summary>
+        /// Get list of images IDs for an hotel.
+        /// </summary>
+        /// <param name="hotelId">Id of the hotel.</param>
+        ///<response code="200">The thumbnail is returned successfully.</response>
+        [HttpGet("hotels/{hotelId}/imagesIds")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(IEnumerable<Guid>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetHotelImagesIdsAsync(Guid hotelId)
+        {
+            IEnumerable<Guid> imagesIds;
+
+            try
+            {
+                imagesIds = await _hotelImageService.GetImagesIdsAsync(hotelId);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+
+            return Ok(imagesIds);
+        }
+
+        /// <summary>
+        /// Get list of images IDs for a room.
+        /// </summary>
+        /// <param name="roomId">Id of the room.</param>
+        ///<response code="200">The thumbnail is returned successfully.</response>
+        [HttpGet("rooms/{roomId}/imagesIds")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(IEnumerable<Guid>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetRoomImagesIdsAsync(Guid roomId)
+        {
+            IEnumerable<Guid> imagesIds;
+
+            try
+            {
+                imagesIds = await _roomImageService.GetImagesIdsAsync(roomId);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+
+            return Ok(imagesIds);
         }
     }
 }

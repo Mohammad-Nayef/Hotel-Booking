@@ -6,7 +6,7 @@
     internal class DbEntity
     {
         /// <summary>
-        /// Id of the entitiy.
+        /// Id of the entity.
         /// </summary>
         public Guid Id { get; set; } = Guid.NewGuid();
     }

@@ -188,25 +188,25 @@
              <param name="imageId">Id of the image to return.</param>
             <response code="200">The image is returned successfully.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.ImageRetrievingController.GetThumbnailOfRoomImageAsync(System.Guid)">
+        <member name="M:HotelBooking.Api.Controllers.ImageRetrievingController.GetCityImagesIdsAsync(System.Guid)">
              <summary>
-             Gets a thumbnail of an image for a room by an image Id.
+             Get list of images IDs for a city.
              </summary>
-             <param name="thumbnailId">Id of the image thumbnail to return.</param>
+             <param name="cityId">Id of the city.</param>
             <response code="200">The thumbnail is returned successfully.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.ImageRetrievingController.GetThumbnailOfHotelImageAsync(System.Guid)">
+        <member name="M:HotelBooking.Api.Controllers.ImageRetrievingController.GetHotelImagesIdsAsync(System.Guid)">
              <summary>
-             Gets a thumbnail of an image for a hotel by a thumbnail Id.
+             Get list of images IDs for an hotel.
              </summary>
-             <param name="thumbnailId">Id of the image thumbnail to return.</param>
+             <param name="hotelId">Id of the hotel.</param>
             <response code="200">The thumbnail is returned successfully.</response>
         </member>
-        <member name="M:HotelBooking.Api.Controllers.ImageRetrievingController.GetThumbnailOfCityImageAsync(System.Guid)">
+        <member name="M:HotelBooking.Api.Controllers.ImageRetrievingController.GetRoomImagesIdsAsync(System.Guid)">
              <summary>
-             Gets a thumbnail of an image for a city by a thumbnail Id.
+             Get list of images IDs for a room.
              </summary>
-             <param name="thumbnailId">Id of the image thumbnail to return.</param>
+             <param name="roomId">Id of the room.</param>
             <response code="200">The thumbnail is returned successfully.</response>
         </member>
         <member name="M:HotelBooking.Api.Controllers.RoomAdminController.GetRoomsForAdminAsync(HotelBooking.Domain.Models.PaginationDTO)">

@@ -49,7 +49,6 @@ namespace HotelBooking.Infrastructure.Repositories.Hotel
 
             var hotels = _dbContext.Hotels
                 .Include(hotel => hotel.City)
-                .Include(hotel => hotel.Images)
                 .Include(hotel => hotel.Rooms)
                 .Where(HasTextSimilarity(searchString))
                 .AsEnumerable()
@@ -94,7 +93,6 @@ namespace HotelBooking.Infrastructure.Repositories.Hotel
         {
             var hotelTable = await _dbContext.Hotels
                 .Include(hotel => hotel.City)
-                .Include(hotel => hotel.Images)
                 .Include(hotel => hotel.Discounts)
                 .SingleOrDefaultAsync(hotel => hotel.Id == id);
 
@@ -107,7 +105,6 @@ namespace HotelBooking.Infrastructure.Repositories.Hotel
             var rooms = _dbContext.Hotels
                 .Where(hotel => hotel.Id == id)
                 .SelectMany(hotel => hotel.Rooms)
-                .Include(room => room.Images)
                 .Include(room => room.Bookings)
                 .Include(room => room.Hotel.Discounts)
                 .AsEnumerable()
@@ -137,7 +134,6 @@ namespace HotelBooking.Infrastructure.Repositories.Hotel
                 .Where(hv => hv.UserId == userId)
                 .Include(visit => visit.Hotel)
                 .ThenInclude(hotel => hotel.City)
-                .Include(visit => visit.Hotel.Images)
                 .GroupBy(visit => visit.HotelId)
                 .Select(group => group
                     .OrderByDescending(visit => visit.Date)

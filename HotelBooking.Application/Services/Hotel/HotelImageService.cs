@@ -1,57 +1,40 @@
 ﻿using FluentValidation;
-using HotelBooking.Domain.Abstractions.Repositories.Hotel;
+using HotelBooking.Domain.Abstractions.Repositories;
 using HotelBooking.Domain.Abstractions.Services.Hotel;
 using SixLabors.ImageSharp;
 
 namespace HotelBooking.Application.Services.Hotel
 {
     /// <inheritdoc cref="IHotelImageService"/>
-    internal class HotelImageService : IHotelImageService
+    internal class HotelImageService : ImageService, IHotelImageService
     {
         private readonly IValidator<IEnumerable<Image>> _imagesValidator;
-        private readonly IHotelImageRepository _hotelImageRepository;
+        private readonly IImageRepository _imageRepository;
+        private readonly IHotelService _hotelService;
 
         public HotelImageService(
-            IValidator<IEnumerable<Image>> imagesValidator, 
-            IHotelImageRepository hotelImageRepository)
+            IValidator<IEnumerable<Image>> imagesValidator,
+            IImageRepository imageRepository,
+            IHotelService hotelService)
+            : base(imageRepository)
         {
             _imagesValidator = imagesValidator;
-            _hotelImageRepository = hotelImageRepository;
+            _imageRepository = imageRepository;
+            _hotelService = hotelService;
         }
 
-        public async Task AddAsync(Guid hotelId, IEnumerable<Image> images)
+        public override async Task AddAsync(Guid entityId, IEnumerable<Image> images)
         {
             await _imagesValidator.ValidateAndThrowAsync(images);
-            await _hotelImageRepository.AddRangeAsync(hotelId, images);
+            await _hotelService.ValidateIdAsync(entityId);
+            await _imageRepository.AddRangeAsync(entityId, images);
         }
 
-        public async Task<FileStream> GetImageAsync(Guid imageId)
+        public override async Task<IEnumerable<Guid>> GetImagesIdsAsync(Guid entityId)
         {
-            await ValidateHotelImageIdAsync(imageId);
+            await _hotelService.ValidateIdAsync(entityId);
 
-            return _hotelImageRepository.Get(imageId);
+            return _imageRepository.GetImagesIds(entityId);
         }
-
-        private async Task ValidateHotelImageIdAsync(Guid imageId)
-        {
-            if (!await _hotelImageRepository.ExistsAsync(imageId))
-                throw new KeyNotFoundException();
-        }
-
-        public async Task<FileStream> GetThumbnailOfImageAsync(Guid thumbnailId)
-        {
-            await ValidateHotelThumbnailIdAsync(thumbnailId);
-
-            return _hotelImageRepository.GetThumbnail(thumbnailId);
-        }
-
-        private async Task ValidateHotelThumbnailIdAsync(Guid thumbnailId)
-        {
-            if (!await _hotelImageRepository.ThumbnailExistsAsync(thumbnailId))
-                throw new KeyNotFoundException();
-        }
-
-        public Task<int> GetCountAsync(Guid hotelId) => 
-            _hotelImageRepository.GetCountAsync(hotelId);
     }
 }

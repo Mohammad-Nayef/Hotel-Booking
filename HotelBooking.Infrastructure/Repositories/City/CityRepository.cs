@@ -62,7 +62,6 @@ namespace HotelBooking.Infrastructure.Repositories.City
             int itemsToSkip, int itemsToTake)
         {
             var cities = _dbContext.Cities
-                .Include(city => city.Images)
                 .Include(city => city.Hotels)
                 .ThenInclude(hotel => hotel.Visits
                     .Where(visit => visit.Date > HotelVisitConstants.LeastRecentVisitDate))

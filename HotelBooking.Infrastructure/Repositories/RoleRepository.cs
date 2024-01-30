@@ -2,7 +2,6 @@
 using HotelBooking.Domain.Abstractions.Repositories;
 using HotelBooking.Domain.Models;
 using HotelBooking.Infrastructure.Tables;
-using Microsoft.EntityFrameworkCore;
 
 namespace HotelBooking.Infrastructure.Repositories
 {

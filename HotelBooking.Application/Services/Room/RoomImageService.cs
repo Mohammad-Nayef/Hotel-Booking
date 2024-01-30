@@ -1,56 +1,40 @@
 ﻿using FluentValidation;
-using HotelBooking.Domain.Abstractions.Repositories.Room;
+using HotelBooking.Domain.Abstractions.Repositories;
 using HotelBooking.Domain.Abstractions.Services.Room;
 using SixLabors.ImageSharp;
 
 namespace HotelBooking.Application.Services.Room
 {
     /// <inheritdoc cref="IRoomImageService"/>
-    internal class RoomImageService : IRoomImageService
+    internal class RoomImageService : ImageService, IRoomImageService
     {
         private readonly IValidator<IEnumerable<Image>> _imagesValidator;
-        private readonly IRoomImageRepository _roomImageRepository;
+        private readonly IImageRepository _imageRepository;
+        private readonly IRoomService _roomService;
 
         public RoomImageService(
-            IValidator<IEnumerable<Image>> imagesValidator, 
-            IRoomImageRepository roomImageRepository)
+            IValidator<IEnumerable<Image>> imagesValidator,
+            IImageRepository imageRepository,
+            IRoomService roomService)
+            : base(imageRepository)
         {
             _imagesValidator = imagesValidator;
-            _roomImageRepository = roomImageRepository;
+            _imageRepository = imageRepository;
+            _roomService = roomService;
         }
 
-        public async Task AddAsync(Guid roomId, IEnumerable<Image> images)
+        public override async Task AddAsync(Guid entityId, IEnumerable<Image> images)
         {
             await _imagesValidator.ValidateAndThrowAsync(images);
-            await _roomImageRepository.AddRangeAsync(roomId, images);
+            await _roomService.ValidateIdAsync(entityId);
+            await _imageRepository.AddRangeAsync(entityId, images);
         }
 
-        public async Task<FileStream> GetImageAsync(Guid imageId)
+        public override async Task<IEnumerable<Guid>> GetImagesIdsAsync(Guid entityId)
         {
-            await ValidateRoomImageIdAsync(imageId);
+            await _roomService.ValidateIdAsync(entityId);
 
-            return _roomImageRepository.Get(imageId);
+            return _imageRepository.GetImagesIds(entityId);
         }
-
-        public async Task<FileStream> GetThumbnailOfImageAsync(Guid thumbnailId)
-        {
-            await ValidateRoomThumbnailIdAsync(thumbnailId);
-
-            return _roomImageRepository.GetThumbnail(thumbnailId);
-        }
-
-        private async Task ValidateRoomThumbnailIdAsync(Guid thumbnailId)
-        {
-            if (!await _roomImageRepository.ThumbnailExistsAsync(thumbnailId))
-                throw new KeyNotFoundException();
-        }
-
-        private async Task ValidateRoomImageIdAsync(Guid imageId)
-        {
-            if (!await _roomImageRepository.ExistsAsync(imageId))
-                throw new KeyNotFoundException();
-        }
-
-        public Task<int> GetCountAsync(Guid roomId) => _roomImageRepository.GetCountAsync(roomId);
     }
 }

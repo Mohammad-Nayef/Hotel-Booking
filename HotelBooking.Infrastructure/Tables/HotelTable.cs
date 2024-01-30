@@ -36,8 +36,6 @@ namespace HotelBooking.Infrastructure.Tables
 
         public List<HotelReviewTable> Reviews { get; } = new();
 
-        public List<ImageTable> Images { get; } = new();
-
         public List<RoomTable> Rooms { get; } = new();
 
         public List<DiscountTable> Discounts { get; } = new();

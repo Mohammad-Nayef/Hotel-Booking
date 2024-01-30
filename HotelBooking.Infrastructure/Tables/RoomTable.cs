@@ -34,8 +34,6 @@ namespace HotelBooking.Infrastructure.Tables
 
         public HotelTable Hotel { get; set; }
 
-        public List<ImageTable> Images { get; } = new();
-
         public List<CartItemTable> CartItems { get; } = new();
 
         public List<BookingTable> Bookings { get; } = new();
