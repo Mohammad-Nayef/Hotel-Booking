@@ -1,7 +1,9 @@
 ﻿using HotelBooking.Domain.Abstractions.Repositories;
+using HotelBooking.Domain.Models.Image;
 using HotelBooking.Infrastructure.Tables;
 using Microsoft.EntityFrameworkCore;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.Processing;
 
 namespace HotelBooking.Infrastructure.Repositories
@@ -9,10 +11,9 @@ namespace HotelBooking.Infrastructure.Repositories
     /// <inheritdoc cref="IImageRepository"/>
     internal class ImageRepository : IImageRepository
     {
-        private readonly string _mainDirectory = $"{AppDomain.CurrentDomain.BaseDirectory}\\Images";
+        private readonly string _mainDirectory =
+            $"{AppDomain.CurrentDomain.BaseDirectory}\\Images";
         private readonly HotelsBookingDbContext _dbContext;
-        private const string ThumbnailsFolder = "Thumbnails";
-        private const int MinThumbnailLength = 200;
         private const string Extension = "jpeg";
 
         public ImageRepository(HotelsBookingDbContext dbContext)
@@ -34,13 +35,12 @@ namespace HotelBooking.Infrastructure.Repositories
             images.ToList().ForEach(image =>
             {
                 GenerateAndStoreImage(
-                    image, out var imageId, out var imagePath, out var thumbnailPath);
+                    image, out var imageId, out var imagePath);
 
                 var imageTable = new ImageTable
                 {
                     Id = imageId,
                     Path = imagePath,
-                    ThumbnailPath = thumbnailPath,
                     EntityId = entityId
                 };
 
@@ -56,27 +56,18 @@ namespace HotelBooking.Infrastructure.Repositories
                 ExistsInFileSystem(imageId.ToString());
         }
 
-        public async Task<bool> ThumbnailExistsAsync(Guid thumbnailId)
+        public async Task<Stream> GetAsync(Guid imageId, ImageSizeDTO imageSize)
         {
-            return await ExistsInDatabaseAsync(thumbnailId) &&
-                ThumbnailExistsInFileSystem(thumbnailId.ToString());
-        }
+            var imagePath = $"{_mainDirectory}\\{imageId}.{Extension}";
+            var temporaryPath = $"{_mainDirectory}\\Temp - {imageId}.{Extension}";
+            using var image = (await Image.LoadAsync(imagePath))
+                .Clone(image => image.Resize(imageSize.Width, imageSize.Height));
+            await image.SaveAsync(temporaryPath);
+            var imageBytes = await File.ReadAllBytesAsync(temporaryPath);
+            var imageMemoryStream = new MemoryStream(imageBytes);
+            File.Delete(temporaryPath);
 
-        public FileStream Get(Guid imageId) =>
-            new FileStream($"{_mainDirectory}\\{imageId}.{Extension}", FileMode.Open);
-
-        public FileStream GetThumbnail(Guid thumbnailId)
-        {
-            return new FileStream(
-                $"{_mainDirectory}\\{ThumbnailsFolder}\\{thumbnailId}.{Extension}",
-                FileMode.Open);
-        }
-
-        private void StoreImageAndThumbnail(Image image, string imagePath, string thumbnailPath)
-        {
-            image.Save(imagePath);
-            MakeThumbnail(image, out var thumbnail);
-            thumbnail.Save(thumbnailPath);
+            return imageMemoryStream;
         }
 
         private async Task PersistAsync(List<ImageTable> imagesTable)
@@ -88,19 +79,11 @@ namespace HotelBooking.Infrastructure.Repositories
         private void GenerateAndStoreImage(
             Image image,
             out Guid imageId,
-            out string imagePath,
-            out string thumbnailPath)
+            out string imagePath)
         {
             imageId = Guid.NewGuid();
-            (imagePath, thumbnailPath) = GetFullPaths(image, imageId);
-            StoreImageAndThumbnail(image, imagePath, thumbnailPath);
-        }
-
-        private bool ThumbnailExistsInFileSystem(string thumbnailName)
-        {
-            return File.Exists(
-                $"{_mainDirectory}\\{ThumbnailsFolder}\\{thumbnailName}" +
-                $".{Extension}");
+            imagePath = GetFullPaths(imageId);
+            image.Save(imagePath);
         }
 
         private bool ExistsInFileSystem(string imageName) =>
@@ -109,34 +92,11 @@ namespace HotelBooking.Infrastructure.Repositories
         private Task<bool> ExistsInDatabaseAsync(Guid imageId) =>
             _dbContext.Images.AnyAsync(image => image.Id == imageId);
 
-        private (string, string) GetFullPaths(Image image, Guid imageId)
+        private string GetFullPaths(Guid imageId)
         {
             Directory.CreateDirectory($"{_mainDirectory}");
-            var imagePath =
-                $"{_mainDirectory}\\{imageId}.{Extension}";
 
-            Directory.CreateDirectory($"{_mainDirectory}\\{ThumbnailsFolder}");
-            var thumbnailPath = $"{_mainDirectory}\\{ThumbnailsFolder}\\{imageId}." +
-                Extension;
-
-            return (imagePath, thumbnailPath);
-        }
-
-        private Image MakeThumbnail(Image image, out Image thumbnail)
-        {
-            thumbnail = image;
-            ReduceHeightAndWidth(thumbnail);
-
-            return thumbnail;
-        }
-
-        private static void ReduceHeightAndWidth(Image thumbnail)
-        {
-            // 0 is used to maintain the aspect ratio of the image.
-            if (thumbnail.Width < thumbnail.Height)
-                thumbnail.Mutate(thumbnail => thumbnail.Resize(MinThumbnailLength, 0));
-            else
-                thumbnail.Mutate(thumbnail => thumbnail.Resize(0, MinThumbnailLength));
+            return $"{_mainDirectory}\\{imageId}.{Extension}";
         }
 
         public IEnumerable<Guid> GetImagesIds(Guid entityId)
@@ -144,7 +104,8 @@ namespace HotelBooking.Infrastructure.Repositories
             return _dbContext.Images
                 .Where(image => image.EntityId == entityId)
                 .Select(image => image.Id)
-                .AsEnumerable();
+                .AsEnumerable()
+                .Where(imageId => ExistsInFileSystem(imageId.ToString()));
         }
     }
 }

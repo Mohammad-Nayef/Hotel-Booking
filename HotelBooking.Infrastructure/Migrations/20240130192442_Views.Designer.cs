@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelBooking.Infrastructure.Migrations
 {
     [DbContext(typeof(HotelsBookingDbContext))]
-    [Migration("20240120143149_Views")]
+    [Migration("20240130192442_Views")]
     partial class Views
     {
         /// <inheritdoc />
@@ -216,7 +216,7 @@ namespace HotelBooking.Infrastructure.Migrations
                     b.Property<float>("AmountPercent")
                         .HasColumnType("real");
 
-                    b.Property<DateTime?>("EndingDate")
+                    b.Property<DateTime>("EndingDate")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid>("HotelId")
@@ -231,7 +231,11 @@ namespace HotelBooking.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EndingDate");
+
                     b.HasIndex("HotelId");
+
+                    b.HasIndex("StartingDate");
 
                     b.ToTable("Discounts");
                 });
@@ -331,6 +335,8 @@ namespace HotelBooking.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Date");
+
                     b.HasIndex("HotelId");
 
                     b.HasIndex("UserId");
@@ -344,29 +350,14 @@ namespace HotelBooking.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CityId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("HotelId")
+                    b.Property<Guid>("EntityId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Path")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("RoomId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ThumbnailPath")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("HotelId");
-
-                    b.HasIndex("RoomId");
 
                     b.ToTable("Images");
                 });
@@ -460,6 +451,8 @@ namespace HotelBooking.Infrastructure.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Username");
 
                     b.ToTable("Users");
                 });
@@ -577,27 +570,6 @@ namespace HotelBooking.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("HotelBooking.Infrastructure.Tables.ImageTable", b =>
-                {
-                    b.HasOne("HotelBooking.Infrastructure.Tables.CityTable", "City")
-                        .WithMany("Images")
-                        .HasForeignKey("CityId");
-
-                    b.HasOne("HotelBooking.Infrastructure.Tables.HotelTable", "Hotel")
-                        .WithMany("Images")
-                        .HasForeignKey("HotelId");
-
-                    b.HasOne("HotelBooking.Infrastructure.Tables.RoomTable", "Room")
-                        .WithMany("Images")
-                        .HasForeignKey("RoomId");
-
-                    b.Navigation("City");
-
-                    b.Navigation("Hotel");
-
-                    b.Navigation("Room");
-                });
-
             modelBuilder.Entity("HotelBooking.Infrastructure.Tables.RoomTable", b =>
                 {
                     b.HasOne("HotelBooking.Infrastructure.Tables.HotelTable", "Hotel")
@@ -627,15 +599,11 @@ namespace HotelBooking.Infrastructure.Migrations
             modelBuilder.Entity("HotelBooking.Infrastructure.Tables.CityTable", b =>
                 {
                     b.Navigation("Hotels");
-
-                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("HotelBooking.Infrastructure.Tables.HotelTable", b =>
                 {
                     b.Navigation("Discounts");
-
-                    b.Navigation("Images");
 
                     b.Navigation("Reviews");
 
@@ -649,8 +617,6 @@ namespace HotelBooking.Infrastructure.Migrations
                     b.Navigation("Bookings");
 
                     b.Navigation("CartItems");
-
-                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("HotelBooking.Infrastructure.Tables.UserTable", b =>

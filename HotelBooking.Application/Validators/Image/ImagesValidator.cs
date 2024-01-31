@@ -1,11 +1,10 @@
 ﻿using FluentValidation;
 using HotelBooking.Domain.Abstractions.Repositories.City;
 using HotelBooking.Domain.Constants;
-using SixLabors.ImageSharp;
 
-namespace HotelBooking.Application.Validators
+namespace HotelBooking.Application.Validators.Image
 {
-    internal class ImagesValidator : AbstractValidator<IEnumerable<Image>>
+    internal class ImagesValidator : AbstractValidator<IEnumerable<SixLabors.ImageSharp.Image>>
     {
         public ImagesValidator(ICityRepository cityRepository)
         {
@@ -23,11 +22,11 @@ namespace HotelBooking.Application.Validators
                     $"{ImagesConstants.MaxHeight} inclusive.")
                 .WithName("Images");
         }
-        
+
         private bool IsValidHeight(int height) =>
             height >= ImagesConstants.MinHeight && height <= ImagesConstants.MaxHeight;
 
-        private bool IsValidWidth(int width) => 
+        private bool IsValidWidth(int width) =>
             width >= ImagesConstants.MinWidth && width <= ImagesConstants.MaxWidth;
     }
 }

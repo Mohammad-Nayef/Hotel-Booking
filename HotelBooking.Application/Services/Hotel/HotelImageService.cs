@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using HotelBooking.Domain.Abstractions.Repositories;
 using HotelBooking.Domain.Abstractions.Services.Hotel;
+using HotelBooking.Domain.Models.Image;
 using SixLabors.ImageSharp;
 
 namespace HotelBooking.Application.Services.Hotel
@@ -15,8 +16,9 @@ namespace HotelBooking.Application.Services.Hotel
         public HotelImageService(
             IValidator<IEnumerable<Image>> imagesValidator,
             IImageRepository imageRepository,
-            IHotelService hotelService)
-            : base(imageRepository)
+            IHotelService hotelService,
+            IValidator<ImageSizeDTO> imageSizeValidator)
+            : base(imageRepository, imageSizeValidator)
         {
             _imagesValidator = imagesValidator;
             _imageRepository = imageRepository;

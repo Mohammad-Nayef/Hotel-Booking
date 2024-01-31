@@ -1,7 +1,10 @@
-﻿using HotelBooking.Domain.Abstractions.Services.City;
+﻿using FluentValidation;
+using HotelBooking.Api.Extensions;
+using HotelBooking.Domain.Abstractions.Services.City;
 using HotelBooking.Domain.Abstractions.Services.Hotel;
 using HotelBooking.Domain.Abstractions.Services.Room;
 using HotelBooking.Domain.Constants;
+using HotelBooking.Domain.Models.Image;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
@@ -31,6 +34,7 @@ namespace HotelBooking.Api.Controllers
 
         /// <summary>
         /// Gets an image for a city by an image Id.
+        /// Use 0 pixels for a single dimension to obtain the original aspect ratio of the image.
         /// </summary>
         /// <param name="imageId">Id of the image to return.</param>
         ///<response code="200">The image is returned successfully.</response>
@@ -38,11 +42,13 @@ namespace HotelBooking.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public Task<IActionResult> GetCityImageAsync(Guid imageId) =>
-            GetEntityImageAsync(imageId, _cityImageService.GetImageAsync);
+        public Task<IActionResult> GetCityImageAsync(
+            Guid imageId, [FromQuery] ImageSizeDTO imageSize) =>
+            GetEntityImageAsync(imageId, imageSize, _cityImageService.GetImageAsync);
 
         /// <summary>
         /// Gets an image for a hotel by an image Id.
+        /// Use 0 pixels for a single dimension to obtain the original aspect ratio of the image.
         /// </summary>
         /// <param name="imageId">Id of the image to return.</param>
         ///<response code="200">The image is returned successfully.</response>
@@ -50,11 +56,13 @@ namespace HotelBooking.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public Task<IActionResult> GetHotelImageAsync(Guid imageId) =>
-            GetEntityImageAsync(imageId, _hotelImageService.GetImageAsync);
+        public Task<IActionResult> GetHotelImageAsync(
+            Guid imageId, [FromQuery] ImageSizeDTO imageSize) =>
+            GetEntityImageAsync(imageId, imageSize, _hotelImageService.GetImageAsync);
 
         /// <summary>
-        /// Gets an image for a room by an image Id.
+        /// Gets an image for a room by an image Id. 
+        /// Use 0 pixels for a single dimension to obtain the original aspect ratio of the image.
         /// </summary>
         /// <param name="imageId">Id of the image to return.</param>
         ///<response code="200">The image is returned successfully.</response>
@@ -62,17 +70,24 @@ namespace HotelBooking.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public Task<IActionResult> GetRoomImageAsync(Guid imageId) =>
-            GetEntityImageAsync(imageId, _roomImageService.GetImageAsync);
+        public Task<IActionResult> GetRoomImageAsync(
+            Guid imageId, [FromQuery] ImageSizeDTO imageSize) =>
+            GetEntityImageAsync(imageId, imageSize, _roomImageService.GetImageAsync);
 
         private async Task<IActionResult> GetEntityImageAsync(
-            Guid imageId, Func<Guid, Task<FileStream>> entityImageGetterAsync)
+            Guid imageId,
+            ImageSizeDTO imageSize,
+            Func<Guid, ImageSizeDTO, Task<Stream>> entityImageGetterAsync)
         {
-            FileStream imageStream;
+            Stream imageStream;
 
             try
             {
-                imageStream = await entityImageGetterAsync(imageId);
+                imageStream = await entityImageGetterAsync(imageId, imageSize);
+            }
+            catch(ValidationException ex)
+            {
+                return BadRequest(ex.GetErrorsForClient());
             }
             catch (KeyNotFoundException)
             {
@@ -88,7 +103,6 @@ namespace HotelBooking.Api.Controllers
         /// Get list of images IDs for a city.
         /// </summary>
         /// <param name="cityId">Id of the city.</param>
-        ///<response code="200">The thumbnail is returned successfully.</response>
         [HttpGet("cities/{cityId}/imagesIds")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -113,7 +127,6 @@ namespace HotelBooking.Api.Controllers
         /// Get list of images IDs for an hotel.
         /// </summary>
         /// <param name="hotelId">Id of the hotel.</param>
-        ///<response code="200">The thumbnail is returned successfully.</response>
         [HttpGet("hotels/{hotelId}/imagesIds")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -138,7 +151,6 @@ namespace HotelBooking.Api.Controllers
         /// Get list of images IDs for a room.
         /// </summary>
         /// <param name="roomId">Id of the room.</param>
-        ///<response code="200">The thumbnail is returned successfully.</response>
         [HttpGet("rooms/{roomId}/imagesIds")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

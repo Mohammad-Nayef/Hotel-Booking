@@ -5,6 +5,7 @@ using HotelBooking.Application.Services.Hotel;
 using HotelBooking.Application.Services.Room;
 using HotelBooking.Application.Validators;
 using HotelBooking.Application.Validators.Hotel;
+using HotelBooking.Application.Validators.Image;
 using HotelBooking.Application.Validators.User;
 using HotelBooking.Domain.Abstractions.Services;
 using HotelBooking.Domain.Abstractions.Services.City;
@@ -13,6 +14,7 @@ using HotelBooking.Domain.Abstractions.Services.Room;
 using HotelBooking.Domain.Models;
 using HotelBooking.Domain.Models.City;
 using HotelBooking.Domain.Models.Hotel;
+using HotelBooking.Domain.Models.Image;
 using HotelBooking.Domain.Models.Room;
 using HotelBooking.Domain.Models.User;
 using Microsoft.AspNet.Identity;
@@ -83,6 +85,7 @@ namespace HotelBooking.Application.Extensions.DependencyInjection
             services.AddScoped<IValidator<HotelReviewDTO>, HotelReviewValidator>();
             services.AddScoped<IValidator<CityDTO>, CityValidator>();
             services.AddScoped<IValidator<HotelDTO>, HotelValidator>();
+            services.AddScoped<IValidator<ImageSizeDTO>, ImageSizeValidator>();
         }
 
         private static void AddAuthentication(IServiceCollection services, IConfiguration config)

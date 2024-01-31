@@ -19,8 +19,8 @@ namespace HotelBooking.Domain.Entities
         public string Path { get; set; }
 
         /// <summary>
-        /// Path of the thumbnail of the image in file system.
+        /// Id of the entity that has the image.
         /// </summary>
-        public string ThumbnailPath { get; set; }
+        public Guid EntityId { get; set; }
     }
 }

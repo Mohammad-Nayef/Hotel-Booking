@@ -1,4 +1,5 @@
-﻿using SixLabors.ImageSharp;
+﻿using HotelBooking.Domain.Models.Image;
+using SixLabors.ImageSharp;
 
 namespace HotelBooking.Domain.Abstractions.Services
 {
@@ -12,12 +13,7 @@ namespace HotelBooking.Domain.Abstractions.Services
         /// <summary>
         /// Get file stream of an entity image.
         /// </summary>
-        Task<FileStream> GetImageAsync(Guid imageId);
-
-        /// <summary>
-        /// Get file stream for an entity thumbnail.
-        /// </summary>
-        Task<FileStream> GetThumbnailOfImageAsync(Guid thumbnailId);
+        Task<Stream> GetImageAsync(Guid imageId, ImageSizeDTO imageSize);
 
         /// <summary>
         /// Get number of images for an entity.

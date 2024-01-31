@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelBooking.Infrastructure.Migrations
 {
     [DbContext(typeof(HotelsBookingDbContext))]
-    [Migration("20240125183817_AddingIndexes")]
-    partial class AddingIndexes
+    [Migration("20240130192534_Seeding")]
+    partial class Seeding
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -350,29 +350,14 @@ namespace HotelBooking.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CityId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("HotelId")
+                    b.Property<Guid>("EntityId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Path")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("RoomId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ThumbnailPath")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("HotelId");
-
-                    b.HasIndex("RoomId");
 
                     b.ToTable("Images");
                 });
@@ -585,27 +570,6 @@ namespace HotelBooking.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("HotelBooking.Infrastructure.Tables.ImageTable", b =>
-                {
-                    b.HasOne("HotelBooking.Infrastructure.Tables.CityTable", "City")
-                        .WithMany("Images")
-                        .HasForeignKey("CityId");
-
-                    b.HasOne("HotelBooking.Infrastructure.Tables.HotelTable", "Hotel")
-                        .WithMany("Images")
-                        .HasForeignKey("HotelId");
-
-                    b.HasOne("HotelBooking.Infrastructure.Tables.RoomTable", "Room")
-                        .WithMany("Images")
-                        .HasForeignKey("RoomId");
-
-                    b.Navigation("City");
-
-                    b.Navigation("Hotel");
-
-                    b.Navigation("Room");
-                });
-
             modelBuilder.Entity("HotelBooking.Infrastructure.Tables.RoomTable", b =>
                 {
                     b.HasOne("HotelBooking.Infrastructure.Tables.HotelTable", "Hotel")
@@ -635,15 +599,11 @@ namespace HotelBooking.Infrastructure.Migrations
             modelBuilder.Entity("HotelBooking.Infrastructure.Tables.CityTable", b =>
                 {
                     b.Navigation("Hotels");
-
-                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("HotelBooking.Infrastructure.Tables.HotelTable", b =>
                 {
                     b.Navigation("Discounts");
-
-                    b.Navigation("Images");
 
                     b.Navigation("Reviews");
 
@@ -657,8 +617,6 @@ namespace HotelBooking.Infrastructure.Migrations
                     b.Navigation("Bookings");
 
                     b.Navigation("CartItems");
-
-                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("HotelBooking.Infrastructure.Tables.UserTable", b =>

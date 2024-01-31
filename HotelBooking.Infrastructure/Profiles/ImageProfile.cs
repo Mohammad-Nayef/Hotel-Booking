@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using HotelBooking.Domain.Models;
+using HotelBooking.Domain.Models.Image;
 using HotelBooking.Infrastructure.Tables;
 
 namespace HotelBooking.Infrastructure.Profiles

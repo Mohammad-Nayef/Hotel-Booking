@@ -28,6 +28,19 @@ namespace HotelBooking.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Images",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Path = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EntityId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Images", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
                 {
@@ -112,7 +125,7 @@ namespace HotelBooking.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Reason = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     StartingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndingDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EndingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AmountPercent = table.Column<float>(type: "real", nullable: false),
                     HotelId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
@@ -261,37 +274,6 @@ namespace HotelBooking.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Images",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Path = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ThumbnailPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    HotelId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    RoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CityId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Images", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Images_Cities_CityId",
-                        column: x => x.CityId,
-                        principalTable: "Cities",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Images_Hotels_HotelId",
-                        column: x => x.HotelId,
-                        principalTable: "Hotels",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Images_Rooms_RoomId",
-                        column: x => x.RoomId,
-                        principalTable: "Rooms",
-                        principalColumn: "Id");
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_RoomId",
                 table: "Bookings",
@@ -313,9 +295,19 @@ namespace HotelBooking.Infrastructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Discounts_EndingDate",
+                table: "Discounts",
+                column: "EndingDate");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Discounts_HotelId",
                 table: "Discounts",
                 column: "HotelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Discounts_StartingDate",
+                table: "Discounts",
+                column: "StartingDate");
 
             migrationBuilder.CreateIndex(
                 name: "IX_HotelReviews_HotelId",
@@ -333,6 +325,11 @@ namespace HotelBooking.Infrastructure.Migrations
                 column: "CityId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_HotelVisits_Date",
+                table: "HotelVisits",
+                column: "Date");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_HotelVisits_HotelId",
                 table: "HotelVisits",
                 column: "HotelId");
@@ -343,24 +340,14 @@ namespace HotelBooking.Infrastructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Images_CityId",
-                table: "Images",
-                column: "CityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Images_HotelId",
-                table: "Images",
-                column: "HotelId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Images_RoomId",
-                table: "Images",
-                column: "RoomId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Rooms_HotelId",
                 table: "Rooms",
                 column: "HotelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Username",
+                table: "Users",
+                column: "Username");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UsersRoles_UsersId",

@@ -1,4 +1,5 @@
-﻿using SixLabors.ImageSharp;
+﻿using HotelBooking.Domain.Models.Image;
+using SixLabors.ImageSharp;
 
 namespace HotelBooking.Domain.Abstractions.Repositories
 {
@@ -24,19 +25,7 @@ namespace HotelBooking.Domain.Abstractions.Repositories
         /// Get a file stream of an image by its Id.
         /// </summary>
         /// <param name="imageId">Id of the image to get.</param>
-        FileStream Get(Guid imageId);
-
-        /// <summary>
-        /// Get a file stream of a thumbnail by its Id.
-        /// </summary>
-        /// <param name="thumbnailId">Id of the thumbnail to get.</param>
-        FileStream GetThumbnail(Guid thumbnailId);
-
-        /// <summary>
-        /// Determine whether a thumbnail exists or not.
-        /// </summary>
-        /// <param name="thumbnailId">Id of the thumbnail to check for existence.</param>
-        Task<bool> ThumbnailExistsAsync(Guid thumbnailId);
+        Task<Stream> GetAsync(Guid imageId, ImageSizeDTO imageSize);
 
         /// <summary>
         /// Get number of images for an entity by its Id.

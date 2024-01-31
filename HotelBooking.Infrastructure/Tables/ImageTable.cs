@@ -1,4 +1,4 @@
-﻿using HotelBooking.Domain.Models;
+﻿using HotelBooking.Domain.Models.Image;
 
 namespace HotelBooking.Infrastructure.Tables
 {
@@ -8,9 +8,7 @@ namespace HotelBooking.Infrastructure.Tables
         /// <inheritdoc cref="ImageDTO.Path"/>
         public string Path { get; set; }
 
-        /// <inheritdoc cref="ImageDTO.ThumbnailPath"/>
-        public string? ThumbnailPath { get; set; }
-
+        /// <inheritdoc cref="ImageDTO.EntityId"/>
         public Guid EntityId { get; set; }
     }
 }

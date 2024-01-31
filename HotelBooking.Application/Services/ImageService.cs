@@ -1,5 +1,7 @@
-﻿using HotelBooking.Domain.Abstractions.Repositories;
+﻿using FluentValidation;
+using HotelBooking.Domain.Abstractions.Repositories;
 using HotelBooking.Domain.Abstractions.Services;
+using HotelBooking.Domain.Models.Image;
 using SixLabors.ImageSharp;
 
 namespace HotelBooking.Application.Services
@@ -7,37 +9,28 @@ namespace HotelBooking.Application.Services
     internal abstract class ImageService : IImageService
     {
         private readonly IImageRepository _imageRepository;
+        private readonly IValidator<ImageSizeDTO> _imageSizeValidator;
 
-        public ImageService(IImageRepository imageRepository)
+        public ImageService(
+            IImageRepository imageRepository, IValidator<ImageSizeDTO> imageSizeValidator)
         {
             _imageRepository = imageRepository;
+            _imageSizeValidator = imageSizeValidator;
         }
 
         public abstract Task AddAsync(Guid entityId, IEnumerable<Image> images);
 
-        public async Task<FileStream> GetImageAsync(Guid imageId)
+        public async Task<Stream> GetImageAsync(Guid imageId, ImageSizeDTO imageSize)
         {
+            await _imageSizeValidator.ValidateAndThrowAsync(imageSize);
             await ValidateImageIdAsync(imageId);
 
-            return _imageRepository.Get(imageId);
+            return await _imageRepository.GetAsync(imageId, imageSize);
         }
 
         private async Task ValidateImageIdAsync(Guid imageId)
         {
             if (!await _imageRepository.ExistsAsync(imageId))
-                throw new KeyNotFoundException();
-        }
-
-        public async Task<FileStream> GetThumbnailOfImageAsync(Guid thumbnailId)
-        {
-            await ValidateThumbnailIdAsync(thumbnailId);
-
-            return _imageRepository.GetThumbnail(thumbnailId);
-        }
-
-        private async Task ValidateThumbnailIdAsync(Guid thumbnailId)
-        {
-            if (!await _imageRepository.ExistsAsync(thumbnailId))
                 throw new KeyNotFoundException();
         }
 
