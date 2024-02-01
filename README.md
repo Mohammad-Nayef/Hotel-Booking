@@ -40,6 +40,8 @@ The system has 4 main layers:
 - Well-documented clean codes and APIs with best-practices.
 - Robust validations for creating and updating entities.
 - Logging using [Serilog](https://serilog.net/).
+- Rate limiting middleware to limit the number of requests for a client in a customizable time interval.
+- Meaningful response status codes and messages.
 
 ## Database Schema:
 ![Database Schema](https://github.com/Mohammad-Nayef/Hotel-Booking/blob/main/Database%20Diagram.svg)

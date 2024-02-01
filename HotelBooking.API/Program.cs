@@ -30,6 +30,10 @@ services.AddInfrastructure();
 services.AddDomainServices(builder.Configuration);
 services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+const string FixedWindowPolicy = "FixedWindow";
+services.AddRateLimitingService(FixedWindowPolicy);
+
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -38,11 +42,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 app.UseSerilogRequestLogging();
-app.MapControllers();
+app.UseRateLimiter();
+app
+    .MapControllers()
+    .RequireRateLimiting(FixedWindowPolicy);
 
 app.Run();
