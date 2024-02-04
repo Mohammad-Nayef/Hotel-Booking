@@ -3,7 +3,6 @@ using HotelBooking.Domain.Models.Image;
 using HotelBooking.Infrastructure.Tables;
 using Microsoft.EntityFrameworkCore;
 using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.Processing;
 
 namespace HotelBooking.Infrastructure.Repositories

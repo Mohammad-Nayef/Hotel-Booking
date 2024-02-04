@@ -85,7 +85,7 @@ namespace HotelBooking.Api.Controllers
             {
                 imageStream = await entityImageGetterAsync(imageId, imageSize);
             }
-            catch(ValidationException ex)
+            catch (ValidationException ex)
             {
                 return BadRequest(ex.GetErrorsForClient());
             }

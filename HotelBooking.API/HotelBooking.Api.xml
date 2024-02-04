@@ -68,7 +68,7 @@
             <summary>
             Get paginated list of hotels for an admin based on search query.
             </summary>
-            <param name="search">The search query</param>
+            <param name="query">The search query</param>
             <response code="200">The list of hotels is retrieved successfully.</response>
         </member>
         <member name="M:HotelBooking.Api.Controllers.HotelAdminController.PostAsync(HotelBooking.Api.Models.Hotel.HotelCreationDTO)">

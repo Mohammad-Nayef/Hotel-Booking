@@ -2,9 +2,9 @@
 
 namespace HotelBooking.Domain.Abstractions.Repositories
 {
-   /// <summary>
-   /// Responsible for main operations for booking storage.
-   /// </summary>
+    /// <summary>
+    /// Responsible for main operations for booking storage.
+    /// </summary>
     public interface IBookingRepository
     {
         /// <summary>

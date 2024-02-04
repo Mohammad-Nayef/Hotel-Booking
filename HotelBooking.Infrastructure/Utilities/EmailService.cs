@@ -1,8 +1,8 @@
-﻿using System.Net.Mail;
-using System.Net;
+﻿using System.Net;
+using System.Net.Mail;
 using HotelBooking.Domain.Abstractions.Utilities;
-using Microsoft.Extensions.Configuration;
 using HotelBooking.Domain.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace HotelBooking.Infrastructure.Utilities

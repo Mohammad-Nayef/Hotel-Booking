@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using HotelBooking.Application.Services;
 using HotelBooking.Domain.Abstractions.Services.Hotel;
 using HotelBooking.Domain.Constants;
 using HotelBooking.Domain.Models.Room;
@@ -38,7 +37,7 @@ namespace HotelBooking.Application.Validators
                 .GreaterThanOrEqualTo(0);
 
             RuleFor(room => room.HotelId)
-                .MustAsync(async (hotelId, cancellation) => 
+                .MustAsync(async (hotelId, cancellation) =>
                     await hotelService.ExistsAsync(hotelId))
                 .WithMessage("{PropertyName} does not exist.");
         }

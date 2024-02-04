@@ -27,13 +27,13 @@ namespace HotelBooking.Api.IntegrationTesting
 
             // Act
             var getHotelStatusCode = (await _guest.GetAsync($"api/hotels/{hotelId}")).StatusCode;
-            var getReviewsStatusCode = 
+            var getReviewsStatusCode =
                 (await _guest.GetAsync($"api/hotels/{hotelId}/reviews"))
                 .StatusCode;
             var getFeaturedStatusCode =
                 (await _guest.GetAsync($"api/hotels/featured"))
                 .StatusCode;
-            var searchStatusCode = 
+            var searchStatusCode =
                 (await _guest.PostAsJsonAsync("api/hotels/search", search))
                 .StatusCode;
             var roomsStatusCode =
@@ -44,10 +44,10 @@ namespace HotelBooking.Api.IntegrationTesting
                 .StatusCode;
             statusCodes.AddRange(
                 [
-                    getHotelStatusCode, 
-                    getReviewsStatusCode, 
-                    getFeaturedStatusCode, 
-                    searchStatusCode, 
+                    getHotelStatusCode,
+                    getReviewsStatusCode,
+                    getFeaturedStatusCode,
+                    searchStatusCode,
                     roomsStatusCode,
                     visitedHotelsStatusCode
                 ]);
@@ -73,7 +73,7 @@ namespace HotelBooking.Api.IntegrationTesting
             var search = new HotelSearchDTO { SearchQuery = _fixture.Create<string>() };
 
             // Act
-            var searchStatusCode = 
+            var searchStatusCode =
                 (await _user.PostAsJsonAsync("api/hotels/search", search))
                 .StatusCode;
 
@@ -85,7 +85,7 @@ namespace HotelBooking.Api.IntegrationTesting
         public async Task GetRecentlyVisitedHotels_ReturnsOkFor_User()
         {
             // Act
-            var getFeaturedStatusCode = 
+            var getFeaturedStatusCode =
                 (await _user.GetAsync("api/hotels/recently-visited/current-user"))
                 .StatusCode;
 

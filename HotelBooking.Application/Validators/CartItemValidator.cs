@@ -9,13 +9,13 @@ namespace HotelBooking.Application.Validators
     internal class CartItemValidator : AbstractValidator<CartItemDTO>
     {
         public CartItemValidator(
-            IUserService userService, 
-            IRoomService roomService, 
+            IUserService userService,
+            IRoomService roomService,
             ICartItemRepository cartItemRepository)
         {
             RuleFor(item => item.UserId)
                 .NotNull()
-                .MustAsync(async (userId, cancellation) => 
+                .MustAsync(async (userId, cancellation) =>
                     await userService.ExistsAsync(userId))
                 .WithMessage("{PropertyName} does not exist.");
 

@@ -93,7 +93,7 @@ namespace HotelBooking.Infrastructure.Extensions
                 discount.HasIndex(discount => discount.StartingDate);
                 discount.HasIndex(discount => discount.EndingDate);
             });
-                
+
 
             return modelBuilder;
         }

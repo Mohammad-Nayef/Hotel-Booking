@@ -13,7 +13,7 @@ namespace HotelBooking.Domain.Abstractions.Services.Hotel
         /// Get list of featured hotels by page.
         /// </summary>
         Task<IEnumerable<FeaturedHotelDTO>> GetFeaturedHotelsByPageAsync(PaginationDTO pagination);
-        
+
         /// <summary>
         /// Get number of featured hotels.
         /// </summary>

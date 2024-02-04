@@ -19,7 +19,7 @@ namespace HotelBooking.Api.Extensions
             var paginationMetadata = new PaginationMetadataDTO(totalItems, pagination);
             var jsonPaginationMetadata = JsonSerializer.Serialize(paginationMetadata);
 
-            headers.Add(PaginationKeyName, jsonPaginationMetadata);
+            headers.Append(PaginationKeyName, jsonPaginationMetadata);
         }
     }
 }

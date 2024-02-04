@@ -1,16 +1,16 @@
-﻿using FluentValidation;
+﻿using AutoFixture;
+using FluentAssertions;
+using FluentValidation;
 using HotelBooking.Application.Services;
+using HotelBooking.Domain.Abstractions.Repositories;
 using HotelBooking.Domain.Abstractions.Repositories.Hotel;
 using HotelBooking.Domain.Abstractions.Repositories.Room;
-using HotelBooking.Domain.Abstractions.Repositories;
-using HotelBooking.Domain.Models;
-using Moq;
-using HotelBooking.Domain.Models.Room;
-using FluentAssertions;
 using HotelBooking.Domain.Abstractions.Utilities;
-using AutoFixture;
+using HotelBooking.Domain.Models;
 using HotelBooking.Domain.Models.Hotel;
+using HotelBooking.Domain.Models.Room;
 using HotelBooking.Domain.Models.User;
+using Moq;
 
 namespace HotelBooking.Application.Tests
 {

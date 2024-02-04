@@ -10,7 +10,7 @@
         public const int MaxFullDescriptionLength = 2000;
         public const float MinStarRating = 1;
         public const float MaxStarRating = 5;
-        public const string GeolocationRegex = 
+        public const string GeolocationRegex =
             @"^((\-?|\+?)?\d+(\.\d+)?),\s*((\-?|\+?)?\d+(\.\d+)?)$";
     }
 }

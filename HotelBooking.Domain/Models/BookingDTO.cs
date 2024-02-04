@@ -1,7 +1,7 @@
 ﻿using HotelBooking.Domain.Abstractions;
 
 namespace HotelBooking.Domain.Models
-{    
+{
     /// <inheritdoc cref="Entities.Booking"/>
     public class BookingDTO : Entity
     {

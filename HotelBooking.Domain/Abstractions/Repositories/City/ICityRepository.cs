@@ -1,5 +1,5 @@
-﻿using HotelBooking.Domain.Models.City;
-using HotelBooking.Domain.Constants;
+﻿using HotelBooking.Domain.Constants;
+using HotelBooking.Domain.Models.City;
 
 namespace HotelBooking.Domain.Abstractions.Repositories.City
 {

@@ -15,10 +15,10 @@ namespace HotelBooking.Infrastructure.Tests
             // Arrange
             var discounts = new List<DiscountTable>
             {
-                new DiscountTable 
-                { 
-                    StartingDate = DateTime.Today.AddDays(daysToStart), 
-                    EndingDate = DateTime.Today.AddDays(daysToEnd) 
+                new DiscountTable
+                {
+                    StartingDate = DateTime.Today.AddDays(daysToStart),
+                    EndingDate = DateTime.Today.AddDays(daysToEnd)
                 }
             };
 
@@ -33,8 +33,8 @@ namespace HotelBooking.Infrastructure.Tests
         [InlineData(1, 1, 1, 1)]
         [InlineData(1, 2, 3, 3)]
         public void GetHighestActive_ReturnsHighestDiscountFor_ActiveDiscounts(
-            float discountPercentage1, 
-            float discountPercentage2, 
+            float discountPercentage1,
+            float discountPercentage2,
             float discountPercentage3,
             float result)
         {

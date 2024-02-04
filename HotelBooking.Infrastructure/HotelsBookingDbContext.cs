@@ -15,6 +15,11 @@ namespace HotelBooking.Infrastructure
     {
         private readonly IConfiguration _config;
 
+        public HotelsBookingDbContext(IConfiguration config)
+        {
+            _config = config;
+        }
+
         public DbSet<HotelTable> Hotels { get; set; }
         public DbSet<CityTable> Cities { get; set; }
         public DbSet<ImageTable> Images { get; set; }
@@ -29,11 +34,6 @@ namespace HotelBooking.Infrastructure
         public DbSet<HotelForAdminDTO> HotelsForAdmin { get; set; }
         public DbSet<RoomForAdminDTO> RoomsForAdmin { get; set; }
         public DbSet<CityForAdminDTO> CitiesForAdmin { get; set; }
-
-        public HotelsBookingDbContext(IConfiguration config)
-        {
-            _config = config;
-        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -37,7 +37,7 @@ namespace HotelBooking.Application.Tests
             // Arrange
             var cityId = Guid.NewGuid();
             var images = new List<Image>(new Image[newImagesCount]);
-            _cityImageServiceMock.Setup(x => 
+            _cityImageServiceMock.Setup(x =>
                 x.GetCountAsync(cityId)).ReturnsAsync(storedImagesCount);
 
             // Act

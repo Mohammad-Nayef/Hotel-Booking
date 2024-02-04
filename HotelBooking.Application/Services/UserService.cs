@@ -70,10 +70,7 @@ namespace HotelBooking.Application.Services
         {
             var storedUser = await _userRepository.GetByUsernameIncludingRolesAsync(username);
 
-            if (storedUser == null)
-                throw new InvalidUserCredentialsException();
-
-            return storedUser;
+            return storedUser ?? throw new InvalidUserCredentialsException();
         }
     }
 }

@@ -12,7 +12,7 @@ namespace HotelBooking.Infrastructure.Tests
         [InlineData("2000-01-10", "2000-01-12", "2000-01-10", "2000-01-12")]
         [InlineData("2000-01-10", "2000-01-13", "2000-01-11", "2000-01-12")]
         public void IntersectsWith_ReturnsTrueFor_IntersectingInterval(
-            string bookingStartingDateString, 
+            string bookingStartingDateString,
             string bookingEndingDateString,
             string givenStartingDateString,
             string givenEndingDateString)

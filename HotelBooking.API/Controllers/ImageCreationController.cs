@@ -23,8 +23,8 @@ namespace HotelBooking.Api.Controllers
         private readonly IRoomAdminService _roomAdminService;
 
         public ImageCreationController(
-            ICityAdminService cityAdminService, 
-            IHotelAdminService hotelAdminService, 
+            ICityAdminService cityAdminService,
+            IHotelAdminService hotelAdminService,
             IRoomAdminService roomAdminService)
         {
             _cityAdminService = cityAdminService;
@@ -84,8 +84,8 @@ namespace HotelBooking.Api.Controllers
         }
 
         private async Task<IActionResult> CreateEntityImageAsync(
-            Guid roomId, 
-            List<IFormFile> imagesForms, 
+            Guid roomId,
+            List<IFormFile> imagesForms,
             Func<Guid, IEnumerable<Image>, Task> addImagesAsync)
         {
             if (imagesForms.Count == 0)

@@ -116,7 +116,7 @@ namespace HotelBooking.Application.Services.Hotel
                 pagination.PageSize);
         }
 
-        public Task<int> GetRecentlyVisitedCountAsync(Guid userId) => 
+        public Task<int> GetRecentlyVisitedCountAsync(Guid userId) =>
             _hotelUserRepository.GetVisitedCountAsync(userId);
     }
 }

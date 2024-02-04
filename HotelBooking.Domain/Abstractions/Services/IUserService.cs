@@ -1,5 +1,5 @@
-﻿using HotelBooking.Domain.Models.User;
-using HotelBooking.Domain.Exceptions;
+﻿using HotelBooking.Domain.Exceptions;
+using HotelBooking.Domain.Models.User;
 
 namespace HotelBooking.Domain.Abstractions.Services
 {

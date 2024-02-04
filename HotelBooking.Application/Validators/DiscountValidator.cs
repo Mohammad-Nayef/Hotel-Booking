@@ -17,7 +17,7 @@ namespace HotelBooking.Application.Validators
                     DiscountConstants.MinAmountPercent, DiscountConstants.MaxAmountPercent);
 
             RuleFor(discount => discount.HotelId)
-                .MustAsync(async (hotelId, cancellation) => 
+                .MustAsync(async (hotelId, cancellation) =>
                     await hotelService.ExistsAsync(hotelId))
                 .WithMessage("{PropertyName} does not exist.");
         }

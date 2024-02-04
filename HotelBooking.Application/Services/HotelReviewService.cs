@@ -32,7 +32,7 @@ namespace HotelBooking.Application.Services
             Guid hotelId, PaginationDTO pagination)
         {
             return _hotelReviewRepository.GetReviewsByHotelByPage(
-                hotelId, 
+                hotelId,
                 (pagination.PageNumber - 1) * pagination.PageSize,
                 pagination.PageSize);
         }

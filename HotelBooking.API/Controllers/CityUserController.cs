@@ -22,7 +22,7 @@ namespace HotelBooking.Api.Controllers
         {
             _cityService = cityService;
         }
-        
+
         /// <summary>
         /// Get a paginated list of popular cities.
         /// </summary>

@@ -1,6 +1,6 @@
-﻿using HotelBooking.Domain.Models.Hotel;
+﻿using HotelBooking.Domain.Constants;
+using HotelBooking.Domain.Models.Hotel;
 using HotelBooking.Domain.Models.Room;
-using HotelBooking.Domain.Constants;
 
 namespace HotelBooking.Domain.Abstractions.Repositories.Hotel
 {

@@ -139,9 +139,9 @@ namespace HotelBooking.Infrastructure.Repositories.Hotel
                     .OrderByDescending(visit => visit.Date)
                     .FirstOrDefault())
                 .AsEnumerable()
-                .Where(visit => visit.Date > HotelVisitConstants.LeastRecentVisitDate)
-                .OrderByDescending(visit => visit.Date)
-                .Select(visit => visit.Hotel)
+                .Where(visit => visit?.Date > HotelVisitConstants.LeastRecentVisitDate)
+                .OrderByDescending(visit => visit?.Date)
+                .Select(visit => visit?.Hotel)
                 .Distinct()
                 .Skip(itemsToSkip)
                 .Take(itemsToTake);

@@ -1,5 +1,5 @@
-﻿using HotelBooking.Domain.Models.City;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
+using HotelBooking.Domain.Models.City;
 
 namespace HotelBooking.Domain.Abstractions.Repositories.City
 {

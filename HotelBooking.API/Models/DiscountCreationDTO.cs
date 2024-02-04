@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using HotelBooking.Domain.Constants;
 
 namespace HotelBooking.Api.Models
 {

@@ -1,10 +1,8 @@
 using HotelBooking.Api.Models;
 using HotelBooking.Domain.Models.User;
 using HotelBooking.Infrastructure;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace HotelBooking.Api.IntegrationTesting

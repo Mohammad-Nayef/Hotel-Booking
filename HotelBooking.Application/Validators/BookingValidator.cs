@@ -9,8 +9,8 @@ namespace HotelBooking.Application.Validators
     internal class BookingValidator : AbstractValidator<BookingDTO>
     {
         public BookingValidator(
-            IUserService userService, 
-            IRoomService roomService, 
+            IUserService userService,
+            IRoomService roomService,
             IBookingRepository bookingRepository)
         {
             RuleFor(booking => booking.UserId)

@@ -35,7 +35,7 @@ namespace HotelBooking.Application.Services.City
         public override async Task<IEnumerable<Guid>> GetImagesIdsAsync(Guid entityId)
         {
             await _cityService.ValidateIdAsync(entityId);
-            
+
             return _imageRepository.GetImagesIds(entityId);
         }
     }

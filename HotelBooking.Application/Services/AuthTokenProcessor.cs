@@ -18,9 +18,9 @@ namespace HotelBooking.Application.Services
             _config = config;
         }
 
-        internal TokenValidationParameters TokenValidationParameters 
-        { 
-            get => new TokenValidationParameters
+        internal TokenValidationParameters TokenValidationParameters
+        {
+            get => new()
             {
                 ValidateIssuer = true,
                 ValidateAudience = true,
@@ -60,7 +60,7 @@ namespace HotelBooking.Application.Services
             return new List<Claim>(
                 user.Roles.Select(role => new Claim(ClaimTypes.Role, role.Name)))
             {
-                new Claim(ClaimTypes.Name, user.Id.ToString())
+                new(ClaimTypes.Name, user.Id.ToString())
             };
         }
 

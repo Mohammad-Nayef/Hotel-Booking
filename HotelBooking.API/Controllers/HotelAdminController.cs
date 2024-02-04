@@ -28,8 +28,8 @@ namespace HotelBooking.Api.Controllers
 
         public HotelAdminController(
             IHotelService hotelService,
-            IHotelAdminService hotelAdminService, 
-            IMapper mapper, 
+            IHotelAdminService hotelAdminService,
+            IMapper mapper,
             IDiscountService discountService)
         {
             _hotelService = hotelService;
@@ -68,7 +68,7 @@ namespace HotelBooking.Api.Controllers
         /// <summary>
         /// Get paginated list of hotels for an admin based on search query.
         /// </summary>
-        /// <param name="search">The search query</param>
+        /// <param name="query">The search query</param>
         /// <response code="200">The list of hotels is retrieved successfully.</response>
         [HttpGet("search")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
