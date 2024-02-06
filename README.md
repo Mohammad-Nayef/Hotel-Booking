@@ -1,3 +1,5 @@
+[![Testing](https://github.com/Mohammad-Nayef/Hotel-Booking/actions/workflows/tests.yml/badge.svg)](https://github.com/Mohammad-Nayef/Hotel-Booking/actions/workflows/tests.yml)
+
 # Hotel Booking System 
 ### The final project of my backend internship at Foothill Technology Solutions.
 ### ASP.NET WEB API project for booking hotels.
