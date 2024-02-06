@@ -271,9 +271,19 @@
             <param name="newReview">Properties of the new review.</param>
             <response code="201">The review is created successfully.</response>
         </member>
+        <member name="M:HotelBooking.Api.Extensions.ConfigurationsExtensions.BindConfigurations(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Bind configurations from appsettings.json to their corresponding classes.
+            </summary>
+        </member>
         <member name="M:HotelBooking.Api.Extensions.ImagesExtensions.ToImages(System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
             <summary>
             Get list of images from list of files.
+            </summary>
+        </member>
+        <member name="M:HotelBooking.Api.Extensions.RateLimitDependencyInjection.AddRateLimitingService(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)">
+            <summary>
+            Register a middleware for adding a rate limiter.
             </summary>
         </member>
         <member name="M:HotelBooking.Api.Extensions.ResponseHeadersExtensions.AddPaginationMetadata(Microsoft.AspNetCore.Http.IHeaderDictionary,System.Int32,HotelBooking.Domain.Models.PaginationDTO)">

@@ -2,8 +2,9 @@
 using System.Security.Claims;
 using System.Text;
 using HotelBooking.Domain.Abstractions.Services;
+using HotelBooking.Domain.Configurations;
 using HotelBooking.Domain.Models.User;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace HotelBooking.Application.Services
@@ -11,37 +12,19 @@ namespace HotelBooking.Application.Services
     /// <inheritdoc cref="IAuthTokenProcessor"/>
     internal class AuthTokenProcessor : IAuthTokenProcessor
     {
-        private readonly IConfiguration _config;
+        private readonly JwtConfigurations _jwtConfig;
 
-        public AuthTokenProcessor(IConfiguration config)
+        public AuthTokenProcessor(IOptions<JwtConfigurations> jwtOptions)
         {
-            _config = config;
-        }
-
-        internal TokenValidationParameters TokenValidationParameters
-        {
-            get => new()
-            {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidAudience = _config["Jwt:Audience"],
-                ValidIssuer = _config["Jwt:Issuer"],
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(_config["Jwt:Key"])),
-                ClockSkew = TimeSpan.Zero
-            };
+            _jwtConfig = jwtOptions.Value;
         }
 
         public string GenerateToken(UserDTO user)
         {
             var signingCredentials = GetSigningCredentials();
-            var issuer = _config["Jwt:Issuer"];
-            var audience = _config["Jwt:Audience"];
-
-            if (!double.TryParse(_config["Jwt:ExpirationMinutes"], out var expirationMinutes))
-                throw new Exception("Invalid configuration for `Jwt:ExpirationMinutes`");
+            var issuer = _jwtConfig.Issuer;
+            var audience = _jwtConfig.Audience;
+            var expirationMinutes = _jwtConfig.ExpirationMinutes;
 
             var claims = GetClaims(user);
 
@@ -67,7 +50,7 @@ namespace HotelBooking.Application.Services
         private SigningCredentials GetSigningCredentials()
         {
             var securityKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+                Encoding.UTF8.GetBytes(_jwtConfig.Key));
             var signingCredentials = new SigningCredentials(
                 securityKey, SecurityAlgorithms.HmacSha256);
 

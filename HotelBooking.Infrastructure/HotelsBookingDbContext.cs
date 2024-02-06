@@ -1,10 +1,11 @@
-﻿using HotelBooking.Domain.Models.City;
+﻿using HotelBooking.Domain.Configurations;
+using HotelBooking.Domain.Models.City;
 using HotelBooking.Domain.Models.Hotel;
 using HotelBooking.Domain.Models.Room;
 using HotelBooking.Infrastructure.Extensions;
 using HotelBooking.Infrastructure.Tables;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace HotelBooking.Infrastructure
 {
@@ -13,11 +14,11 @@ namespace HotelBooking.Infrastructure
     /// </summary>
     internal class HotelsBookingDbContext : DbContext
     {
-        private readonly IConfiguration _config;
+        private readonly ConnectionStrings _connectionStrings;
 
-        public HotelsBookingDbContext(IConfiguration config)
+        public HotelsBookingDbContext(IOptions<ConnectionStrings> connectionStringsOptions)
         {
-            _config = config;
+            _connectionStrings = connectionStringsOptions.Value;
         }
 
         public DbSet<HotelTable> Hotels { get; set; }
@@ -38,7 +39,7 @@ namespace HotelBooking.Infrastructure
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder
-                .UseSqlServer(_config.GetConnectionString("SqlServer"))
+                .UseSqlServer(_connectionStrings.SqlServer)
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         }
 

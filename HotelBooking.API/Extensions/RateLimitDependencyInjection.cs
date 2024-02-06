@@ -3,8 +3,11 @@ using Microsoft.AspNetCore.RateLimiting;
 
 namespace HotelBooking.Api.Extensions
 {
-    public static class RateLimitDependencyInjection
+    internal static class RateLimitDependencyInjection
     {
+        /// <summary>
+        /// Register a middleware for adding a rate limiter.
+        /// </summary>
         public static IServiceCollection AddRateLimitingService(
             this IServiceCollection services, string fixedWindowPolicy)
         {

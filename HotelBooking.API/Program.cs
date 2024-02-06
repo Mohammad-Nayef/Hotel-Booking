@@ -22,6 +22,7 @@ services.AddControllers()
     .AddNewtonsoftJson(options =>
         options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
+services.BindConfigurations(builder.Configuration);
 services.AddControllers();
 services.AddSwaggerUi();
 services.AddEndpointsApiExplorer();

@@ -4,7 +4,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace HotelBooking.Api.Extensions
 {
-    public static class SwaggerDependencyInjection
+    internal static class SwaggerDependencyInjection
     {
         /// <summary>
         /// Register SwaggerUI for documentation.

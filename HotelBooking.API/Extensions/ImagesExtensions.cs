@@ -2,7 +2,7 @@
 
 namespace HotelBooking.Api.Extensions
 {
-    public static class ImagesExtensions
+    internal static class ImagesExtensions
     {
         /// <summary>
         /// Get list of images from list of files.

@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using System.Text;
+using FluentValidation;
 using HotelBooking.Application.Services;
 using HotelBooking.Application.Services.City;
 using HotelBooking.Application.Services.Hotel;
@@ -11,6 +12,7 @@ using HotelBooking.Domain.Abstractions.Services;
 using HotelBooking.Domain.Abstractions.Services.City;
 using HotelBooking.Domain.Abstractions.Services.Hotel;
 using HotelBooking.Domain.Abstractions.Services.Room;
+using HotelBooking.Domain.Configurations;
 using HotelBooking.Domain.Models;
 using HotelBooking.Domain.Models.City;
 using HotelBooking.Domain.Models.Hotel;
@@ -21,6 +23,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using SixLabors.ImageSharp;
 
 namespace HotelBooking.Application.Extensions.DependencyInjection
@@ -88,14 +91,36 @@ namespace HotelBooking.Application.Extensions.DependencyInjection
             services.AddScoped<IValidator<ImageSizeDTO>, ImageSizeValidator>();
         }
 
-        private static void AddAuthentication(IServiceCollection services, IConfiguration config)
+        private static void AddAuthentication(
+            IServiceCollection services, IConfiguration config)
         {
+            var jwtConfig = new JwtConfigurations();
+            config
+                .GetSection(nameof(JwtConfigurations))
+                .Bind(jwtConfig);
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-                    var tokenProcessor = new AuthTokenProcessor(config);
-                    options.TokenValidationParameters = tokenProcessor.TokenValidationParameters;
+                    SetTokenValidationParameters(options, jwtConfig);
                 });
+        }
+
+        private static void SetTokenValidationParameters(
+            JwtBearerOptions options, JwtConfigurations jwtConfig)
+        {
+            options.TokenValidationParameters = new()
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidAudience = jwtConfig.Audience,
+                ValidIssuer = jwtConfig.Issuer,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(jwtConfig.Key)),
+                ClockSkew = TimeSpan.Zero
+            };
         }
     }
 }

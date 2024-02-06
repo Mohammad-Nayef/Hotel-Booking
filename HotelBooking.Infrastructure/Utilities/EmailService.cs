@@ -1,9 +1,10 @@
 ﻿using System.Net;
 using System.Net.Mail;
 using HotelBooking.Domain.Abstractions.Utilities;
+using HotelBooking.Domain.Configurations;
 using HotelBooking.Domain.Models;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace HotelBooking.Infrastructure.Utilities
 {
@@ -14,15 +15,16 @@ namespace HotelBooking.Infrastructure.Utilities
         private readonly MailAddress _fromAddress;
         private readonly ILogger<EmailService> _logger;
 
-        public EmailService(IConfiguration config, ILogger<EmailService> logger)
+        public EmailService(
+            IOptions<EmailConfigurations> emailOptions, ILogger<EmailService> logger)
         {
-            var emailConfig = config.GetSection("EmailConfig");
-            _fromAddress = new MailAddress(emailConfig["FromEmail"], emailConfig["FromName"]);
-            var fromPassword = emailConfig["Password"];
+            var emailConfig = emailOptions.Value;
+            _fromAddress = new MailAddress(emailConfig.SenderEmail, emailConfig.SenderName);
+            var fromPassword = emailConfig.SenderPassword;
             _smtpClient = new SmtpClient
             {
-                Host = emailConfig["Host"],
-                Port = int.Parse(emailConfig["Port"]),
+                Host = emailConfig.Host,
+                Port = emailConfig.Port,
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
