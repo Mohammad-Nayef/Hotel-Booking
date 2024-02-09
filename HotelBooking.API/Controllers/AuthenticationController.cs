@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using FluentValidation;
+using HotelBooking.Api.Constants;
 using HotelBooking.Api.Extensions;
 using HotelBooking.Api.Models;
 using HotelBooking.Domain.Abstractions.Services;
 using HotelBooking.Domain.Exceptions;
 using HotelBooking.Domain.Models.User;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace HotelBooking.Api.Controllers
 {

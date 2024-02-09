@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
 using FluentValidation;
+using HotelBooking.Api.Constants;
 using HotelBooking.Api.Extensions;
 using HotelBooking.Api.Middlewares;
 using HotelBooking.Application.Extensions.DependencyInjection;
@@ -30,10 +31,7 @@ services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 services.AddInfrastructure();
 services.AddDomainServices(builder.Configuration);
 services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-const string FixedWindowPolicy = "FixedWindow";
-services.AddRateLimitingService(FixedWindowPolicy);
-
+services.AddRateLimitingService();
 
 var app = builder.Build();
 
@@ -51,6 +49,6 @@ app.UseSerilogRequestLogging();
 app.UseRateLimiter();
 app
     .MapControllers()
-    .RequireRateLimiting(FixedWindowPolicy);
+    .RequireRateLimiting(RateLimitingPolicies.FixedWindowPolicy);
 
 app.Run();
