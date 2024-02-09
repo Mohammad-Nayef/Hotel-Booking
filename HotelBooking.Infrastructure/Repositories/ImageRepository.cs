@@ -55,9 +55,16 @@ namespace HotelBooking.Infrastructure.Repositories
                 ExistsInFileSystem(imageId.ToString());
         }
 
-        public async Task<Stream> GetAsync(Guid imageId, ImageSizeDTO imageSize)
+        public Task<Stream> GetAsync(Guid imageId, ImageSizeDTO imageSize)
         {
             var imagePath = $"{_mainDirectory}\\{imageId}.{Extension}";
+
+            return GetTemporaryImageStreamAsync(imageId, imagePath, imageSize);
+        }
+
+        private async Task<Stream> GetTemporaryImageStreamAsync(
+            Guid imageId, string imagePath, ImageSizeDTO imageSize)
+        {
             var temporaryPath = $"{_mainDirectory}\\Temp - {imageId}.{Extension}";
             using var image = (await Image.LoadAsync(imagePath))
                 .Clone(image => image.Resize(imageSize.Width, imageSize.Height));
