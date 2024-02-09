@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Threading.RateLimiting;
+﻿using System.Threading.RateLimiting;
 using HotelBooking.Api.Constants;
 using Microsoft.AspNetCore.RateLimiting;
 

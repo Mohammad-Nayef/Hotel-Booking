@@ -14,11 +14,6 @@
             Fixed number of requests in a fixed time interval.
             </summary>
         </member>
-        <member name="F:HotelBooking.Api.Constants.RateLimitingPolicies.LoginPolicy">
-            <summary>
-            Fixed number of login attempts in a fixed time interval.
-            </summary>
-        </member>
         <member name="M:HotelBooking.Api.Controllers.AuthenticationController.PostUserAsync(HotelBooking.Api.Models.UserCreationDTO)">
             <summary>
             Create and store a new user.

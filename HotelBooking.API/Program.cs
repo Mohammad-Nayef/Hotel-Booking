@@ -32,6 +32,7 @@ services.AddInfrastructure();
 services.AddDomainServices(builder.Configuration);
 services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 services.AddRateLimitingService();
+services.ConfigureApiVersioning();
 
 var app = builder.Build();
 
