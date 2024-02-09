@@ -4,6 +4,7 @@ using HotelBooking.Domain.Abstractions.Repositories.Hotel;
 using HotelBooking.Domain.Abstractions.Services.Hotel;
 using HotelBooking.Domain.Constants;
 using HotelBooking.Domain.Exceptions;
+using HotelBooking.Domain.Extensions;
 using HotelBooking.Domain.Models;
 using HotelBooking.Domain.Models.Hotel;
 using SixLabors.ImageSharp;
@@ -54,7 +55,7 @@ namespace HotelBooking.Application.Services.Hotel
         private Expression<Func<HotelForAdminDTO, bool>> ToAdminSearchExpression(
             string searchQuery)
         {
-            searchQuery = searchQuery.ToLower();
+            searchQuery = searchQuery.ToComparableSearchQuery();
 
             return hotel =>
                 hotel.Name.ToLower().Contains(searchQuery) ||

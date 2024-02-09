@@ -2,6 +2,7 @@
 using AutoMapper;
 using HotelBooking.Domain.Abstractions.Repositories.Hotel;
 using HotelBooking.Domain.Constants;
+using HotelBooking.Domain.Extensions;
 using HotelBooking.Domain.Models.Hotel;
 using HotelBooking.Domain.Models.Room;
 using HotelBooking.Infrastructure.Extensions;
@@ -44,8 +45,8 @@ namespace HotelBooking.Infrastructure.Repositories.Hotel
 
         private IEnumerable<HotelTable> GetSearchResultHotels(HotelSearchDTO hotelSearch)
         {
-            var searchString = hotelSearch.SearchQuery.ToLower();
-            var roomsType = hotelSearch.RoomsType.ToLower();
+            var searchString = hotelSearch.SearchQuery.ToComparableSearchQuery();
+            var roomsType = hotelSearch.RoomsType.ToComparableSearchQuery();
 
             var hotels = _dbContext.Hotels
                 .Include(hotel => hotel.City)
