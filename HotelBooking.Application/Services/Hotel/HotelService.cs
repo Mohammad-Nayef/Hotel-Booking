@@ -24,6 +24,8 @@ namespace HotelBooking.Application.Services.Hotel
 
             hotel.CreationDate = DateTime.UtcNow;
             hotel.ModificationDate = DateTime.UtcNow;
+            hotel.Geolocation = string.Concat(
+                hotel.Geolocation.Where(character => !char.IsWhiteSpace(character)));
 
             return await _hotelRepository.AddAsync(hotel);
         }
@@ -57,7 +59,8 @@ namespace HotelBooking.Application.Services.Hotel
             await _hotelValidator.ValidateAndThrowAsync(hotel);
 
             hotel.ModificationDate = DateTime.UtcNow;
-
+            hotel.Geolocation = string.Concat(
+                hotel.Geolocation.Where(character => !char.IsWhiteSpace(character)));
             await _hotelRepository.UpdateAsync(hotel);
         }
     }
