@@ -48,7 +48,8 @@ namespace HotelBooking.Infrastructure
             modelBuilder
                 .MapViews()
                 .ConfigureTables()
-                .ConfigureRelations();
+                .ConfigureRelations()
+                .SeedTables();
         }
     }
 }

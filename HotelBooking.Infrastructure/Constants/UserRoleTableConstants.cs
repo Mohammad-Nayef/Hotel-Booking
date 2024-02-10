@@ -1,10 +1,10 @@
-﻿namespace HotelBooking.Infrastructure.Tables
+﻿namespace HotelBooking.Infrastructure.Constants
 {
     /// <summary>
     /// Contains information about UsersRoles table which is created and managed by convention
     /// using EF Core.
     /// </summary>
-    internal class UserRoleTable
+    internal class UserRoleTableConstants
     {
         /// <summary>
         /// Name of the table.

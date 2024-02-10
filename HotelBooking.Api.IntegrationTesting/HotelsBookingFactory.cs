@@ -27,15 +27,6 @@ namespace HotelBooking.Api.IntegrationTesting
         public async Task<HttpClient> GetUserClientAsync()
         {
             var user = _factory.CreateClient();
-            var newUser = new UserCreationDTO
-            {
-                FirstName = "Regular",
-                LastName = "User",
-                Email = "test@test",
-                Username = "test",
-                Password = "test1234"
-            };
-            await user.PostAsJsonAsync("api/auth/user-register", newUser);
             var userLogin = new UserLoginDTO
             {
                 Username = "test",
