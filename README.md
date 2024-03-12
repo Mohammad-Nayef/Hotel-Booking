@@ -51,7 +51,7 @@ The system has 4 main layers:
 
 ## API documentation:
 - Comprehensive dynamic and up-to-date documentation using SwaggerUI which is available when running the application in development environment.
-- Documentation using Postman: https://documenter.getpostman.com/view/30810910/2s9YyzeJjz
+- Documentation using Postman: https://documenter.getpostman.com/view/30810910/2sA2xiXsN9
 
 ## Getting started:
 - The project is built on .NET 8.0
