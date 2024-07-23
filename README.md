@@ -44,7 +44,7 @@ The system has 4 main layers:
 - Logging using [Serilog](https://serilog.net/).
 - Rate limiting middleware to limit the number of requests for a client in a customizable time interval.
 - Meaningful response status codes and messages.
-- Api versioning.
+- API versioning.
 
 ## Database Schema:
 ![Database Schema](https://github.com/Mohammad-Nayef/Hotel-Booking/blob/main/Database%20Diagram.svg)
